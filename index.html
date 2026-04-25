@@ -3,132 +3,207 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kred Be Finance - Trusted Loan Services</title>
+    <title>Kred Be Finance - Digital Loan Application</title>
     <style>
-        :root { --brand-blue: #002e6e; --bg-light: #f4f7f9; --white: #ffffff; --brand-green: #25D366; --text-gray: #555; }
+        :root { --brand-blue: #002e6e; --error-red: #d32f2f; --success-green: #2e7d32; --bg-light: #f4f7f9; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
-        body { background-color: var(--bg-light); display: flex; flex-direction: column; min-height: 100vh; }
-        header { background-color: var(--brand-blue); color: var(--white); padding: 20px 15px 60px 15px; display: flex; justify-content: space-between; align-items: center; border-bottom-left-radius: 40px; border-bottom-right-radius: 40px; }
-        .logo-container img { height: 40px; width: auto; }
-        .site-banner img { width: 100%; height: auto; margin-top: -25px; display: block; border-radius: 10px; padding: 0 10px; }
-        main { flex: 1; padding: 20px; display: flex; justify-content: center; align-items: flex-start; }
-        .card { background: var(--white); padding: 25px; border-radius: 20px; box-shadow: 0 8px 30px rgba(0,0,0,0.08); width: 100%; max-width: 420px; text-align: center; }
-        h2 { color: var(--brand-blue); margin-bottom: 25px; font-size: 1.1rem; border-bottom: 2px solid #eee; padding-bottom: 10px; }
-        .form-group { text-align: left; margin-bottom: 18px; }
-        .form-group label { display: block; margin-bottom: 6px; font-weight: 600; color: var(--text-gray); font-size: 0.85rem; }
-        .input-wrapper { display: flex; align-items: center; border: 1.5px solid #ddd; border-radius: 10px; overflow: hidden; }
-        .prefix { padding: 12px; background: #f8f9fa; border-right: 1.5px solid #ddd; font-weight: bold; }
-        input { border: none; outline: none; padding: 12px; width: 100%; font-size: 1rem; }
-        .wa-btn { background-color: var(--brand-green); color: white; border: none; padding: 0 15px; height: 48px; cursor: pointer; font-weight: bold; font-size: 0.7rem; }
-        #otp-section, #details-section { display: none; }
-        .apply-btn { background-color: var(--brand-blue); color: var(--white); padding: 16px; border-radius: 12px; font-size: 1.1rem; font-weight: bold; width: 100%; border: none; cursor: pointer; margin-top: 10px; }
-        footer { padding: 30px 20px; text-align: center; font-size: 0.8rem; color: #777; }
-        #status-msg { font-size: 0.75rem; margin-top: 5px; color: var(--brand-blue); font-weight: bold; display: none; }
+        body { background-color: var(--bg-light); color: #333; }
+        
+        header { background-color: var(--brand-blue); color: #fff; padding: 20px 15px 50px; display: flex; justify-content: space-between; align-items: center; border-bottom-left-radius: 35px; border-bottom-right-radius: 35px; }
+        .logo img { height: 35px; }
+        
+        .banner { width: 92%; margin: -25px auto 20px; display: block; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        
+        .container { width: 92%; max-width: 450px; margin: 0 auto 30px; background: #fff; padding: 25px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        
+        h2 { font-size: 1.1rem; color: var(--brand-blue); margin-bottom: 20px; text-align: center; font-weight: 700; }
+        
+        .form-group { margin-bottom: 20px; position: relative; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.85rem; color: #555; }
+        
+        input { width: 100%; padding: 12px 15px; border: 1.5px solid #ddd; border-radius: 10px; font-size: 1rem; outline: none; transition: 0.3s; }
+        input:focus { border-color: var(--brand-blue); }
+        input.invalid { border-color: var(--error-red) !important; background-color: #fff8f8; box-shadow: 0 0 5px rgba(211, 47, 47, 0.2); }
+        
+        .error-text { color: var(--error-red); font-size: 0.7rem; margin-top: 5px; display: none; font-weight: 600; }
+
+        .selection-tabs { display: flex; gap: 10px; margin-bottom: 15px; }
+        .tab-btn { flex: 1; padding: 10px; border: 1.5px solid var(--brand-blue); border-radius: 8px; background: #fff; color: var(--brand-blue); font-weight: bold; cursor: pointer; font-size: 0.8rem; }
+        .tab-btn.active { background: var(--brand-blue); color: #fff; }
+
+        .privacy-box { display: flex; align-items: flex-start; gap: 10px; margin: 20px 0; font-size: 0.75rem; color: #666; }
+        .privacy-box input { width: 18px; height: 18px; cursor: pointer; }
+
+        .apply-btn { width: 100%; padding: 16px; background: #ccc; color: #fff; border: none; border-radius: 12px; font-size: 1rem; font-weight: bold; cursor: not-allowed; transition: 0.3s; }
+        .apply-btn.enabled { background: var(--brand-blue); cursor: pointer; }
+
+        footer { background: #0b1a31; color: #adb5bd; padding: 40px 20px; font-size: 0.8rem; text-align: left; line-height: 1.8; }
+        .footer-logo { filter: brightness(0) invert(1); height: 30px; margin-bottom: 15px; }
+        .footer-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+        .footer-line { border-top: 1px solid #1d2d44; margin: 20px 0; padding-top: 20px; text-align: center; }
+        .legal-links a { color: #64b5f6; text-decoration: none; margin-right: 15px; }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo-container"><img src="kr.png" alt="Logo"></div>
-        <div class="welcome-text">Hi, Guest</div>
+        <div class="logo"><img src="kr.png" alt="Kred Be"></div>
+        <div style="font-size: 0.8rem;">Hi, Guest</div>
     </header>
 
-    <div class="site-banner"><img src="banner.png" alt="Banner"></div>
+    <img src="banner.png" alt="Loan Banner" class="banner">
 
-    <main>
-        <div class="card">
-            <h2>Personal Loan Application</h2>
-            
-            <div class="form-group">
-                <label>Mobile Number</label>
-                <div class="input-wrapper">
-                    <span class="prefix">+91</span>
-                    <input type="tel" id="mobile" placeholder="Enter Mobile" maxlength="10">
-                    <button class="wa-btn" id="main-btn" onclick="startVerification()">Get Code</button>
-                </div>
-                <p id="status-msg">Sending code request...</p>
-            </div>
-
-            <div id="otp-section">
-                <div class="form-group">
-                    <label>Enter 4-Digit Code received on WhatsApp</label>
-                    <div class="input-wrapper">
-                        <input type="tel" id="otp-input" placeholder="0000" maxlength="4" style="text-align: center; letter-spacing: 5px;">
-                        <button class="wa-btn" style="background: #002e6e;" onclick="verifyManualOTP()">Verify</button>
-                    </div>
-                </div>
-            </div>
-
-            <div id="details-section">
-                <div class="form-group">
-                    <label>PAN Card / Date of Birth</label>
-                    <div class="input-wrapper">
-                        <input type="text" id="pan-input" placeholder="Enter Details">
-                    </div>
-                </div>
-                <button class="apply-btn" onclick="finalApply()">Apply Now</button>
-            </div>
+    <div class="container">
+        <h2>Apply for Instant Credit</h2>
+        
+        <div class="form-group">
+            <label>Mobile Number</label>
+            <input type="tel" id="mobile" placeholder="Enter 10 digit number" maxlength="10">
+            <p id="mobile-error" class="error-text">Please enter a valid 10-digit mobile number</p>
         </div>
-    </main>
+
+        <label>Verify Identity via</label>
+        <div class="selection-tabs">
+            <button class="tab-btn active" id="pan-tab" onclick="toggleSelection('PAN')">PAN Card</button>
+            <button class="tab-btn" id="dob-tab" onclick="toggleSelection('DOB')">Date of Birth</button>
+        </div>
+
+        <div class="form-group" id="pan-input-box">
+            <label>PAN Card Number</label>
+            <input type="text" id="pan" placeholder="ABCDE1234F" style="text-transform: uppercase;" maxlength="10">
+            <p id="pan-error" class="error-text">Invalid PAN format (e.g. ABCDE1234F)</p>
+        </div>
+
+        <div class="form-group" id="dob-input-box" style="display: none;">
+            <label>Date of Birth</label>
+            <input type="date" id="dob">
+            <p id="dob-error" class="error-text">Age must be at least 18 years</p>
+        </div>
+
+        <div class="privacy-box">
+            <input type="checkbox" id="privacy">
+            <label for="privacy">I agree to the <a href="#">Terms of Service</a>, <a href="#">Privacy Policy</a> and authorize Kred Be to check my credit score.</label>
+        </div>
+
+        <button class="apply-btn" id="applyBtn" onclick="submitForm()">Apply Now</button>
+    </div>
 
     <footer>
-        <p>© 2026 Kred Be Finance Pvt. Ltd.</p>
+        <div class="footer-grid">
+            <div>
+                <img src="kr.png" alt="Logo" class="footer-logo">
+                <p><strong>Kred Be Finance Private Limited</strong></p>
+                <p>Registered Office: 402, 4th Floor, Trade Centre, G Block, BKC, Bandra East, Mumbai, Maharashtra - 400051.</p>
+            </div>
+            <div>
+                <p><strong>CIN:</strong> U65990MH2023PTC123456</p>
+                <p><strong>GSTIN:</strong> 27AACCB1234F1Z0</p>
+                <p><strong>RBI Registration No:</strong> N-13.01234 (Non-Banking Financial Company)</p>
+            </div>
+            <div class="legal-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Fair Practice Code</a>
+                <a href="#">Grievance Redressal</a>
+            </div>
+        </div>
+        <div class="footer-line">
+            <p>© 2026 Kred Be Finance Pvt. Ltd. All Rights Reserved.</p>
+        </div>
     </footer>
 
     <script>
-        const myWhatsApp = "917850953644"; 
-        const secretCode = "7850"; 
+        let currentMode = 'PAN';
 
-        function startVerification() {
-            const mobile = document.getElementById('mobile').value;
-            if(!/^[6-9]\d{9}$/.test(mobile)) { 
-                alert("Kripya sahi number dalein"); 
-                return; 
-            }
-
-            const btn = document.getElementById('main-btn');
-            const status = document.getElementById('status-msg');
-            
-            btn.disabled = true;
-            btn.innerText = "...";
-            status.style.display = "block";
-
-            // 2 second ka fake wait taaki user ko lage code ja raha hai
-            setTimeout(() => {
-                const msg = `Hello Kred Be, mera number ${mobile} verify kijiye aur mujhe application code bhejiye.`;
-                const waUrl = `https://wa.me/${myWhatsApp}?text=${encodeURIComponent(msg)}`;
-                
-                // WhatsApp kholna
-                window.location.href = waUrl;
-
-                // Wapas aane par OTP section dikhana
-                setTimeout(() => {
-                    document.getElementById('otp-section').style.display = 'block';
-                    status.innerText = "Check your WhatsApp for code";
-                    btn.innerText = "Sent";
-                }, 1000);
-
-            }, 2000);
+        function toggleSelection(mode) {
+            currentMode = mode;
+            document.getElementById('pan-tab').classList.toggle('active', mode === 'PAN');
+            document.getElementById('dob-tab').classList.toggle('active', mode === 'DOB');
+            document.getElementById('pan-input-box').style.display = mode === 'PAN' ? 'block' : 'none';
+            document.getElementById('dob-input-box').style.display = mode === 'DOB' ? 'block' : 'none';
+            validateForm();
         }
 
-        function verifyManualOTP() {
-            const enteredCode = document.getElementById('otp-input').value;
-            if(enteredCode === secretCode) {
-                alert("Verification Successful!");
-                document.getElementById('otp-section').style.display = 'none';
-                document.getElementById('status-msg').style.display = 'none';
-                document.getElementById('mobile').disabled = true;
-                document.getElementById('details-section').style.display = 'block';
+        const inputs = ['mobile', 'pan', 'dob', 'privacy'];
+        inputs.forEach(id => {
+            document.getElementById(id).addEventListener('input', validateForm);
+            document.getElementById(id).addEventListener('change', validateForm);
+        });
+
+        function validateForm() {
+            const isMobileValid = /^[6-9]\d{9}$/.test(document.getElementById('mobile').value);
+            const isPrivacyChecked = document.getElementById('privacy').checked;
+            let isIdentityValid = false;
+
+            if (currentMode === 'PAN') {
+                isIdentityValid = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(document.getElementById('pan').value.toUpperCase());
             } else {
-                alert("Galat Code! Kripya WhatsApp wala code hi dalein.");
+                const dobVal = document.getElementById('dob').value;
+                if(dobVal) {
+                    const birthDate = new Date(dobVal);
+                    const age = new Date().getFullYear() - birthDate.getFullYear();
+                    isIdentityValid = age >= 18;
+                }
+            }
+
+            const btn = document.getElementById('applyBtn');
+            if (isMobileValid && isIdentityValid && isPrivacyChecked) {
+                btn.classList.add('enabled');
+                btn.disabled = false;
+            } else {
+                btn.classList.remove('enabled');
+                btn.disabled = true;
             }
         }
 
-        function finalApply() {
-            const pan = document.getElementById('pan-input').value;
-            if(!pan) { alert("PAN details bhariye"); return; }
-            alert("Processing Application...");
-            window.location.href = "fillyourdetail.html";
+        function triggerError(id, errorId) {
+            const el = document.getElementById(id);
+            const err = document.getElementById(errorId);
+            el.classList.add('invalid');
+            err.style.display = 'block';
+            if (navigator.vibrate) { navigator.vibrate([100, 50, 100]); }
+        }
+
+        function clearError(id, errorId) {
+            document.getElementById(id).classList.remove('invalid');
+            document.getElementById(errorId).style.display = 'none';
+        }
+
+        function submitForm() {
+            let hasError = false;
+
+            const mobile = document.getElementById('mobile');
+            if (!/^[6-9]\d{9}$/.test(mobile.value)) {
+                triggerError('mobile', 'mobile-error');
+                hasError = true;
+            } else { clearError('mobile', 'mobile-error'); }
+
+            if (currentMode === 'PAN') {
+                const pan = document.getElementById('pan');
+                if (!/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(pan.value.toUpperCase())) {
+                    triggerError('pan', 'pan-error');
+                    hasError = true;
+                } else { clearError('pan', 'pan-error'); }
+            } else {
+                const dob = document.getElementById('dob');
+                const birthDate = new Date(dob.value);
+                const age = new Date().getFullYear() - birthDate.getFullYear();
+                if (!dob.value || age < 18) {
+                    triggerError('dob', 'dob-error');
+                    hasError = true;
+                } else { clearError('dob', 'dob-error'); }
+            }
+
+            if (!hasError) {
+                const btn = document.getElementById('applyBtn');
+                btn.disabled = true;
+                btn.classList.remove('enabled');
+                btn.innerText = "Processing... Please wait"; 
+                
+                // 4 Second Buffering
+                setTimeout(() => {
+                    window.location.href = "fillyourdetail.html";
+                }, 4000);
+            }
         }
     </script>
 </body>
