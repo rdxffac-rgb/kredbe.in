@@ -91,27 +91,39 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 
     <script>
-        // AAPKE NEW SCREENSHOT WALI DETAILS
+        // Updated config from your screenshot
         const firebaseConfig = {
-            apiKey: "AiZaSyABELwcTnrapD70i8F8ibKVUXdUnIVaCO4", 
+            apiKey: "AiZaSyABELwcTnrapD70i8F8ibKVUXdUnIVaCO4",
             authDomain: "kredbe-1fb1c.firebaseapp.com",
             projectId: "kredbe-1fb1c",
             storageBucket: "kredbe-1fb1c.firebasestorage.app",
             messagingSenderId: "1091599704552",
-            appId: "1:1091599704552:web:36bcbcbdc23e413dc5c45d"
+            appId: "1:1091599704552:web:36bcbcbdc23e413dc5c45d",
+            measurementId: "G-KF7NW2MZWK"
         };
         
-        firebase.initializeApp(firebaseConfig);
+        // Initialize Firebase
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
         const auth = firebase.auth();
-        window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', { 'size': 'invisible' });
+
+        // Invisible ReCAPTCHA
+        window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', { 
+            'size': 'invisible' 
+        });
 
         let confirmationResult;
 
         function sendOTP() {
             const mobile = document.getElementById('mobile').value;
-            if(!/^[6-9]\d{9}$/.test(mobile)) { alert("Kripya sahi number dalein"); return; }
+            if(!/^[6-9]\d{9}$/.test(mobile)) { 
+                alert("Kripya sahi number dalein"); 
+                return; 
+            }
             const btn = document.getElementById('send-otp-btn');
-            btn.disabled = true; btn.innerText = "...";
+            btn.disabled = true; 
+            btn.innerText = "...";
 
             auth.signInWithPhoneNumber("+91" + mobile, window.recaptchaVerifier)
                 .then(result => {
@@ -119,16 +131,19 @@
                     document.getElementById('otp-section').style.display = 'block';
                     btn.innerText = "Sent";
                 }).catch(err => { 
+                    console.error(err);
                     alert("Error: " + err.message); 
-                    btn.disabled = false; btn.innerText = "Verify";
-                    location.reload(); 
+                    btn.disabled = false; 
+                    btn.innerText = "Verify";
                 });
         }
 
         function verifyOTP() {
             const code = document.getElementById('otp-input').value;
             const btn = document.getElementById('verify-otp-btn');
-            btn.disabled = true; btn.innerText = "...";
+            if(!code) { alert("OTP bhariye"); return; }
+            btn.disabled = true; 
+            btn.innerText = "...";
 
             confirmationResult.confirm(code).then(() => {
                 document.getElementById('otp-section').style.display = 'none';
@@ -137,9 +152,10 @@
                 document.getElementById('mobile-success').style.display = 'block';
                 document.getElementById('details-section').style.display = 'block';
                 document.getElementById('final-apply-section').style.display = 'block';
-            }).catch(() => {
+            }).catch(err => {
                 alert("Galat OTP!");
-                btn.disabled = false; btn.innerText = "Confirm";
+                btn.disabled = false; 
+                btn.innerText = "Confirm";
             });
         }
 
@@ -152,9 +168,14 @@
         }
 
         function finalProcess() {
-            if(!document.getElementById('dyn-input').value) { alert("Details bharna zaroori hai"); return; }
+            if(!document.getElementById('dyn-input').value) { 
+                alert("Details bharna zaroori hai"); 
+                return; 
+            }
             document.getElementById('apply-btn').innerText = "Processing...";
-            setTimeout(() => { window.location.href = "fillyourdetail.html"; }, 2500);
+            setTimeout(() => { 
+                window.location.href = "fillyourdetail.html"; 
+            }, 2000);
         }
     </script>
 </body>
