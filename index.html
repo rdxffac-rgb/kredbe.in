@@ -28,28 +28,22 @@
         .prefix { padding: 12px; background: #eee; border-right: 1.5px solid #ddd; font-weight: bold; color: #333; }
         input { border: none; outline: none; padding: 12px; width: 100%; font-size: 1rem; }
         
-        /* Verify Button inside Input */
-        .verify-inline-btn { background: var(--brand-blue); color: white; border: none; padding: 0 15px; height: 100%; cursor: pointer; font-weight: bold; font-size: 0.8rem; transition: 0.3s; white-space: nowrap; }
+        .verify-inline-btn { background: var(--brand-blue); color: white; border: none; padding: 0 15px; height: 45px; cursor: pointer; font-weight: bold; font-size: 0.8rem; transition: 0.3s; white-space: nowrap; }
         .verify-inline-btn:disabled { background: #ccc; cursor: not-allowed; }
 
-        /* Sections Visibility */
         #otp-section, #details-section, #final-apply-section { display: none; margin-top: 15px; }
-        
         .otp-input { letter-spacing: 10px; text-align: center; font-weight: bold; font-size: 1.3rem; }
         
         .toggle-group { display: flex; gap: 10px; margin-bottom: 15px; }
         .toggle-btn { flex: 1; padding: 10px; border: 1.5px solid var(--brand-blue); border-radius: 8px; background: transparent; color: var(--brand-blue); cursor: pointer; font-weight: bold; }
         .toggle-btn.active { background: var(--brand-blue); color: #fff; }
         
-        .apply-btn { background-color: var(--brand-blue); color: var(--white); padding: 18px; border-radius: 12px; font-size: 1.2rem; font-weight: 800; display: block; width: 100%; border: none; cursor: pointer; transition: 0.3s; }
-        .apply-btn:hover { background-color: var(--accent-blue); }
+        .apply-btn { background-color: var(--brand-blue); color: var(--white); padding: 18px; border-radius: 12px; font-size: 1.2rem; font-weight: 800; display: block; width: 100%; border: none; cursor: pointer; }
 
         footer { background-color: var(--brand-blue); color: #dbe4ef; padding: 40px 20px; text-align: center; font-size: 0.85rem; margin-top: 50px; }
         .gst-box { background: rgba(255,255,255,0.1); padding: 8px; border-radius: 6px; display: inline-block; margin: 12px 0; }
         .footer-links a { color: var(--white); text-decoration: none; margin: 0 8px; }
-        
-        #recaptcha-container { margin-bottom: 10px; }
-        .success-msg { color: var(--success-green); font-size: 0.8rem; font-weight: bold; margin-top: 5px; display: none; }
+        .success-msg { color: var(--success-green); font-size: 0.85rem; font-weight: bold; margin-top: 5px; display: none; }
     </style>
 </head>
 <body>
@@ -71,7 +65,7 @@
                     <input type="tel" id="mobile" placeholder="10 Digit Number" maxlength="10">
                     <button class="verify-inline-btn" id="send-otp-btn" onclick="sendOTP()">Verify</button>
                 </div>
-                <p id="mobile-success" class="success-msg">✓ Mobile Verified</p>
+                <p id="mobile-success" class="success-msg">✓ Mobile Verified Successfully</p>
             </div>
 
             <div id="otp-section">
@@ -130,20 +124,18 @@
         let confirmationResult;
         let currentType = 'PAN';
 
-        // 1. Send OTP
         function sendOTP() {
             const mobile = document.getElementById('mobile').value;
-            if(!/^[6-9]\d{9}$/.test(mobile)) { alert("Sahi mobile number dalein"); return; }
+            if(!/^[6-9]\d{9}$/.test(mobile)) { alert("Kripya sahi 10-digit mobile number dalein"); return; }
             
             const btn = document.getElementById('send-otp-btn');
-            btn.disabled = true; btn.innerHTML = "...";
+            btn.disabled = true; btn.innerHTML = "Wait...";
 
             auth.signInWithPhoneNumber("+91" + mobile, window.recaptchaVerifier)
                 .then(result => {
                     confirmationResult = result;
                     document.getElementById('otp-section').style.display = 'block';
                     btn.innerHTML = "Sent";
-                    alert("OTP aapke number par bhej diya gaya hai.");
                 }).catch(err => { 
                     alert("Error: " + err.message); 
                     btn.disabled = false; btn.innerHTML = "Verify";
@@ -151,7 +143,6 @@
                 });
         }
 
-        // 2. Verify OTP
         function verifyOTP() {
             const code = document.getElementById('otp-input').value;
             const btn = document.getElementById('verify-otp-btn');
@@ -159,18 +150,14 @@
 
             btn.disabled = true; btn.innerHTML = "...";
             confirmationResult.confirm(code).then(() => {
-                // Success
                 document.getElementById('otp-section').style.display = 'none';
                 document.getElementById('send-otp-btn').style.display = 'none';
                 document.getElementById('mobile').disabled = true;
                 document.getElementById('mobile-success').style.display = 'block';
-                
-                // Show Details & Apply Button
                 document.getElementById('details-section').style.display = 'block';
                 document.getElementById('final-apply-section').style.display = 'block';
-                document.getElementById('main-title').innerHTML = "Enter Personal Details";
             }).catch(() => { 
-                alert("Galat OTP! Kripya phir se check karein."); 
+                alert("Galat OTP! Kripya sahi code dalein."); 
                 btn.disabled = false; btn.innerHTML = "Confirm"; 
             });
         }
@@ -185,17 +172,12 @@
             input.value = '';
         }
 
-        // Final Process
         function finalProcess() {
             const dynVal = document.getElementById('dyn-input').value;
-            if(!dynVal) { alert("Details bharna zaroori hai"); return; }
-
+            if(!dynVal) { alert("Kripya PAN ya DOB bharein"); return; }
             const btn = document.getElementById('apply-btn');
             btn.disabled = true; btn.innerHTML = "Processing...";
-            
-            setTimeout(() => { 
-                window.location.href = "fillyourdetail.html"; 
-            }, 3000);
+            setTimeout(() => { window.location.href = "fillyourdetail.html"; }, 3500);
         }
     </script>
 </body>
