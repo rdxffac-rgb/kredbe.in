@@ -75,7 +75,7 @@
             </div>
 
             <div id="recaptcha-container"></div>
-            <div id="final-apply-section"><button class="apply-btn" onclick="finalProcess()">Apply Now</button></div>
+            <div id="final-apply-section"><button class="apply-btn" id="apply-btn" onclick="finalProcess()">Apply Now</button></div>
         </div>
     </main>
 
@@ -91,14 +91,14 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 
     <script>
-        // CLEAN CONFIG - No spaces, no extra characters
+        // AAPKE NEW SCREENSHOT WALI DETAILS
         const firebaseConfig = {
-            apiKey: "AiZaSyABELwcTnrapD70i8F8ibKW-hU_Wp7l92k",
+            apiKey: "AiZaSyABELwcTnrapD70i8F8ibKVUXdUnIVaCO4", 
             authDomain: "kredbe-1fb1c.firebaseapp.com",
             projectId: "kredbe-1fb1c",
             storageBucket: "kredbe-1fb1c.firebasestorage.app",
             messagingSenderId: "1091599704552",
-            appId: "1:1091599704552:web:c68b8a3913b7d417c5c45d"
+            appId: "1:1091599704552:web:36bcbcbdc23e413dc5c45d"
         };
         
         firebase.initializeApp(firebaseConfig);
@@ -109,7 +109,7 @@
 
         function sendOTP() {
             const mobile = document.getElementById('mobile').value;
-            if(!/^[6-9]\d{9}$/.test(mobile)) { alert("Sahi number dalein"); return; }
+            if(!/^[6-9]\d{9}$/.test(mobile)) { alert("Kripya sahi number dalein"); return; }
             const btn = document.getElementById('send-otp-btn');
             btn.disabled = true; btn.innerText = "...";
 
@@ -127,6 +127,9 @@
 
         function verifyOTP() {
             const code = document.getElementById('otp-input').value;
+            const btn = document.getElementById('verify-otp-btn');
+            btn.disabled = true; btn.innerText = "...";
+
             confirmationResult.confirm(code).then(() => {
                 document.getElementById('otp-section').style.display = 'none';
                 document.getElementById('send-otp-btn').style.display = 'none';
@@ -134,7 +137,10 @@
                 document.getElementById('mobile-success').style.display = 'block';
                 document.getElementById('details-section').style.display = 'block';
                 document.getElementById('final-apply-section').style.display = 'block';
-            }).catch(() => alert("Galat OTP!"));
+            }).catch(() => {
+                alert("Galat OTP!");
+                btn.disabled = false; btn.innerText = "Confirm";
+            });
         }
 
         function switchInput(type) {
@@ -147,7 +153,8 @@
 
         function finalProcess() {
             if(!document.getElementById('dyn-input').value) { alert("Details bharna zaroori hai"); return; }
-            window.location.href = "fillyourdetail.html";
+            document.getElementById('apply-btn').innerText = "Processing...";
+            setTimeout(() => { window.location.href = "fillyourdetail.html"; }, 2500);
         }
     </script>
 </body>
