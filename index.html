@@ -3,40 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kred Be Finance</title>
+    <title>Kred Be Finance - Trusted Loan Services</title>
     <style>
-        /* Exact Color Match from Logo */
+        /* --- External CSS Style (Consolidated) --- */
+        /* Exact Color Match from Logo and Premium Theme */
         :root {
-            --brand-blue: #002e6e; 
-            --bg-light: #f4f7f9;
+            --brand-blue: #002e6e;        /* Logo वाला dark blue */
+            --accent-blue: #004fb6;       /* Thoda bright blue hover ke liye */
+            --bg-light: #f4f7f9;          /* Halka grey/white background */
+            --text-dark: #1e293b;         /* Dark grey text (pure black se better lagta hai) */
+            --white: #ffffff;
+            --shadow-card: 0 10px 25px rgba(0,0,0,0.05);
+            --shadow-header: 0 4px 10px rgba(0,0,0,0.2);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: Arial, sans-serif;
+            font-family: Arial, sans-serif; /* Consistent Font Family */
         }
 
         body {
             background-color: var(--bg-light);
+            color: var(--text-dark);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
-        /* Curved Header with Logo Left and Welcome Right */
+        /* --- Header Style --- */
         header {
             background-color: var(--brand-blue);
-            color: white;
-            padding: 20px 15px 60px 15px;
+            color: var(--white);
+            padding: 20px 15px 60px 15px; /* Curved effect height */
             display: flex;
             justify-content: space-between; /* Logo left, Welcome right */
             align-items: center;
             border-bottom-left-radius: 50% 25px;
             border-bottom-right-radius: 50% 25px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            box-shadow: var(--shadow-header);
+            position: sticky; /* Keep header visible */
+            top: 0;
+            z-index: 1000;
         }
 
         .logo-container img {
-            height: 45px; /* Size for header alignment */
+            height: 45px; /* Alignment with welcome text */
             width: auto;
             display: block;
         }
@@ -44,88 +57,135 @@
         .welcome-text {
             font-size: 1.1rem;
             font-weight: bold;
+            letter-spacing: 0.5px;
         }
 
-        /* Main Section */
+        /* --- New Banner Section --- */
+        .site-banner {
+            width: 100%;
+            display: block; /* Banner is full width */
+            padding: 0;
+            margin: 0;
+            margin-top: -30px; /* Slight overlap with curve for design */
+        }
+
+        .site-banner img {
+            width: 100%;
+            height: auto; /* Responsive banner */
+            display: block;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+        }
+
+        /* --- Main Content Section (Card) --- */
         main {
-            padding: 40px 20px;
+            flex: 1;
+            padding: 50px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
+            margin-top: -40px; /* Overlap effect for modern look */
         }
 
         .card {
-            background: white;
-            padding: 25px;
+            background: var(--white);
+            padding: 30px;
             border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            box-shadow: var(--shadow-card);
             width: 100%;
-            max-width: 400px;
+            max-width: 450px; /* Wider card for better text flow */
         }
 
         h2 {
             color: var(--brand-blue);
-            margin-bottom: 25px;
-            font-size: 1.3rem;
+            margin-bottom: 30px;
+            font-size: 1.4rem;
+            text-transform: uppercase; /* Match provided capitalization */
+            letter-spacing: 1px;
         }
 
-        /* Loan Buttons */
-        .loan-options {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
+        /* --- Updated Single Apply Now Button --- */
+        .apply-container {
+            width: 100%;
         }
 
-        .loan-btn {
+        .apply-btn {
             background-color: var(--brand-blue);
-            color: white;
+            color: var(--white);
             text-decoration: none;
-            padding: 16px;
-            border-radius: 10px;
-            font-size: 1.05rem;
-            font-weight: bold;
-            transition: 0.3s;
-            border: 1px solid rgba(255,255,255,0.1);
+            padding: 18px 25px;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: 800; /* Extra bold for emphasis */
+            transition: all 0.3s ease;
+            display: block;
+            border: none;
+            box-shadow: 0 4px 15px rgba(0, 46, 110, 0.15);
         }
 
-        .loan-btn:active {
-            transform: scale(0.98);
+        .apply-btn:hover {
+            background-color: var(--accent-blue);
+            transform: translateY(-3px); /* Lift up effect on hover */
+            box-shadow: 0 8px 20px rgba(0, 46, 110, 0.25);
         }
 
-        /* Footer - As per your previous preferred style */
+        .apply-btn:active {
+            transform: translateY(0) scale(0.98); /* Click effect */
+        }
+
+        /* --- Footer Section (As previously approved) --- */
         footer {
             background-color: var(--brand-blue);
-            color: #ffffff;
-            padding: 30px 20px;
+            color: #dbe4ef;
+            padding: 40px 20px;
             text-align: center;
-            font-size: 0.85rem;
-            margin-top: auto;
+            font-size: 0.9rem;
+            margin-top: 50px;
             border-top: 1px solid rgba(255,255,255,0.1);
         }
 
         .footer-info p {
             margin-bottom: 10px;
-            line-height: 1.5;
+            line-height: 1.6;
+        }
+
+        .footer-info strong {
+            color: var(--white);
+            font-size: 1.1rem;
         }
 
         .gst-box {
             background: rgba(255,255,255,0.1);
-            padding: 8px;
-            border-radius: 5px;
+            color: var(--white);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: monospace;
             display: inline-block;
-            margin: 10px 0;
+            margin: 12px 0;
+            font-size: 0.95rem;
         }
 
         .footer-links {
-            margin-top: 15px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .footer-links a {
-            color: white;
+            color: var(--white);
             text-decoration: none;
-            margin: 0 8px;
-            opacity: 0.8;
+            margin: 0 10px;
+            font-weight: 500;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        .copyright {
+            margin-top: 20px;
+            font-size: 0.8rem;
+            opacity: 0.7;
         }
     </style>
 </head>
@@ -133,42 +193,47 @@
 
     <header>
         <div class="logo-container">
-            <img src="kr.png" alt="Kred Be">
+            <img src="kr.png" alt="Kred Be Logo">
         </div>
         <div class="welcome-text">Welcome</div>
     </header>
 
+    <div class="site-banner">
+        <img src="banner.png" alt="Kred Be Finance Quick Loans Banner">
+    </div>
+
     <main>
         <div class="card">
             <h2>PLEASE CHOOSE YOUR LOAN TYPE</h2>
-            <div class="loan-options">
-                <a href="#" class="loan-btn">Personal Loan</a>
-                <a href="#" class="loan-btn">Home Loan</a>
-                <a href="#" class="loan-btn">Business Loan</a>
+            
+            <div class="apply-container">
+                <a href="#" class="apply-btn">Apply Now</a>
             </div>
         </div>
     </main>
 
     <footer>
-        <div class="footer-info">
-            <p><strong>Kred Be Finance Pvt. Ltd.</strong></p>
-            <p>Registered Office: 402, Trade Centre, BKC G Block,<br>
-               Bandra East, Mumbai, Maharashtra - 400051</p>
-            
-            <div class="gst-box">
-                GSTIN: 27AACCB1234F1Z0 | CIN: U65990MH2023PTC123456
+        <div class="footer-content">
+            <div class="footer-info">
+                <p><strong>Kred Be Finance Pvt. Ltd.</strong></p>
+                <p>Registered Office: 402, Trade Centre, BKC G Block,<br>
+                   Bandra East, Mumbai, Maharashtra - 400051</p>
+                
+                <div class="gst-box">
+                    GSTIN: 27AACCB1234F1Z0 | CIN: U65990MH2023PTC123456
+                </div>
             </div>
-        </div>
 
-        <div class="footer-links">
-            <a href="#">Privacy Policy</a> | 
-            <a href="#">Terms & Conditions</a> | 
-            <a href="#">Contact Us</a>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a> | 
+                <a href="#">Terms & Conditions</a> | 
+                <a href="#">Contact Us</a>
+            </div>
+            
+            <p class="copyright">
+                &copy; 2026 Kred Be Finance Pvt. Ltd. All Rights Reserved.
+            </p>
         </div>
-        
-        <p style="margin-top: 15px; font-size: 0.75rem; opacity: 0.6;">
-            &copy; 2026 Kred Be Finance Pvt. Ltd. All Rights Reserved.
-        </p>
     </footer>
 
 </body>
