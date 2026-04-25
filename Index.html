@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kred Be Finance - Quick Loans</title>
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f4f7f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header with Curved Design */
+        header {
+            background-color: #003366; /* Deep Blue */
+            color: white;
+            padding: 40px 20px 80px 20px;
+            text-align: center;
+            border-bottom-left-radius: 50% 20px;
+            border-bottom-right-radius: 50% 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .logo-container img {
+            max-width: 100%;
+            height: auto;
+            width: 320px; /* Adjusted for mobile view, desktop handles up to 680 */
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+        }
+
+        /* Main Content */
+        main {
+            flex: 1;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        h2 {
+            color: #003366;
+            margin-bottom: 30px;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        /* Loan Buttons */
+        .loan-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .loan-btn {
+            background-color: #003366;
+            color: white;
+            text-decoration: none;
+            padding: 18px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: transform 0.2s, background-color 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border: 2px solid transparent;
+        }
+
+        .loan-btn:hover {
+            background-color: #004a94;
+            transform: translateY(-2px);
+            border-color: #ffffff;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #002244;
+            color: #d1d1d1;
+            padding: 40px 20px;
+            text-align: center;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .footer-info p {
+            margin-bottom: 8px;
+        }
+
+        .footer-links {
+            margin-top: 20px;
+            border-top: 1px solid #004a94;
+            padding-top: 20px;
+        }
+
+        .footer-links a {
+            color: #ffffff;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        .gst-text {
+            font-weight: bold;
+            color: #aaa;
+            margin-top: 10px;
+            display: block;
+        }
+
+        /* Media Queries for Desktop */
+        @media (min-width: 768px) {
+            .logo-container img {
+                width: 680px; /* Aapka specific size */
+            }
+            header {
+                padding: 60px 20px 100px 20px;
+                border-bottom-left-radius: 50% 40px;
+                border-bottom-right-radius: 50% 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <img src="kr.png" alt="Kred Be Logo">
+        </div>
+    </header>
+
+    <main>
+        <h2>Chunye Apna Loan Type</h2>
+        
+        <div class="loan-options">
+            <a href="#" class="loan-btn">Personal Loan</a>
+            <a href="#" class="loan-btn">Home Loan</a>
+            <a href="#" class="loan-btn">Business Loan</a>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-info">
+            <strong>Kred Be Finance Pvt. Ltd.</strong>
+            <p>Registered Office: 402, Trade Centre, BKC G Block, Bandra East, Mumbai, Maharashtra - 400051</p>
+            <span class="gst-text">GSTIN: 27AACCB1234F1Z0 | CIN: U65990MH2023PTC123456</span>
+        </div>
+
+        <div class="footer-links">
+            <a href="#">Privacy Policy</a> | 
+            <a href="#">Terms & Conditions</a> | 
+            <a href="#">Contact Us</a>
+        </div>
+        
+        <p style="margin-top: 20px; font-size: 0.8rem; color: #777;">
+            &copy; 2026 Kred Be Finance Pvt. Ltd. All Rights Reserved.
+        </p>
+    </footer>
+
+</body>
+</html>
