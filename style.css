@@ -1,0 +1,164 @@
+/* --- Global Variables (Yahan se puri website ka color ek baar mein change hoga) --- */
+:root {
+    --brand-blue: #002e6e;        /* Logo wala main blue */
+    --accent-blue: #004fb6;       /* Thoda bright blue hover ke liye */
+    --bg-light: #f8fafc;          /* Halka grey/white background */
+    --text-dark: #1e293b;         /* Dark grey text (pure black se better lagta hai) */
+    --white: #ffffff;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* --- Header Style --- */
+header {
+    background-color: var(--brand-blue);
+    color: var(--white);
+    padding: 15px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* Header niche se thoda curve karne ke liye (Optionally use on Home Page only) */
+.header-curve {
+    border-bottom-left-radius: 50% 20px;
+    border-bottom-right-radius: 50% 20px;
+    padding-bottom: 50px;
+}
+
+.logo-container img {
+    height: 40px;
+    width: auto;
+}
+
+.welcome-text {
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+}
+
+/* --- Main Content Area --- */
+main {
+    flex: 1;
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.card {
+    background: var(--white);
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    width: 100%;
+    max-width: 450px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+h2 {
+    color: var(--brand-blue);
+    margin-bottom: 25px;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+/* --- Improved Buttons --- */
+.loan-options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.loan-btn {
+    background-color: var(--brand-blue);
+    color: var(--white);
+    text-decoration: none;
+    padding: 16px 20px;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: none;
+    display: block;
+    box-shadow: 0 4px 6px rgba(0, 46, 110, 0.1);
+}
+
+.loan-btn:hover {
+    background-color: var(--accent-blue);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 46, 110, 0.2);
+}
+
+/* --- Footer Style --- */
+footer {
+    background-color: var(--brand-blue);
+    color: #cbd5e1;
+    padding: 40px 20px;
+    text-align: center;
+    font-size: 0.9rem;
+    margin-top: 50px;
+}
+
+footer strong {
+    color: var(--white);
+    font-size: 1.1rem;
+}
+
+.address-box {
+    margin: 15px 0;
+    opacity: 0.9;
+}
+
+.gst-tag {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--white);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-family: monospace;
+    display: inline-block;
+    margin: 10px 0;
+}
+
+.footer-links {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-links a {
+    color: var(--white);
+    text-decoration: none;
+    margin: 0 10px;
+    font-weight: 500;
+}
+
+.footer-links a:hover {
+    text-decoration: underline;
+}
+
+/* Mobile responsive */
+@media (max-width: 600px) {
+    .welcome-text { display: none; } /* Mobile par welcome hide karke logo bada dikhega */
+    header { padding: 15px; }
+}
