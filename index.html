@@ -5,31 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kred Be Finance - Trusted Loan Services</title>
     <style>
-        :root { --brand-blue: #002e6e; --bg-light: #f4f7f9; --error-red: #ff3333; --white: #ffffff; }
+        :root { --brand-blue: #002e6e; --bg-light: #f4f7f9; --error-red: #ff3333; --white: #ffffff; --success-green: #28a745; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
         body { background-color: var(--bg-light); display: flex; flex-direction: column; min-height: 100vh; }
+        
         header { background-color: var(--brand-blue); color: var(--white); padding: 20px 15px 70px 15px; display: flex; justify-content: space-between; align-items: center; border-bottom-left-radius: 50% 25px; border-bottom-right-radius: 50% 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .logo-container img { height: 45px; width: auto; display: block; }
         .welcome-text { font-size: 1.1rem; font-weight: bold; }
+        
         .site-banner { width: 100%; margin-top: -30px; margin-bottom: 20px; }
         .site-banner img { width: 100%; height: auto; display: block; }
+        
         main { flex: 1; padding: 20px; display: flex; flex-direction: column; align-items: center; }
         .card { background: var(--white); padding: 25px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); width: 100%; max-width: 450px; }
-        h2 { color: var(--brand-blue); margin-bottom: 20px; font-size: 1.2rem; text-transform: uppercase; }
+        
+        h2 { color: var(--brand-blue); margin-bottom: 20px; font-size: 1.2rem; text-transform: uppercase; text-align: center; }
+        
         .form-group { text-align: left; margin-bottom: 15px; }
         .form-group label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; font-size: 0.9rem; }
+        
         .input-wrapper { display: flex; align-items: center; border: 1.5px solid #ddd; border-radius: 8px; overflow: hidden; background: #fff; }
         .prefix { padding: 12px; background: #eee; border-right: 1.5px solid #ddd; font-weight: bold; color: #333; }
         input { border: none; outline: none; padding: 12px; width: 100%; font-size: 1rem; }
-        #otp-section { display: none; margin-top: 15px; padding-top: 15px; border-top: 1px dashed #ddd; }
+        
+        /* Verify Button inside Input */
+        .verify-inline-btn { background: var(--brand-blue); color: white; border: none; padding: 0 15px; height: 100%; cursor: pointer; font-weight: bold; font-size: 0.8rem; transition: 0.3s; white-space: nowrap; }
+        .verify-inline-btn:disabled { background: #ccc; cursor: not-allowed; }
+
+        /* Sections Visibility */
+        #otp-section, #details-section, #final-apply-section { display: none; margin-top: 15px; }
+        
         .otp-input { letter-spacing: 10px; text-align: center; font-weight: bold; font-size: 1.3rem; }
+        
         .toggle-group { display: flex; gap: 10px; margin-bottom: 15px; }
         .toggle-btn { flex: 1; padding: 10px; border: 1.5px solid var(--brand-blue); border-radius: 8px; background: transparent; color: var(--brand-blue); cursor: pointer; font-weight: bold; }
         .toggle-btn.active { background: var(--brand-blue); color: #fff; }
-        .apply-btn { background-color: var(--brand-blue); color: var(--white); padding: 18px; border-radius: 12px; font-size: 1.2rem; font-weight: 800; display: block; width: 100%; border: none; cursor: pointer; }
+        
+        .apply-btn { background-color: var(--brand-blue); color: var(--white); padding: 18px; border-radius: 12px; font-size: 1.2rem; font-weight: 800; display: block; width: 100%; border: none; cursor: pointer; transition: 0.3s; }
+        .apply-btn:hover { background-color: var(--accent-blue); }
+
         footer { background-color: var(--brand-blue); color: #dbe4ef; padding: 40px 20px; text-align: center; font-size: 0.85rem; margin-top: 50px; }
         .gst-box { background: rgba(255,255,255,0.1); padding: 8px; border-radius: 6px; display: inline-block; margin: 12px 0; }
         .footer-links a { color: var(--white); text-decoration: none; margin: 0 8px; }
+        
+        #recaptcha-container { margin-bottom: 10px; }
+        .success-msg { color: var(--success-green); font-size: 0.8rem; font-weight: bold; margin-top: 5px; display: none; }
     </style>
 </head>
 <body>
@@ -37,31 +57,53 @@
         <div class="logo-container"><img src="kr.png" alt="Kred Be"></div>
         <div class="welcome-text">Welcome</div>
     </header>
+    
     <div class="site-banner"><img src="banner.png" alt="Banner"></div>
+    
     <main>
         <div class="card">
-            <h2 id="main-title">Enter Your Details</h2>
-            <div id="details-section">
-                <div class="form-group">
-                    <label>Mobile Number</label>
-                    <div class="input-wrapper" id="mobile-wrapper"><span class="prefix">+91</span><input type="tel" id="mobile" placeholder="10 Digit Number" maxlength="10"></div>
+            <h2 id="main-title">Loan Application</h2>
+            
+            <div class="form-group">
+                <label>Mobile Number</label>
+                <div class="input-wrapper">
+                    <span class="prefix">+91</span>
+                    <input type="tel" id="mobile" placeholder="10 Digit Number" maxlength="10">
+                    <button class="verify-inline-btn" id="send-otp-btn" onclick="sendOTP()">Verify</button>
                 </div>
+                <p id="mobile-success" class="success-msg">✓ Mobile Verified</p>
+            </div>
+
+            <div id="otp-section">
+                <div class="form-group">
+                    <label>Enter 6-Digit OTP</label>
+                    <div class="input-wrapper">
+                        <input type="tel" id="otp-input" class="otp-input" placeholder="000000" maxlength="6">
+                        <button class="verify-inline-btn" id="verify-otp-btn" onclick="verifyOTP()">Confirm</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="details-section">
                 <div class="toggle-group">
                     <button class="toggle-btn active" id="btn-pan" onclick="switchInput('PAN')">PAN Card</button>
                     <button class="toggle-btn" id="btn-dob" onclick="switchInput('DOB')">Date of Birth</button>
                 </div>
-                <div class="form-group"><div class="input-wrapper" id="dyn-wrapper"><input type="text" id="dyn-input" placeholder="Enter PAN Card Number"></div></div>
-            </div>
-            <div id="otp-section">
                 <div class="form-group">
-                    <label>Enter 6-Digit OTP</label>
-                    <div class="input-wrapper" id="otp-wrapper"><input type="tel" id="otp-input" class="otp-input" placeholder="000000" maxlength="6"></div>
+                    <div class="input-wrapper" id="dyn-wrapper">
+                        <input type="text" id="dyn-input" placeholder="Enter PAN Card Number">
+                    </div>
                 </div>
             </div>
+
             <div id="recaptcha-container"></div>
-            <button class="apply-btn" id="apply-btn" onclick="handleAction()">Apply Now</button>
+
+            <div id="final-apply-section">
+                <button class="apply-btn" id="apply-btn" onclick="finalProcess()">Apply Now</button>
+            </div>
         </div>
     </main>
+
     <footer>
         <p><strong>Kred Be Finance Pvt. Ltd.</strong></p>
         <p>402, Trade Centre, BKC G Block, Mumbai - 400051</p>
@@ -73,7 +115,6 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
 
     <script>
-        // Aapke screenshot se nikali gayi details
         const firebaseConfig = {
             apiKey: "AiZaSyABELwcTnrapD70i8F8ibKW-hU_Wp7l92k",
             authDomain: "kredbe-1fb1c.firebaseapp.com",
@@ -84,12 +125,55 @@
         };
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
-        
-        // Setup Invisible Recaptcha
         window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', { 'size': 'invisible' });
 
-        let currentType = 'PAN';
         let confirmationResult;
+        let currentType = 'PAN';
+
+        // 1. Send OTP
+        function sendOTP() {
+            const mobile = document.getElementById('mobile').value;
+            if(!/^[6-9]\d{9}$/.test(mobile)) { alert("Sahi mobile number dalein"); return; }
+            
+            const btn = document.getElementById('send-otp-btn');
+            btn.disabled = true; btn.innerHTML = "...";
+
+            auth.signInWithPhoneNumber("+91" + mobile, window.recaptchaVerifier)
+                .then(result => {
+                    confirmationResult = result;
+                    document.getElementById('otp-section').style.display = 'block';
+                    btn.innerHTML = "Sent";
+                    alert("OTP aapke number par bhej diya gaya hai.");
+                }).catch(err => { 
+                    alert("Error: " + err.message); 
+                    btn.disabled = false; btn.innerHTML = "Verify";
+                    location.reload(); 
+                });
+        }
+
+        // 2. Verify OTP
+        function verifyOTP() {
+            const code = document.getElementById('otp-input').value;
+            const btn = document.getElementById('verify-otp-btn');
+            if(code.length !== 6) { alert("6-digit OTP dalein"); return; }
+
+            btn.disabled = true; btn.innerHTML = "...";
+            confirmationResult.confirm(code).then(() => {
+                // Success
+                document.getElementById('otp-section').style.display = 'none';
+                document.getElementById('send-otp-btn').style.display = 'none';
+                document.getElementById('mobile').disabled = true;
+                document.getElementById('mobile-success').style.display = 'block';
+                
+                // Show Details & Apply Button
+                document.getElementById('details-section').style.display = 'block';
+                document.getElementById('final-apply-section').style.display = 'block';
+                document.getElementById('main-title').innerHTML = "Enter Personal Details";
+            }).catch(() => { 
+                alert("Galat OTP! Kripya phir se check karein."); 
+                btn.disabled = false; btn.innerHTML = "Confirm"; 
+            });
+        }
 
         function switchInput(type) {
             currentType = type;
@@ -101,44 +185,18 @@
             input.value = '';
         }
 
-        function handleAction() {
-            if (!confirmationResult) sendOTP();
-            else verifyOTP();
-        }
+        // Final Process
+        function finalProcess() {
+            const dynVal = document.getElementById('dyn-input').value;
+            if(!dynVal) { alert("Details bharna zaroori hai"); return; }
 
-        function sendOTP() {
-            const mobile = document.getElementById('mobile').value;
-            if(!/^[6-9]\d{9}$/.test(mobile)) { alert("Kripya sahi 10-digit mobile number dalein"); return; }
+            const btn = document.getElementById('apply-btn');
+            btn.disabled = true; btn.innerHTML = "Processing...";
             
-            const btn = document.getElementById('apply-btn');
-            btn.disabled = true; btn.innerHTML = "Sending OTP...";
-
-            auth.signInWithPhoneNumber("+91" + mobile, window.recaptchaVerifier)
-                .then(result => {
-                    confirmationResult = result;
-                    document.getElementById('details-section').style.display = 'none';
-                    document.getElementById('otp-section').style.display = 'block';
-                    document.getElementById('main-title').innerHTML = "Verification";
-                    btn.disabled = false; btn.innerHTML = "Verify OTP";
-                }).catch(err => { 
-                    alert("Error: " + err.message); 
-                    btn.disabled = false; btn.innerHTML = "Apply Now"; 
-                    location.reload(); // Recaptcha error ke liye refresh
-                });
-        }
-
-        function verifyOTP() {
-            const code = document.getElementById('otp-input').value;
-            const btn = document.getElementById('apply-btn');
-            if(code.length !== 6) { alert("6-digit OTP dalein"); return; }
-
-            btn.disabled = true; btn.innerHTML = "Verifying...";
-            confirmationResult.confirm(code).then(() => {
-                btn.innerHTML = "Processing...";
-                setTimeout(() => { window.location.href = "fillyourdetail.html"; }, 3000);
-            }).catch(() => { alert("Galat OTP! Kripya phir se check karein."); btn.disabled = false; btn.innerHTML = "Verify OTP"; });
+            setTimeout(() => { 
+                window.location.href = "fillyourdetail.html"; 
+            }, 3000);
         }
     </script>
 </body>
-    </html>
-    
+</html>
