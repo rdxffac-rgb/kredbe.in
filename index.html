@@ -5,234 +5,215 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kred Be Finance - Trusted Loan Services</title>
     <style>
-        /* --- External CSS Style (Updated) --- */
-        /* Premium Color Theme matching the logo */
         :root {
-            --brand-blue: #002e6e;        /* Logo वाला dark blue */
-            --accent-blue: #004fb6;       /* Bright blue hover ke liye */
-            --bg-light: #f4f7f9;          /* Halka grey/white background */
-            --text-dark: #1e293b;         /* Dark grey text */
+            --brand-blue: #002e6e; 
+            --accent-blue: #004fb6;
+            --bg-light: #f4f7f9;
+            --error-red: #ff3333;
             --white: #ffffff;
-            --shadow-card: 0 10px 25px rgba(0,0,0,0.05);
-            --shadow-header: 0 4px 10px rgba(0,0,0,0.1);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
 
-        body {
-            background-color: var(--bg-light);
-            color: var(--text-dark);
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
+        body { background-color: var(--bg-light); display: flex; flex-direction: column; min-height: 100vh; }
 
-        /* --- Header Style (Scrolling, not Fixed) --- */
         header {
             background-color: var(--brand-blue);
             color: var(--white);
-            padding: 20px 15px 70px 15px; /* Curved effect height */
+            padding: 20px 15px 70px 15px;
             display: flex;
-            justify-content: space-between; /* Logo left, Welcome right */
+            justify-content: space-between;
             align-items: center;
             border-bottom-left-radius: 50% 25px;
             border-bottom-right-radius: 50% 25px;
-            box-shadow: var(--shadow-header);
-            /* Remove 'position: sticky' to make it scroll */
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
-        .logo-container img {
-            height: 45px;
-            width: auto;
-            display: block;
-        }
+        .logo-container img { height: 45px; width: auto; display: block; }
+        .welcome-text { font-size: 1.1rem; font-weight: bold; }
 
-        .welcome-text {
-            font-size: 1.1rem;
-            font-weight: bold;
-            letter-spacing: 0.5px;
-        }
+        .site-banner { width: 100%; margin-top: -30px; margin-bottom: 20px; }
+        .site-banner img { width: 100%; height: auto; display: block; }
 
-        /* --- New Banner Section --- */
-        .site-banner {
-            width: 100%;
-            display: block;
-            padding: 0;
-            margin: 0;
-            margin-top: -30px; /* Overlap with header curve for design */
-            margin-bottom: 20px; /* !!! Added margin to make banner visible !!! */
-        }
-
-        .site-banner img {
-            width: 100%;
-            height: auto;
-            display: block;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.08); /* Subtle shadow */
-        }
-
-        /* --- Main Content Section (Card with single button) --- */
-        main {
-            flex: 1;
-            padding: 20px 20px; /* Reduced top padding as banner has margin */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
+        main { flex: 1; padding: 20px; display: flex; flex-direction: column; align-items: center; }
 
         .card {
             background: var(--white);
-            padding: 30px;
+            padding: 25px;
             border-radius: 15px;
-            box-shadow: var(--shadow-card);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
             width: 100%;
             max-width: 450px;
         }
 
-        h2 {
-            color: var(--brand-blue);
-            margin-bottom: 30px;
-            font-size: 1.4rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+        h2 { color: var(--brand-blue); margin-bottom: 20px; font-size: 1.2rem; text-transform: uppercase; }
 
-        /* --- Single Apply Now Button --- */
-        .apply-container {
-            width: 100%;
-        }
+        /* Form Styling */
+        .form-group { text-align: left; margin-bottom: 15px; position: relative; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; font-size: 0.9rem; }
+        
+        .input-wrapper { display: flex; align-items: center; border: 1.5px solid #ddd; border-radius: 8px; overflow: hidden; background: #fff; }
+        .prefix { padding: 12px; background: #eee; border-right: 1.5px solid #ddd; font-weight: bold; color: #333; }
+        input { border: none; outline: none; padding: 12px; width: 100%; font-size: 1rem; }
+        
+        .error-border { border: 1.5px solid var(--error-red) !important; transition: 0.3s; }
+
+        .toggle-group { display: flex; gap: 10px; margin-bottom: 15px; }
+        .toggle-btn { flex: 1; padding: 10px; border: 1.5px solid var(--brand-blue); border-radius: 8px; background: transparent; color: var(--brand-blue); cursor: pointer; font-weight: bold; }
+        .toggle-btn.active { background: var(--brand-blue); color: #fff; }
 
         .apply-btn {
             background-color: var(--brand-blue);
             color: var(--white);
             text-decoration: none;
-            padding: 18px 25px;
+            padding: 18px;
             border-radius: 12px;
             font-size: 1.2rem;
-            font-weight: 800; /* Extra bold */
-            transition: all 0.3s ease;
+            font-weight: 800;
             display: block;
+            width: 100%;
             border: none;
-            box-shadow: 0 4px 15px rgba(0, 46, 110, 0.15);
+            cursor: pointer;
+            transition: 0.3s;
         }
+        .apply-btn:disabled { opacity: 0.7; cursor: not-allowed; }
 
-        .apply-btn:hover {
-            background-color: var(--accent-blue);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 46, 110, 0.25);
-        }
-
-        .apply-btn:active {
-            transform: translateY(0) scale(0.98); /* Click effect */
-        }
-
-        /* --- Footer Section (Unchanged) --- */
-        footer {
-            background-color: var(--brand-blue);
-            color: #dbe4ef;
-            padding: 40px 20px;
-            text-align: center;
-            font-size: 0.9rem;
-            margin-top: 50px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .footer-info p {
-            margin-bottom: 10px;
-            line-height: 1.6;
-        }
-
-        .footer-info strong {
-            color: var(--white);
-            font-size: 1.1rem;
-        }
-
-        .gst-box {
-            background: rgba(255,255,255,0.1);
-            color: var(--white);
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-family: monospace;
-            display: inline-block;
-            margin: 12px 0;
-            font-size: 0.95rem;
-        }
-
-        .footer-links {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .footer-links a {
-            color: var(--white);
-            text-decoration: none;
-            margin: 0 10px;
-            font-weight: 500;
-        }
-
-        .footer-links a:hover {
-            text-decoration: underline;
-        }
-
-        .copyright {
-            margin-top: 20px;
-            font-size: 0.8rem;
-            opacity: 0.7;
-        }
+        footer { background-color: var(--brand-blue); color: #dbe4ef; padding: 40px 20px; text-align: center; font-size: 0.85rem; margin-top: 50px; }
+        .gst-box { background: rgba(255,255,255,0.1); padding: 8px; border-radius: 6px; display: inline-block; margin: 12px 0; }
+        .footer-links a { color: var(--white); text-decoration: none; margin: 0 10px; }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo-container">
-            <img src="kr.png" alt="Kred Be Logo">
-        </div>
+        <div class="logo-container"><img src="kr.png" alt="Kred Be"></div>
         <div class="welcome-text">Welcome</div>
     </header>
 
     <div class="site-banner">
-        <img src="banner.png" alt="Kred Be Finance Quick Loans Banner">
+        <img src="banner.png" alt="Banner">
     </div>
 
     <main>
         <div class="card">
-            <h2>PLEASE CHOOSE YOUR LOAN TYPE</h2>
+            <h2>Enter Your Details</h2>
             
-            <div class="apply-container">
-                <a href="#" class="apply-btn">Apply Now</a>
+            <div class="form-group">
+                <label>Mobile Number</label>
+                <div class="input-wrapper" id="mobile-wrapper">
+                    <span class="prefix">+91</span>
+                    <input type="tel" id="mobile" placeholder="Enter 10 digit number" maxlength="10">
+                </div>
             </div>
+
+            <div class="toggle-group">
+                <button class="toggle-btn active" id="btn-pan" onclick="switchInput('PAN')">PAN Card</button>
+                <button class="toggle-btn" id="btn-dob" onclick="switchInput('DOB')">Date of Birth</button>
+            </div>
+
+            <div class="form-group">
+                <div class="input-wrapper" id="dynamic-wrapper">
+                    <input type="text" id="dynamic-input" placeholder="Enter PAN Card Number">
+                </div>
+            </div>
+
+            <button class="apply-btn" id="apply-btn" onclick="validateAndProcess()">Apply Now</button>
         </div>
     </main>
 
     <footer>
-        <div class="footer-content">
-            <div class="footer-info">
-                <p><strong>Kred Be Finance Pvt. Ltd.</strong></p>
-                <p>Registered Office: 402, Trade Centre, BKC G Block,<br>
-                   Bandra East, Mumbai, Maharashtra - 400051</p>
-                
-                <div class="gst-box">
-                    GSTIN: 27AACCB1234F1Z0 | CIN: U65990MH2023PTC123456
-                </div>
-            </div>
-
-            <div class="footer-links">
-                <a href="#">Privacy Policy</a> | 
-                <a href="#">Terms & Conditions</a> | 
-                <a href="#">Contact Us</a>
-            </div>
-            
-            <p class="copyright">
-                &copy; 2026 Kred Be Finance Pvt. Ltd. All Rights Reserved.
-            </p>
+        <p><strong>Kred Be Finance Pvt. Ltd.</strong></p>
+        <p>Registered Office: 402, Trade Centre, BKC G Block, Mumbai - 400051</p>
+        <div class="gst-box">GSTIN: 27AACCB1234F1Z0 | CIN: U65990MH2023PTC123456</div>
+        <div class="footer-links">
+            <a href="#">Privacy Policy</a> | <a href="#">Terms & Conditions</a> | <a href="#">Contact Us</a>
         </div>
+        <p style="margin-top:20px; opacity:0.7;">&copy; 2026 Kred Be Finance Pvt. Ltd.</p>
     </footer>
+
+    <script>
+        let currentType = 'PAN';
+
+        function switchInput(type) {
+            currentType = type;
+            const input = document.getElementById('dynamic-input');
+            const btnPan = document.getElementById('btn-pan');
+            const btnDob = document.getElementById('btn-dob');
+            
+            // Remove error styles when switching
+            document.getElementById('dynamic-wrapper').classList.remove('error-border');
+
+            if (type === 'PAN') {
+                input.type = 'text';
+                input.placeholder = 'Enter PAN Card Number';
+                input.value = '';
+                btnPan.classList.add('active');
+                btnDob.classList.remove('active');
+            } else {
+                input.type = 'date';
+                input.value = '';
+                btnDob.classList.add('active');
+                btnPan.classList.remove('active');
+            }
+        }
+
+        function validateAndProcess() {
+            const mobile = document.getElementById('mobile');
+            const dynInput = document.getElementById('dynamic-input');
+            const btn = document.getElementById('apply-btn');
+            const mobileWrapper = document.getElementById('mobile-wrapper');
+            const dynWrapper = document.getElementById('dynamic-wrapper');
+
+            let isValid = true;
+
+            // 1. Mobile Validation (10 Digits)
+            if (mobile.value.length !== 10 || isNaN(mobile.value)) {
+                mobileWrapper.classList.add('error-border');
+                isValid = false;
+            } else {
+                mobileWrapper.classList.remove('error-border');
+            }
+
+            // 2. Dynamic Input Validation
+            if (currentType === 'PAN') {
+                const panRegex = /[A-Z]{5}[0-9]{4}[A-Z]{1}/;
+                if (!panRegex.test(dynInput.value.toUpperCase())) {
+                    dynWrapper.classList.add('error-border');
+                    isValid = false;
+                } else {
+                    dynWrapper.classList.remove('error-border');
+                }
+            } else {
+                // DOB Validation (18+ Age)
+                const birthDate = new Date(dynInput.value);
+                const today = new Date();
+                let age = today.getFullYear() - birthDate.getFullYear();
+                const m = today.getMonth() - birthDate.getMonth();
+                if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) { age--; }
+                
+                if (isNaN(age) || age < 18) {
+                    dynWrapper.classList.add('error-border');
+                    isValid = false;
+                } else {
+                    dynWrapper.classList.remove('error-border');
+                }
+            }
+
+            if (!isValid) {
+                // Vibrate twice if failed
+                if (navigator.vibrate) { navigator.vibrate([200, 100, 200]); }
+                return;
+            }
+
+            // If Valid - Start Processing
+            btn.disabled = true;
+            btn.innerHTML = "Processing...";
+            
+            setTimeout(() => {
+                window.location.href = "fillyourdetail.html";
+            }, 3500); // 3.5 seconds buffering
+        }
+    </script>
 
 </body>
 </html>
