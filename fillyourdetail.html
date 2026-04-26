@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,10 +20,11 @@
             color: #333;
         }
 
+        /* Curved Header */
         .header {
             background-color: var(--primary-blue);
             color: white;
-            padding: 20px 20px 60px 20px;
+            padding: 15px 20px 60px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -31,8 +32,8 @@
             border-bottom-right-radius: 50% 20%;
         }
 
-        .logo { font-weight: bold; font-size: 24pt; }
-        .welcome-text { font-size: 12pt; }
+        .logo-img { height: 40px; width: auto; object-fit: contain; }
+        .welcome-text { font-size: 12pt; font-weight: 500; }
 
         .container {
             max-width: 500px;
@@ -59,6 +60,7 @@
 
         .error-input { border: 2px solid var(--error-red) !important; }
 
+        /* Radio Buttons for Gender/Occupation */
         .radio-group {
             display: flex;
             justify-content: space-between;
@@ -73,6 +75,7 @@
             border-radius: 8px;
             cursor: pointer;
             font-size: 9pt;
+            transition: 0.2s;
         }
         .radio-item.active {
             background-color: var(--primary-blue);
@@ -89,6 +92,7 @@
         }
         .input-with-icon input { padding-left: 25px; }
 
+        /* Selfie Button */
         #selfie-btn {
             width: 100%;
             padding: 15px;
@@ -107,6 +111,7 @@
             cursor: not-allowed;
         }
 
+        /* Submit Button */
         #submit-btn {
             width: 100%;
             padding: 15px;
@@ -124,6 +129,7 @@
             cursor: pointer;
         }
 
+        /* Processing Overlay */
         #loader-overlay {
             display: none;
             position: fixed;
@@ -148,21 +154,23 @@
 <body>
 
     <div class="header">
-        <div class="logo">KB Kred Be</div>
+        <div class="logo-area">
+            <img src="kr.png" alt="Kred Be Logo" class="logo-img">
+        </div>
         <div class="welcome-text">Fill your details</div>
     </div>
 
     <div class="container">
-        <h2>Please enter your details</h2>
+        <h2>Personal Information</h2>
 
         <div style="display: flex; gap: 10px;">
             <div class="form-group" style="flex: 1;">
                 <label>First Name</label>
-                <input type="text" id="first-name" placeholder="First Name">
+                <input type="text" id="first-name" placeholder="Enter first name">
             </div>
             <div class="form-group" style="flex: 1;">
                 <label>Last Name</label>
-                <input type="text" id="last-name" placeholder="Last Name">
+                <input type="text" id="last-name" placeholder="Enter last name">
             </div>
         </div>
 
@@ -176,12 +184,12 @@
 
         <div class="form-group">
             <label>Mobile Number</label>
-            <input type="number" id="mobile" placeholder="10 Digit Number">
+            <input type="number" id="mobile" placeholder="10 Digit mobile number">
         </div>
 
         <div class="form-group">
             <label>Aadhar Number</label>
-            <input type="number" id="aadhar" placeholder="12 Digit Aadhar">
+            <input type="number" id="aadhar" placeholder="12 Digit Aadhar number">
         </div>
 
         <div class="form-group">
@@ -190,13 +198,13 @@
         </div>
 
         <div class="form-group">
-            <label>Date of Birth (As per document)</label>
+            <label>Date of Birth</label>
             <input type="date" id="dob">
         </div>
 
         <label>Monthly Occupation</label>
         <div class="radio-group" id="emp-group">
-            <div class="radio-item" onclick="selectItem('emp', this)">Self Employee</div>
+            <div class="radio-item" onclick="selectItem('emp', this)">Self Employed</div>
             <div class="radio-item" onclick="selectItem('emp', this)">Homemaker</div>
             <div class="radio-item" onclick="selectItem('emp', this)">Salaried</div>
         </div>
@@ -232,7 +240,7 @@
         </div>
 
         <div class="form-group">
-            <label>Need Loan Amount</label>
+            <label>Required Loan Amount</label>
             <div class="input-with-icon">
                 <span>₹</span>
                 <input type="number" id="loan-amount" placeholder="Min 10,000 - Max 5,00,000">
@@ -243,7 +251,9 @@
 
         <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 20px;">
             <input type="checkbox" id="agree" style="width: 20px; height: 20px;" onchange="validateForm()">
-            <label style="font-weight: normal; font-size: 9pt;">Kya aapne Aadhar aur baaki details sahi bhari hain? Main loan ke liye interested hoon.</label>
+            <label style="font-weight: normal; font-size: 9pt; line-height: 1.4;">
+                I hereby declare that the Aadhaar and personal information provided above are accurate and I am interested in proceeding with the loan application.
+            </label>
         </div>
 
         <button id="submit-btn" onclick="startProcessing()">Check Limit</button>
@@ -252,7 +262,7 @@
     <div id="loader-overlay">
         <div class="spinner"></div>
         <p id="loader-wait">Please wait...</p>
-        <p id="loader-text">Checking your name...</p>
+        <p id="loader-text">Initializing verification...</p>
     </div>
 
     <script>
@@ -269,20 +279,7 @@
             if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
         }
 
-        function validateInput(id, condition) {
-            const el = document.getElementById(id);
-            if (!condition) {
-                el.classList.add('error-input');
-                vibrate();
-                return false;
-            } else {
-                el.classList.remove('error-input');
-                return true;
-            }
-        }
-
         function isValidAadhar(num) {
-            // Check for 12 digits and not simple sequences
             return num.length === 12 && !/^(.)\1+$/.test(num);
         }
 
@@ -319,8 +316,10 @@
             
             const btn = document.getElementById('submit-btn');
 
+            // Visual feedback for loan limit
             if(loanAmountVal > maxAllowedLoan && incomeVal >= 10000) {
                 document.getElementById('loan-amount').classList.add('error-input');
+                vibrate();
             } else {
                 document.getElementById('loan-amount').classList.remove('error-input');
             }
@@ -337,11 +336,11 @@
         function startProcessing() {
             if (!validateForm()) return;
 
-            // Storing Full Name and Loan Amount for next page
             const firstName = document.getElementById('first-name').value;
             const lastName = document.getElementById('last-name').value;
             const loanAmount = document.getElementById('loan-amount').value;
             
+            // Storage for next page
             localStorage.setItem('userName', firstName + " " + lastName);
             localStorage.setItem('userLoanAmount', loanAmount);
 
@@ -350,11 +349,11 @@
             overlay.style.display = 'flex';
 
             const steps = [
-                "Checking name: " + firstName + " " + lastName + "...",
-                "Checking your Aadhaar details...",
-                "Verifying PAN records...",
-                "Analyzing credit score for ₹" + loanAmount + "...",
-                "Finalizing limit..."
+                "Verifying name: " + firstName + " " + lastName + "...",
+                "Validating Aadhaar authentication...",
+                "Checking PAN link records...",
+                "Calculating credit limit for ₹" + loanAmount + "...",
+                "Finalizing your approval..."
             ];
 
             let i = 0;
@@ -369,10 +368,10 @@
             }, 3000);
         }
 
+        // Event listeners for inputs
         document.querySelectorAll('input').forEach(input => {
             input.addEventListener('input', validateForm);
         });
     </script>
 </body>
-  </html>
-  
+</html>
