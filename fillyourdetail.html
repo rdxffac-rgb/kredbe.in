@@ -11,7 +11,6 @@
             --white: #ffffff;
             --error-red: #ff0000;
             --grey: #cccccc;
-            --success-green: #28a745;
         }
 
         body {
@@ -59,7 +58,6 @@
             transition: border-color 0.3s;
         }
 
-        input:focus { border-color: var(--primary-blue); }
         .error-input { border: 2px solid var(--error-red) !important; background-color: #fff8f8; }
 
         .radio-group {
@@ -76,7 +74,6 @@
             border-radius: 8px;
             cursor: pointer;
             font-size: 9pt;
-            transition: 0.2s;
         }
         .radio-item.active {
             background-color: var(--primary-blue);
@@ -108,7 +105,6 @@
         #submit-btn.enabled {
             background-color: var(--primary-blue) !important;
             cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0,51,141,0.3);
         }
 
         #loader-overlay {
@@ -129,7 +125,7 @@
             animation: spin 1s linear infinite;
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        #loader-text { margin-top: 25px; font-weight: bold; color: var(--primary-blue); font-size: 13pt; text-align: center; }
+        #loader-text { margin-top: 25px; font-weight: bold; color: var(--primary-blue); text-align: center; }
     </style>
 </head>
 <body>
@@ -145,11 +141,11 @@
         <div style="display: flex; gap: 10px;">
             <div class="form-group" style="flex: 1;">
                 <label>First Name</label>
-                <input type="text" id="first-name" placeholder="John" autocomplete="off">
+                <input type="text" id="first-name" placeholder="John">
             </div>
             <div class="form-group" style="flex: 1;">
                 <label>Last Name</label>
-                <input type="text" id="last-name" placeholder="Doe" autocomplete="off">
+                <input type="text" id="last-name" placeholder="Doe">
             </div>
         </div>
 
@@ -171,47 +167,26 @@
             <select id="state-select">
                 <option value="">-- Select State --</option>
                 <option value="Andhra Pradesh">Andhra Pradesh</option>
-                <option value="Arunachal Pradesh">Arunachal Pradesh</option>
-                <option value="Assam">Assam</option>
                 <option value="Bihar">Bihar</option>
-                <option value="Chandigarh">Chandigarh</option>
-                <option value="Chhattisgarh">Chhattisgarh</option>
                 <option value="Delhi">Delhi</option>
-                <option value="Goa">Goa</option>
                 <option value="Gujarat">Gujarat</option>
                 <option value="Haryana">Haryana</option>
-                <option value="Himachal Pradesh">Himachal Pradesh</option>
-                <option value="Jharkhand">Jharkhand</option>
-                <option value="Karnataka">Karnataka</option>
-                <option value="Kerala">Kerala</option>
-                <option value="Madhya Pradesh">Madhya Pradesh</option>
                 <option value="Maharashtra">Maharashtra</option>
-                <option value="Manipur">Manipur</option>
-                <option value="Meghalaya">Meghalaya</option>
-                <option value="Mizoram">Mizoram</option>
-                <option value="Nagaland">Nagaland</option>
-                <option value="Odisha">Odisha</option>
-                <option value="Puducherry">Puducherry</option>
                 <option value="Punjab">Punjab</option>
                 <option value="Rajasthan">Rajasthan</option>
-                <option value="Sikkim">Sikkim</option>
-                <option value="Tamil Nadu">Tamil Nadu</option>
-                <option value="Telangana">Telangana</option>
-                <option value="Tripura">Tripura</option>
                 <option value="Uttar Pradesh">Uttar Pradesh</option>
-                <option value="Uttarakhand">Uttarakhand</option>
                 <option value="West Bengal">West Bengal</option>
-            </select>
+                </select>
         </div>
 
         <div class="form-group">
             <label>Address Line 1</label>
-            <input type="text" id="address1" placeholder="House No / Street / Mohalla">
+            <input type="text" id="address1" placeholder="House No / Mohalla">
         </div>
 
         <div class="form-group">
             <label>Address Line 2</label>
-            <input type="text" id="address2" placeholder="District / City / Tehsil">
+            <input type="text" id="address2" placeholder="District / City">
         </div>
 
         <div class="form-group">
@@ -244,7 +219,7 @@
 
         <div class="form-group">
             <label>Monthly Income</label>
-            <div class="input-with-icon"><span>₹</span><input type="number" id="income" placeholder="Min 10,000"></div>
+            <div class="input-with-icon"><span>₹</span><input type="number" id="income" placeholder="10,000 - 80,000"></div>
         </div>
 
         <div style="display:flex; gap:10px;">
@@ -263,18 +238,19 @@
                     <option value="Medical">Medical</option>
                     <option value="Education">Education</option>
                     <option value="Personal">Personal</option>
+                    <option value="Other">Other</option>
                 </select>
             </div>
         </div>
 
         <div class="form-group">
             <label>Requested Loan Amount</label>
-            <div class="input-with-icon"><span>₹</span><input type="number" id="loan-amount" placeholder="Limit based on income"></div>
+            <div class="input-with-icon"><span>₹</span><input type="number" id="loan-amount" placeholder="10,000 - 5,00,000"></div>
         </div>
 
         <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 25px;">
-            <input type="checkbox" id="agree" style="width: 20px; height: 20px; cursor: pointer;">
-            <label style="font-weight: normal; font-size: 9pt; line-height: 1.4; cursor: pointer;">I confirm that all provided Aadhaar and personal details are true to my knowledge.</label>
+            <input type="checkbox" id="agree" style="width: 20px; height: 20px;">
+            <label style="font-weight: normal; font-size: 9pt; line-height: 1.4;">I confirm that all details provided are true and accurate.</label>
         </div>
 
         <button id="submit-btn" onclick="startProcessing()">Check Eligibility</button>
@@ -288,6 +264,7 @@
     <script>
         let selectedGender = '', selectedEmp = '';
 
+        // Aadhar Verhoeff Check
         const d = [[0,1,2,3,4,5,6,7,8,9],[1,2,3,4,0,6,7,8,9,5],[2,3,4,0,1,7,8,9,5,6],[3,4,0,1,2,8,9,5,6,7],[4,0,1,2,3,9,5,6,7,8],[5,9,8,7,6,0,4,3,2,1],[6,5,9,8,7,1,0,4,3,2],[7,6,5,9,8,2,1,0,4,3],[8,7,6,5,9,3,2,1,0,4],[9,8,7,6,5,4,3,2,1,0]];
         const p = [[0,1,2,3,4,5,6,7,8,9],[1,5,7,6,2,8,3,0,9,4],[5,8,0,3,7,9,6,1,4,2],[8,9,1,6,0,4,3,5,2,7],[9,4,5,3,1,2,6,8,7,0],[4,2,8,6,5,7,3,9,0,1],[2,7,9,3,8,0,6,4,1,5],[7,0,4,6,9,1,3,2,5,8]];
 
@@ -308,47 +285,36 @@
         }
 
         function validateForm() {
-            const fields = {
-                fName: document.getElementById('first-name'),
-                lName: document.getElementById('last-name'),
-                mob: document.getElementById('mobile'),
-                pin: document.getElementById('pincode'),
-                adh: document.getElementById('aadhar'),
-                pan: document.getElementById('pan'),
-                inc: document.getElementById('income'),
-                amt: document.getElementById('loan-amount'),
-                addr1: document.getElementById('address1'),
-                addr2: document.getElementById('address2'),
-                st: document.getElementById('state-select'),
-                dob: document.getElementById('dob')
-            };
+            const income = parseInt(document.getElementById('income').value) || 0;
+            const amount = parseInt(document.getElementById('loan-amount').value) || 0;
+            const aadhar = document.getElementById('aadhar').value;
+            const pan = document.getElementById('pan').value.toUpperCase();
+            const loanType = document.getElementById('loan-type').value;
+            const loanPurpose = document.getElementById('loan-purpose').value;
+            const isAgreed = document.getElementById('agree').checked;
 
-            const isAadharOk = validateAadhar(fields.adh.value);
-            const isPanOk = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(fields.pan.value.toUpperCase());
-            const income = parseInt(fields.inc.value) || 0;
-            const amount = parseInt(fields.amt.value) || 0;
+            // Strict Rules
+            const isIncomeOk = income >= 10000 && income <= 80000;
+            const isAmountOk = amount >= 10000 && amount <= 500000;
+            const isAadharOk = validateAadhar(aadhar);
+            const isPanOk = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(pan);
 
-            // Red Box Logic
-            fields.adh.classList.toggle('error-input', fields.adh.value.length === 12 && !isAadharOk);
-            fields.pan.classList.toggle('error-input', fields.pan.value.length > 5 && !isPanOk);
-            fields.mob.classList.toggle('error-input', fields.mob.value.length > 0 && fields.mob.value.length !== 10);
-            fields.pin.classList.toggle('error-input', fields.pin.value.length > 0 && fields.pin.value.length !== 6);
-            fields.amt.classList.toggle('error-input', amount > (income * 5));
+            // Red Box Feedback
+            document.getElementById('income').classList.toggle('error-input', income > 0 && !isIncomeOk);
+            document.getElementById('loan-amount').classList.toggle('error-input', amount > 0 && (!isAmountOk || amount > (income * 5)));
+            document.getElementById('aadhar').classList.toggle('error-input', aadhar.length === 12 && !isAadharOk);
+            document.getElementById('pan').classList.toggle('error-input', pan.length > 5 && !isPanOk);
 
             const isFormComplete = 
-                fields.fName.value.length >= 2 &&
-                fields.lName.value.length >= 2 &&
-                fields.mob.value.length === 10 &&
-                fields.pin.value.length === 6 &&
-                isAadharOk && isPanOk &&
-                income >= 10000 && amount >= 10000 &&
-                amount <= (income * 5) &&
-                fields.addr1.value.length > 5 &&
-                fields.addr2.value.length > 3 &&
-                fields.st.value !== '' &&
-                fields.dob.value !== '' &&
-                selectedGender !== '' && selectedEmp !== '' &&
-                document.getElementById('agree').checked;
+                document.getElementById('first-name').value.length >= 2 &&
+                document.getElementById('mobile').value.length === 10 &&
+                document.getElementById('pincode').value.length === 6 &&
+                document.getElementById('address1').value.length > 5 &&
+                document.getElementById('address2').value.length > 3 &&
+                document.getElementById('state-select').value !== '' &&
+                loanType !== '' && loanPurpose !== '' &&
+                isIncomeOk && isAmountOk && isAadharOk && isPanOk &&
+                selectedGender !== '' && selectedEmp !== '' && isAgreed;
 
             const btn = document.getElementById('submit-btn');
             if(isFormComplete) btn.classList.add('enabled'); else btn.classList.remove('enabled');
@@ -360,14 +326,11 @@
             localStorage.setItem('userName', document.getElementById('first-name').value + " " + document.getElementById('last-name').value);
             localStorage.setItem('userLoanAmount', document.getElementById('loan-amount').value);
 
-            const overlay = document.getElementById('loader-overlay');
-            const text = document.getElementById('loader-text');
-            overlay.style.display = 'flex';
-
-            const steps = ["Verifying KYC...", "Checking Bureau Score...", "Analyzing Address...", "Sanctioning Limit..."];
+            document.getElementById('loader-overlay').style.display = 'flex';
+            const steps = ["Verifying KYC...", "Checking Credit Bureau...", "Approving Limit..."];
             let i = 0;
             const interval = setInterval(() => {
-                if(i < steps.length) text.innerText = steps[i++];
+                if(i < steps.length) document.getElementById('loader-text').innerText = steps[i++];
                 else { clearInterval(interval); window.location.href = "yourloanamount.html"; }
             }, 2500);
         }
