@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Approval - Kred Be</title>
+    <style>
+        :root {
+            --primary-blue: #00338d;
+            --light-blue: #e8f0fe;
+            --white: #ffffff;
+            --error-red: #ff0000;
+            --grey: #cccccc;
+            --success-green: #28a745;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background-color: #f4f7f9;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Initial Buffering Overlay */
+        #initial-loader {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: white;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .header {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 15px 20px 60px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom-left-radius: 50% 20%;
+            border-bottom-right-radius: 50% 20%;
+        }
+
+        .logo-img { height: 40px; width: auto; }
+
+        .container {
+            max-width: 500px;
+            margin: -40px auto 40px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            display: none; /* Hidden during buffering */
+        }
+
+        .congrat-box { text-align: center; margin-bottom: 20px; }
+        .congrat-box h2 { color: var(--success-green); margin-bottom: 5px; }
+        .user-name { font-size: 14pt; font-weight: bold; color: var(--primary-blue); }
+
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 10pt; }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--grey);
+            border-radius: 8px;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        .error-input { border: 2px solid var(--error-red) !important; background-color: #fff8f8; }
+
+        .emi-display {
+            background: var(--light-blue);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 20px 0;
+            border: 1px dashed var(--primary-blue);
+        }
+        .emi-amount { font-size: 18pt; font-weight: bold; color: var(--primary-blue); }
+        .emi-date { font-size: 9pt; color: #555; margin-top: 5px; }
+
+        /* Bank Search List */
+        #bank-list-container {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid var(--grey);
+            border-radius: 8px;
+            display: none;
+            background: white;
+            position: absolute;
+            width: 100%;
+            z-index: 100;
+        }
+        .bank-item { padding: 10px; cursor: pointer; border-bottom: 1px solid #eee; font-size: 10pt; }
+        .bank-item:hover { background: #f0f0f0; }
+
+        #final-submit {
+            width: 100%;
+            padding: 16px;
+            background-color: var(--grey);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 12pt;
+            font-weight: bold;
+            cursor: not-allowed;
+        }
+        #final-submit.enabled { background-color: var(--primary-blue) !important; cursor: pointer; }
+
+        .spinner {
+            width: 60px; height: 60px;
+            border: 6px solid #f3f3f3;
+            border-top: 6px solid var(--primary-blue);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+    <div id="initial-loader">
+        <div class="spinner"></div>
+        <p id="loading-text" style="margin-top: 20px; font-weight: bold; color: var(--primary-blue);">Verifying Credit Limit...</p>
+    </div>
+
+    <div class="header">
+        <img src="kr.png" alt="Logo" class="logo-img">
+        <div style="font-size: 10pt;">Loan Approval Step 2/2</div>
+    </div>
+
+    <div class="container" id="main-content">
+        <div class="congrat-box">
+            <h2>Congratulations!</h2>
+            <div class="user-name" id="display-name">User Name</div>
+            <p style="font-size: 10pt; color: #666;">Your pre-approved loan is ready.</p>
+        </div>
+
+        <div class="form-group">
+            <label>Approved Loan Amount (Edit to Decrease)</label>
+            <input type="number" id="loan-amt" oninput="calculateEMI()">
+        </div>
+
+        <div class="form-group">
+            <label>Select Tenure (Years)</label>
+            <select id="tenure" onchange="calculateEMI()">
+                <option value="0.5">6 Months</option>
+                <option value="1" selected>1 Year</option>
+                <option value="2">2 Years</option>
+                <option value="3">3 Years</option>
+                <option value="5">5 Years</option>
+                <option value="7">7 Years</option>
+                <option value="10">10 Years</option>
+            </select>
+        </div>
+
+        <div class="emi-display">
+            <div>Monthly EMI</div>
+            <div class="emi-amount" id="emi-val">₹ 0.00</div>
+            <div class="emi-date" id="emi-date-text">Next EMI Start: --</div>
+        </div>
+
+        <hr style="border: 0.5px solid #eee; margin: 25px 0;">
+
+        <h3>Disbursement Bank Details</h3>
+
+        <div class="form-group" style="position: relative;">
+            <label>Select Bank</label>
+            <input type="text" id="bank-search" placeholder="Search Bank (e.g. SBI, HDFC...)" oninput="filterBanks()" onfocus="showBanks()">
+            <div id="bank-list-container"></div>
+        </div>
+
+        <div class="form-group">
+            <label>Bank Account Number</label>
+            <input type="number" id="acc-no" placeholder="Enter Account Number">
+        </div>
+
+        <div class="form-group">
+            <label>Confirm Account Number</label>
+            <input type="number" id="confirm-acc" placeholder="Re-enter Account Number">
+        </div>
+
+        <div class="form-group">
+            <label>IFSC Code</label>
+            <input type="text" id="ifsc" placeholder="ABCD0123456" style="text-transform: uppercase;">
+        </div>
+
+        <div class="form-group">
+            <label>Account Holder Name (As per Passbook)</label>
+            <input type="text" id="holder-name" placeholder="Full Name">
+        </div>
+
+        <div style="display: flex; gap: 10px; align-items: flex-start; margin-top: 20px;">
+            <input type="checkbox" id="check1" style="width: 18px; height: 18px;">
+            <label style="font-weight: normal; font-size: 9pt;">I agree to the auto-debit of EMI from this bank account.</label>
+        </div>
+
+        <div style="display: flex; gap: 10px; align-items: flex-start; margin: 15px 0;">
+            <input type="checkbox" id="check2" style="width: 18px; height: 18px;">
+            <label style="font-weight: normal; font-size: 9pt;">Digital Signature: I confirm all bank details are correct.</label>
+        </div>
+
+        <button id="final-submit" onclick="finalProcess()">Apply & Submit</button>
+    </div>
+
+    <div id="loader-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:white; z-index:3000; flex-direction:column; justify-content:center; align-items:center; text-align:center;">
+        <div class="spinner"></div>
+        <h3 id="final-loading-text" style="margin-top:20px; color:var(--primary-blue);">Matching Aadhar Card...</h3>
+        <p style="font-size: 9pt; color: #666; padding: 0 30px;">Please do not close this window. This may take 10-15 minutes for government verification.</p>
+    </div>
+
+    <script>
+        const maxAmt = parseInt(localStorage.getItem('userLoanAmount')) || 100000;
+        const userName = localStorage.getItem('userName') || "Customer";
+        
+        const bankData = [
+            {name: "State Bank of India (SBI)", ifsc: "SBIN", len: [11, 16]},
+            {name: "HDFC Bank", ifsc: "HDFC", len: [14]},
+            {name: "ICICI Bank", ifsc: "ICIC", len: [12]},
+            {name: "Airtel Payments Bank", ifsc: "AIRP", len: [10]},
+            {name: "Paytm Payments Bank", ifsc: "PYTM", len: [12]},
+            {name: "Jio Payments Bank", ifsc: "JIOP", len: [12]},
+            {name: "Punjab National Bank (PNB)", ifsc: "PUNB", len: [11, 16]},
+            {name: "Axis Bank", ifsc: "UTIB", len: [15]},
+            {name: "Bank of Baroda", ifsc: "BARB", len: [14]},
+            {name: "India Post Payments Bank", ifsc: "IPOS", len: [12]}
+        ];
+
+        let selectedBank = null;
+
+        window.onload = () => {
+            document.getElementById('display-name').innerText = userName;
+            document.getElementById('loan-amt').value = maxAmt;
+            
+            // Initial 10s Timer
+            setTimeout(() => {
+                document.getElementById('initial-loader').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+                calculateEMI();
+            }, 10000);
+            
+            setupBankList();
+        };
+
+        function calculateEMI() {
+            const p = parseInt(document.getElementById('loan-amt').value) || 0;
+            const t = parseFloat(document.getElementById('tenure').value);
+            const r = 12 / 12 / 100; // 12% annual interest
+            const n = t * 12;
+
+            const loanInput = document.getElementById('loan-amt');
+            if (p > maxAmt) loanInput.classList.add('error-input');
+            else loanInput.classList.remove('error-input');
+
+            if(p > 0 && p <= maxAmt) {
+                const emi = (p * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+                document.getElementById('emi-val').innerText = "₹ " + emi.toLocaleString('en-IN', {maximumFractionDigits: 2});
+                updateEMIDate();
+            }
+            validateForm();
+        }
+
+        function updateEMIDate() {
+            const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            const d = new Date();
+            // Skip next month logic: If Jan (0), skip Feb (1), start March (2)
+            const targetMonth = (d.getMonth() + 2) % 12;
+            document.getElementById('emi-date-text').innerText = "Your next EMI starts 1st " + months[targetMonth];
+        }
+
+        function setupBankList() {
+            const container = document.getElementById('bank-list-container');
+            container.innerHTML = bankData.map(b => `<div class="bank-item" onclick="selectBank('${b.name}')">${b.name}</div>`).join('');
+        }
+
+        function filterBanks() {
+            const val = document.getElementById('bank-search').value.toLowerCase();
+            const items = document.querySelectorAll('.bank-item');
+            items.forEach(item => {
+                item.style.display = item.innerText.toLowerCase().includes(val) ? 'block' : 'none';
+            });
+        }
+
+        function showBanks() { document.getElementById('bank-list-container').style.display = 'block'; }
+
+        function selectBank(name) {
+            document.getElementById('bank-search').value = name;
+            selectedBank = bankData.find(b => b.name === name);
+            document.getElementById('bank-list-container').style.display = 'none';
+            validateForm();
+        }
+
+        function validateForm() {
+            const amt = parseInt(document.getElementById('loan-amt').value);
+            const acc = document.getElementById('acc-no').value;
+            const confirm = document.getElementById('confirm-acc').value;
+            const ifsc = document.getElementById('ifsc').value.toUpperCase();
+            const holder = document.getElementById('holder-name').value;
+            const checks = document.getElementById('check1').checked && document.getElementById('check2').checked;
+
+            let isValid = true;
+
+            // Bank Logic Check
+            if(selectedBank) {
+                const isIfscOk = ifsc.startsWith(selectedBank.ifsc);
+                const isAccOk = selectedBank.len.includes(acc.length);
+                
+                document.getElementById('ifsc').classList.toggle('error-input', ifsc.length >= 4 && !isIfscOk);
+                document.getElementById('acc-no').classList.toggle('error-input', acc.length > 0 && !isAccOk);
+                
+                if(!isIfscOk || !isAccOk) isValid = false;
+            }
+
+            if(acc !== confirm) isValid = false;
+            if(amt > maxAmt || amt < 10000 || holder.length < 3 || !selectedBank || !checks) isValid = false;
+
+            const btn = document.getElementById('final-submit');
+            if(isValid) btn.classList.add('enabled'); else btn.classList.remove('enabled');
+        }
+
+        function finalProcess() {
+            if(!document.getElementById('final-submit').classList.contains('enabled')) return;
+            
+            document.getElementById('loader-overlay').style.display = 'flex';
+            const statusText = document.getElementById('final-loading-text');
+            const steps = ["Matching Aadhar Details...", "Verifying PAN Card...", "Confirming Bank Account...", "Checking Digital Signature...", "Generating Agreement..."];
+            
+            let i = 0;
+            const interval = setInterval(() => {
+                if(i < steps.length) statusText.innerText = steps[i++];
+                else {
+                    clearInterval(interval);
+                    window.location.href = "privacypolicy.html";
+                }
+            }, 4000); // Har step 4 second chalega
+        }
+
+        // Event Listeners
+        document.querySelectorAll('input, select, #check1, #check2').forEach(el => {
+            el.addEventListener('input', validateForm);
+            el.addEventListener('change', validateForm);
+        });
+    </script>
+</body>
+      </html>
+      
