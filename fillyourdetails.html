@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kred Be - Fill Your Details</title>
+    <style>
+        :root {
+            --primary-blue: #00338d;
+            --light-blue: #e8f0fe;
+            --white: #ffffff;
+            --error-red: #ff0000;
+            --grey: #cccccc;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background-color: #f4f7f9;
+            color: #333;
+        }
+
+        .header {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 20px 20px 60px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom-left-radius: 50% 20%;
+            border-bottom-right-radius: 50% 20%;
+        }
+
+        .logo { font-weight: bold; font-size: 24pt; }
+        .welcome-text { font-size: 12pt; }
+
+        .container {
+            max-width: 500px;
+            margin: -40px auto 40px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        h2 { text-align: center; color: var(--primary-blue); margin-bottom: 25px; }
+
+        .form-group { margin-bottom: 15px; position: relative; }
+        label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 10pt; }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--grey);
+            border-radius: 8px;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        .error-input { border: 2px solid var(--error-red) !important; }
+
+        .radio-group {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 5px;
+        }
+        .radio-item {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            border: 1px solid var(--grey);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 9pt;
+        }
+        .radio-item.active {
+            background-color: var(--primary-blue);
+            color: white;
+            border-color: var(--primary-blue);
+        }
+
+        .input-with-icon { position: relative; }
+        .input-with-icon span {
+            position: absolute;
+            left: 10px;
+            top: 12px;
+            color: #555;
+        }
+        .input-with-icon input { padding-left: 25px; }
+
+        #selfie-btn {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--light-blue);
+            border: 2px dashed var(--primary-blue);
+            color: var(--primary-blue);
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 15px;
+        }
+        #selfie-btn.completed {
+            background-color: var(--grey);
+            border-color: #999;
+            color: #666;
+            cursor: not-allowed;
+        }
+
+        #submit-btn {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--grey);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 12pt;
+            font-weight: bold;
+            cursor: not-allowed;
+            transition: 0.3s;
+        }
+        #submit-btn.enabled {
+            background-color: var(--primary-blue);
+            cursor: pointer;
+        }
+
+        #loader-overlay {
+            display: none;
+            position: fixed;
+            top:0; left:0; width:100%; height:100%;
+            background: rgba(255,255,255,0.95);
+            z-index: 1000;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .spinner {
+            width: 50px; height: 50px;
+            border: 5px solid var(--light-blue);
+            border-top: 5px solid var(--primary-blue);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        #loader-text { margin-top: 20px; font-weight: bold; color: var(--primary-blue); text-align: center; padding: 0 20px; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="logo">KB Kred Be</div>
+        <div class="welcome-text">Fill your details</div>
+    </div>
+
+    <div class="container">
+        <h2>Please enter your details</h2>
+
+        <div style="display: flex; gap: 10px;">
+            <div class="form-group" style="flex: 1;">
+                <label>First Name</label>
+                <input type="text" id="first-name" placeholder="First Name">
+            </div>
+            <div class="form-group" style="flex: 1;">
+                <label>Last Name</label>
+                <input type="text" id="last-name" placeholder="Last Name">
+            </div>
+        </div>
+
+        <label>Gender</label>
+        <div class="radio-group" id="gender-group">
+            <div class="radio-item" onclick="selectItem('gender', this)">Male</div>
+            <div class="radio-item" onclick="selectItem('gender', this)">Female</div>
+            <div class="radio-item" onclick="selectItem('gender', this)">Other</div>
+        </div>
+        <br>
+
+        <div class="form-group">
+            <label>Mobile Number</label>
+            <input type="number" id="mobile" placeholder="10 Digit Number">
+        </div>
+
+        <div class="form-group">
+            <label>Aadhar Number</label>
+            <input type="number" id="aadhar" placeholder="12 Digit Aadhar">
+        </div>
+
+        <div class="form-group">
+            <label>PAN Card Number</label>
+            <input type="text" id="pan" placeholder="ABCDE1234F">
+        </div>
+
+        <div class="form-group">
+            <label>Date of Birth (As per document)</label>
+            <input type="date" id="dob">
+        </div>
+
+        <label>Monthly Occupation</label>
+        <div class="radio-group" id="emp-group">
+            <div class="radio-item" onclick="selectItem('emp', this)">Self Employee</div>
+            <div class="radio-item" onclick="selectItem('emp', this)">Homemaker</div>
+            <div class="radio-item" onclick="selectItem('emp', this)">Salaried</div>
+        </div>
+        <br>
+
+        <div class="form-group">
+            <label>Monthly Income</label>
+            <div class="input-with-icon">
+                <span>₹</span>
+                <input type="number" id="income" placeholder="Min 10,000 - Max 80,000">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Loan Type</label>
+            <select id="loan-type">
+                <option value="">Select Loan Type</option>
+                <option value="personal">Personal Loan</option>
+                <option value="business">Business Loan</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Loan Purpose</label>
+            <select id="loan-purpose">
+                <option value="">Select Purpose</option>
+                <option value="education">Education</option>
+                <option value="personal">Personal</option>
+                <option value="medical">Medical</option>
+                <option value="debt">Debt Consolidation</option>
+                <option value="other">Other</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Need Loan Amount</label>
+            <div class="input-with-icon">
+                <span>₹</span>
+                <input type="number" id="loan-amount" placeholder="Min 10,000 - Max 5,00,000">
+            </div>
+        </div>
+
+        <button id="selfie-btn" onclick="takeSelfie()">Attach Your Selfie</button>
+
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 20px;">
+            <input type="checkbox" id="agree" style="width: 20px; height: 20px;" onchange="validateForm()">
+            <label style="font-weight: normal; font-size: 9pt;">Kya aapne Aadhar aur baaki details sahi bhari hain? Main loan ke liye interested hoon.</label>
+        </div>
+
+        <button id="submit-btn" onclick="startProcessing()">Check Limit</button>
+    </div>
+
+    <div id="loader-overlay">
+        <div class="spinner"></div>
+        <p id="loader-wait">Please wait...</p>
+        <p id="loader-text">Checking your name...</p>
+    </div>
+
+    <script>
+        let selfieDone = false;
+
+        function selectItem(type, element) {
+            const parent = element.parentElement;
+            parent.querySelectorAll('.radio-item').forEach(i => i.classList.remove('active'));
+            element.classList.add('active');
+            validateForm();
+        }
+
+        function vibrate() {
+            if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+        }
+
+        function validateInput(id, condition) {
+            const el = document.getElementById(id);
+            if (!condition) {
+                el.classList.add('error-input');
+                vibrate();
+                return false;
+            } else {
+                el.classList.remove('error-input');
+                return true;
+            }
+        }
+
+        function isValidAadhar(num) {
+            // Check for 12 digits and not simple sequences
+            return num.length === 12 && !/^(.)\1+$/.test(num);
+        }
+
+        function takeSelfie() {
+            if(selfieDone) return;
+            const btn = document.getElementById('selfie-btn');
+            btn.innerText = "Opening Camera...";
+            setTimeout(() => {
+                btn.innerText = "Processing Selfie...";
+                setTimeout(() => {
+                    selfieDone = true;
+                    btn.innerText = "Selfie Attached ✅";
+                    btn.classList.add('completed');
+                    validateForm();
+                }, 5000);
+            }, 1000);
+        }
+
+        function validateForm() {
+            const fName = document.getElementById('first-name').value;
+            const lName = document.getElementById('last-name').value;
+            const incomeVal = parseInt(document.getElementById('income').value) || 0;
+            const loanAmountVal = parseInt(document.getElementById('loan-amount').value) || 0;
+            
+            const maxAllowedLoan = incomeVal * 5;
+
+            const isName = fName.length >= 2 && lName.length >= 2;
+            const isMobile = document.getElementById('mobile').value.length === 10;
+            const isAadhar = isValidAadhar(document.getElementById('aadhar').value);
+            const isPan = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(document.getElementById('pan').value);
+            const isIncome = incomeVal >= 10000 && incomeVal <= 80000;
+            const isAmount = loanAmountVal >= 10000 && loanAmountVal <= 500000 && loanAmountVal <= maxAllowedLoan;
+            const isAgreed = document.getElementById('agree').checked;
+            
+            const btn = document.getElementById('submit-btn');
+
+            if(loanAmountVal > maxAllowedLoan && incomeVal >= 10000) {
+                document.getElementById('loan-amount').classList.add('error-input');
+            } else {
+                document.getElementById('loan-amount').classList.remove('error-input');
+            }
+
+            if (isName && isMobile && isAadhar && isPan && isIncome && isAmount && isAgreed && selfieDone) {
+                btn.classList.add('enabled');
+                return true;
+            } else {
+                btn.classList.remove('enabled');
+                return false;
+            }
+        }
+
+        function startProcessing() {
+            if (!validateForm()) return;
+
+            // Storing Full Name and Loan Amount for next page
+            const firstName = document.getElementById('first-name').value;
+            const lastName = document.getElementById('last-name').value;
+            const loanAmount = document.getElementById('loan-amount').value;
+            
+            localStorage.setItem('userName', firstName + " " + lastName);
+            localStorage.setItem('userLoanAmount', loanAmount);
+
+            const overlay = document.getElementById('loader-overlay');
+            const text = document.getElementById('loader-text');
+            overlay.style.display = 'flex';
+
+            const steps = [
+                "Checking name: " + firstName + " " + lastName + "...",
+                "Checking your Aadhaar details...",
+                "Verifying PAN records...",
+                "Analyzing credit score for ₹" + loanAmount + "...",
+                "Finalizing limit..."
+            ];
+
+            let i = 0;
+            const interval = setInterval(() => {
+                if (i < steps.length) {
+                    text.innerText = steps[i];
+                    i++;
+                } else {
+                    clearInterval(interval);
+                    window.location.href = "yourloanamount.html";
+                }
+            }, 3000);
+        }
+
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('input', validateForm);
+        });
+    </script>
+</body>
+  </html>
+  
