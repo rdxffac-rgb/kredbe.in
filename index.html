@@ -1,210 +1,387 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
+    <meta name="google-site-verification" content="aHx2pnoUrtIA_TE67GcP7O6hQQNONlLeT1zc935DyW4" />
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kred Be Finance - Digital Loan Application</title>
+    
+    <title>PkSmm Premium | Next-Gen Panel</title>
+
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="apple-touch-icon" href="logo.png">
+
+    <meta name="description" content="India's Most Trusted Panel for 5G Recharges, Instagram Followers, YouTube Watch-time, Free Fire Diamond Top-up, and Google Play Redeem Codes. Fast & Secure Services.">
+    <meta name="keywords" content="SMM Panel, Free Fire Topup, Instagram Followers, Recharge, PkSmm">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        :root { --brand-blue: #002e6e; --error-red: #d32f2f; --success-green: #2e7d32; --bg-light: #f4f7f9; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
-        body { background-color: var(--bg-light); color: #333; }
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
         
-        header { background-color: var(--brand-blue); color: #fff; padding: 20px 15px 50px; display: flex; justify-content: space-between; align-items: center; border-bottom-left-radius: 35px; border-bottom-right-radius: 35px; }
-        .logo img { height: 35px; }
-        
-        .banner { width: 92%; margin: -25px auto 20px; display: block; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        
-        .container { width: 92%; max-width: 450px; margin: 0 auto 30px; background: #fff; padding: 25px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
-        
-        h2 { font-size: 1.1rem; color: var(--brand-blue); margin-bottom: 20px; text-align: center; font-weight: 700; }
-        
-        .form-group { margin-bottom: 20px; position: relative; }
-        label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.85rem; color: #555; }
-        
-        input { width: 100%; padding: 12px 15px; border: 1.5px solid #ddd; border-radius: 10px; font-size: 1rem; outline: none; transition: 0.3s; }
-        input:focus { border-color: var(--brand-blue); }
-        input.invalid { border-color: var(--error-red) !important; background-color: #fff8f8; box-shadow: 0 0 5px rgba(211, 47, 47, 0.2); }
-        
-        .error-text { color: var(--error-red); font-size: 0.7rem; margin-top: 5px; display: none; font-weight: 600; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #fff5f7; /* Soft pinkish background */
+            color: #1a1a1a;
+            overflow-x: hidden;
+        }
 
-        .selection-tabs { display: flex; gap: 10px; margin-bottom: 15px; }
-        .tab-btn { flex: 1; padding: 10px; border: 1.5px solid var(--brand-blue); border-radius: 8px; background: #fff; color: var(--brand-blue); font-weight: bold; cursor: pointer; font-size: 0.8rem; }
-        .tab-btn.active { background: var(--brand-blue); color: #fff; }
+        /* Side Navigation Drawer */
+        #sideNav {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 100;
+        }
 
-        .privacy-box { display: flex; align-items: flex-start; gap: 10px; margin: 20px 0; font-size: 0.75rem; color: #666; }
-        .privacy-box input { width: 18px; height: 18px; cursor: pointer; }
+        #navOverlay {
+            transition: opacity 0.4s ease;
+            z-index: 90;
+        }
 
-        .apply-btn { width: 100%; padding: 16px; background: #ccc; color: #fff; border: none; border-radius: 12px; font-size: 1rem; font-weight: bold; cursor: not-allowed; transition: 0.3s; }
-        .apply-btn.enabled { background: var(--brand-blue); cursor: pointer; }
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 16px 24px;
+            color: #4b5563;
+            font-weight: 600;
+            border-bottom: 1px solid #f3f4f6;
+            cursor: pointer;
+        }
 
-        footer { background: #0b1a31; color: #adb5bd; padding: 40px 20px; font-size: 0.8rem; text-align: left; line-height: 1.8; }
-        .footer-logo { filter: brightness(0) invert(1); height: 30px; margin-bottom: 15px; }
-        .footer-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
-        .footer-line { border-top: 1px solid #1d2d44; margin: 20px 0; padding-top: 20px; text-align: center; }
-        .legal-links a { color: #64b5f6; text-decoration: none; margin-right: 15px; }
+        .nav-link i {
+            margin-right: 16px;
+            font-size: 20px;
+            width: 24px;
+            text-align: center;
+        }
+
+        /* 3D Premium Card Logic */
+        .premium-3d-card {
+            background: white;
+            border-radius: 30px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.5), inset 0 -4px 0 rgba(0, 0, 0, 0.02);
+            transition: all 0.3s ease;
+        }
+
+        .jio-border { border-left: 6px solid #005AFF; }
+        .airtel-border { border-left: 6px solid #E40000; }
+        .fb-border { border-left: 6px solid #1877F2; }
+        .amazon-border { border-left: 6px solid #00A8E1; }
+        .yt-border { border-left: 6px solid #FF0000; }
+        .insta-border { border-left: 6px solid #E1306C; }
+        .ff-border { border-left: 6px solid #F97316; } 
+        .redeem-border { border-left: 6px solid #34A853; } 
+
+        /* Premium 3D Button - Changed to Pink Gradient */
+        .premium-3d-button {
+            background: linear-gradient(180deg, #ec4899 0%, #db2777 100%);
+            color: white;
+            padding: 10px 24px;
+            border-radius: 16px;
+            font-weight: 700;
+            box-shadow: 0 4px 0px #9d174d;
+            cursor: pointer;
+            border: none;
+            outline: none;
+            transition: transform 0.1s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 100px;
+        }
+
+        .premium-3d-button:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0px #9d174d;
+        }
+
+        /* --- LOADING SPINNER STYLE --- */
+        .btn-loader {
+            width: 18px;
+            height: 18px;
+            border: 2px solid #ffffff;
+            border-bottom-color: transparent;
+            border-radius: 50%;
+            display: none;
+            animation: rotation 1s linear infinite;
+        }
+
+        @keyframes rotation {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .icon-container {
+            width: 55px; height: 55px;
+            border-radius: 18px;
+            display: flex; align-items: center; justify-content: center;
+            margin-right: 15px;
+        }
+
+        /* Full Screen Alert Styling */
+        #customAlert {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.95);
+            z-index: 200;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            backdrop-filter: blur(5px);
+        }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="logo"><img src="kr.png" alt="Kred Be"></div>
-        <div style="font-size: 0.8rem;">WELCOME</div>
-    </header>
-
-    <img src="banner.png" alt="Loan Banner" class="banner">
-
-    <div class="container">
-        <h2>Apply for Instant Credit</h2>
-        
-        <div class="form-group">
-            <label>Mobile Number</label>
-            <input type="tel" id="mobile" placeholder="Enter 10 digit number" maxlength="10">
-            <p id="mobile-error" class="error-text">Please enter a valid 10-digit mobile number</p>
+    <div id="customAlert">
+        <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+            <i class="fa-solid fa-box-open text-gray-400 text-4xl"></i>
         </div>
-
-        <label>Verify Identity via</label>
-        <div class="selection-tabs">
-            <button class="tab-btn active" id="pan-tab" onclick="toggleSelection('PAN')">PAN Card</button>
-            <button class="tab-btn" id="dob-tab" onclick="toggleSelection('DOB')">Date of Birth</button>
-        </div>
-
-        <div class="form-group" id="pan-input-box">
-            <label>PAN Card Number</label>
-            <input type="text" id="pan" placeholder="ABCDE1234F" style="text-transform: uppercase;" maxlength="10">
-            <p id="pan-error" class="error-text">Invalid PAN format (e.g. ABCDE1234F)</p>
-        </div>
-
-        <div class="form-group" id="dob-input-box" style="display: none;">
-            <label>Date of Birth</label>
-            <input type="date" id="dob">
-            <p id="dob-error" class="error-text">Age must be at least 18 years</p>
-        </div>
-
-        <div class="privacy-box">
-            <input type="checkbox" id="privacy">
-            <label for="privacy">I agree to the <a href="#">Terms of Service</a>, <a href="#">Privacy Policy</a> and authorize Kred Be to check my credit score.</label>
-        </div>
-
-        <button class="apply-btn" id="applyBtn" onclick="submitForm()">Apply Now</button>
+        <h2 class="text-2xl font-extrabold text-gray-800">No order available</h2>
+        <p class="text-gray-500 mt-2">Place a order and check.</p>
     </div>
 
-    <footer>
-        <div class="footer-grid">
-            <div>
-                <img src="kr.png" alt="Logo" class="footer-logo">
-                <p><strong>Kred Be Finance Private Limited</strong></p>
-                <p>Registered Office: 402, 4th Floor, Trade Centre, G Block, BKC, Bandra East, Mumbai, Maharashtra - 400051.</p>
+    <div id="navOverlay" class="fixed inset-0 bg-black/40 opacity-0 pointer-events-none transition-opacity"></div>
+
+    <div id="sideNav" class="fixed top-0 left-0 h-full w-[280px] bg-white shadow-2xl translate-x-[-100%] rounded-r-[2.5rem] overflow-hidden">
+        <div class="p-8 border-b border-gray-100 flex items-center space-x-3">
+            <div class="w-10 h-10 bg-pink-600 rounded-xl flex items-center justify-center shadow-lg">
+                <span class="text-white font-extrabold text-xl">P</span>
             </div>
-            <div>
-                <p><strong>CIN:</strong> U65990MH2023PTC123456</p>
-                <p><strong>GSTIN:</strong> 27AACCB1234F1Z0</p>
-                <p><strong>RBI Registration No:</strong> N-13.01234 (Non-Banking Financial Company)</p>
+            <span class="text-2xl font-black tracking-tighter">Pk<span class="text-pink-600">Smm</span></span>
+        </div>
+
+        <nav class="mt-4">
+            <div onclick="toggleMenu()" class="nav-link text-pink-600 bg-pink-50/50">
+                <i class="fa-solid fa-house"></i> Home
             </div>
-            <div class="legal-links">
+            <div onclick="showOrders()" class="nav-link">
+                <i class="fa-solid fa-box-open text-emerald-500"></i> My Orders
+            </div>
+            <div onclick="shareReferral()" class="nav-link">
+                <i class="fa-solid fa-share-nodes text-blue-500"></i> Refer
+            </div>
+            <div onclick="contactUs()" class="nav-link">
+                <i class="fa-solid fa-phone text-rose-500"></i> Contact Us
+            </div>
+            <a href="about.html" class="nav-link">
+                <i class="fa-solid fa-circle-info text-gray-400"></i> About
+            </a>
+        </nav>
+    </div>
+
+    <nav class="flex items-center justify-between px-6 py-5 sticky top-0 bg-white/90 backdrop-blur-sm z-40 shadow-sm">
+        <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 bg-pink-600 rounded-xl flex items-center justify-center">
+                <span class="text-white font-extrabold text-2xl">P</span>
+            </div>
+            <span class="text-3xl font-extrabold tracking-tighter text-gray-900">Pk<span class="text-pink-600">Smm</span></span>
+        </div>
+        <button onclick="toggleMenu()" class="bg-gray-100 p-3 rounded-2xl active:scale-90 transition-transform">
+            <i class="fa-solid fa-bars-staggered text-gray-700 text-xl"></i>
+        </button>
+    </nav>
+
+    <div class="grid grid-cols-2 gap-4 px-5 mt-6">
+        <div onclick="contactUs()" class="flex items-center justify-center space-x-2 bg-emerald-50 border border-emerald-100 p-4 rounded-[1.8rem] shadow-sm cursor-pointer active:scale-95">
+            <i class="fa-brands fa-whatsapp text-emerald-600 text-xl"></i>
+            <span class="font-bold text-emerald-800 text-sm">24/7 Support</span>
+        </div>
+        <div onclick="window.location.href='retingpage.html'" class="flex items-center justify-center space-x-2 bg-pink-50 border border-pink-100 p-4 rounded-[1.8rem] shadow-sm cursor-pointer active:scale-95">
+            <i class="fa-brands fa-youtube text-pink-600 text-xl"></i>
+            <span class="font-bold text-pink-800 text-sm">Watch Tutorial</span>
+        </div>
+    </div>
+
+    <div class="px-5 mt-10 space-y-5">
+        <h2 class="text-2xl font-extrabold text-gray-900 mb-6">Our Services</h2>
+
+        <div class="premium-3d-card jio-border">
+            <div class="flex items-center">
+                <div class="icon-container bg-[#005AFF] italic text-white font-black">Jio</div>
+                <div><h3 class="font-extrabold">Jio</h3><p class="text-xs text-gray-500">Recharge Unlimited 5G</p></div>
+            </div>
+            <button onclick="handleRedirect(this, 'jioplan.html')" class="premium-3d-button">
+                <span class="btn-text">Plans</span>
+                <span class="btn-loader"></span>
+            </button>
+        </div>
+
+        <div class="premium-3d-card airtel-border">
+            <div class="flex items-center">
+                <div class="icon-container bg-[#E40000] text-white"><i class="fa-solid fa-tower-cell text-2xl"></i></div>
+                <div><h3 class="font-extrabold">Airtel</h3><p class="text-xs text-gray-500">Recharge Unlimited 5G & 4G</p></div>
+            </div>
+            <button onclick="handleRedirect(this, 'airtelplan.html')" class="premium-3d-button">
+                <span class="btn-text">Plans</span>
+                <span class="btn-loader"></span>
+            </button>
+        </div>
+
+        <div class="premium-3d-card insta-border">
+            <div class="flex items-center">
+                <div class="icon-container bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-600 text-white"><i class="fa-brands fa-instagram text-2xl"></i></div>
+                <div><h3 class="font-extrabold">Instagram</h3><p class="text-xs text-gray-500">Followers & Likes</p></div>
+            </div>
+            <button onclick="handleRedirect(this, 'instagramplan.html')" class="premium-3d-button">
+                <span class="btn-text">Plans</span>
+                <span class="btn-loader"></span>
+            </button>
+        </div>
+
+        <div class="premium-3d-card yt-border">
+            <div class="flex items-center">
+                <div class="icon-container bg-red-600 text-white"><i class="fa-brands fa-youtube text-2xl"></i></div>
+                <div><h3 class="font-extrabold">YouTube</h3><p class="text-xs text-gray-500">Watch-time & Subs</p></div>
+            </div>
+            <button onclick="handleRedirect(this, 'youtubeplan.html')" class="premium-3d-button">
+                <span class="btn-text">Plans</span>
+                <span class="btn-loader"></span>
+            </button>
+        </div>
+
+        <div class="premium-3d-card amazon-border">
+            <div class="flex items-center">
+                <div class="icon-container bg-white border text-sky-600"><i class="fa-brands fa-amazon text-2xl"></i></div>
+                <div><h3 class="font-extrabold">Amazon Prime</h3><p class="text-xs text-gray-500">Monthly Membership</p></div>
+            </div>
+            <button onclick="handleRedirect(this, 'amazonprime.html')" class="premium-3d-button">
+                <span class="btn-text">Plans</span>
+                <span class="btn-loader"></span>
+            </button>
+        </div>
+
+        <div class="premium-3d-card ff-border">
+            <div class="flex items-center">
+                <div class="icon-container bg-gradient-to-br from-orange-500 to-red-600 text-white">
+                    <i class="fa-solid fa-gamepad text-2xl"></i>
+                </div>
+                <div>
+                    <h3 class="font-extrabold">Free Fire Top-Up</h3>
+                    <p class="text-xs text-gray-500">Diamonds & Event Packs</p>
+                </div>
+            </div>
+            <button onclick="handleRedirect(this, 'freefire.html')" class="premium-3d-button">
+                <span class="btn-text">Plans</span>
+                <span class="btn-loader"></span>
+            </button>
+        </div>
+
+        <div class="premium-3d-card redeem-border">
+            <div class="flex items-center">
+                <div class="icon-container bg-white border flex flex-wrap p-2 overflow-hidden">
+                    <i class="fa-brands fa-google-play text-2xl text-emerald-500"></i>
+                </div>
+                <div>
+                    <h3 class="font-extrabold">Play Store</h3>
+                    <p class="text-xs text-gray-500">Redeem Codes & Credits</p>
+                </div>
+            </div>
+            <button onclick="handleRedirect(this, 'redeemcode.html')" class="premium-3d-button">
+                <span class="btn-text">Plans</span>
+                <span class="btn-loader"></span>
+            </button>
+        </div>
+
+    </div>
+
+    <div class="bg-[#1e1115] text-gray-400 mt-20 rounded-t-[3rem] px-6 py-12 shadow-inner">
+        <div class="flex justify-center mb-10">
+            <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-lg">
+                <span class="text-pink-600 font-extrabold text-3xl">P</span>
+            </div>
+            <span class="text-3xl font-extrabold text-white ml-2">Pk<span class="text-pink-500">Smm</span></span>
+        </div>
+        <div class="text-center space-y-4 max-w-2xl mx-auto border-t border-[#3a2229] pt-10">
+            <p class="text-white font-bold text-lg">PkSmm Global Services Private Limited</p>
+            <p class="text-sm">702, 7th Floor, Trade World - C Wing, Kamala Mills Compound, Senapati Bapat Marg, Lower Parel, Mumbai, Maharashtra - 400013.</p>
+            <p class="text-sm">CIN: U72900MH2024PTC987654 | GSTIN: 27AAVCS4321B1Z0</p>
+            <p class="text-sm">Corporate Number: +91 7877904182</p>
+        </div>
+        <div class="mt-12 border-t border-[#3a2229] pt-8 text-center">
+            <div class="flex flex-wrap justify-center gap-6 mb-6 text-sm font-medium text-pink-400">
                 <a href="#">Privacy Policy</a>
-                <a href="#">Fair Practice Code</a>
-                <a href="#">Grievance Redressal</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Refund Policy</a>
             </div>
+            <p class="text-xs text-gray-600">© 2026 PkSmm. All Rights Reserved.</p>
         </div>
-        <div class="footer-line">
-            <p>© 2026 Kred Be Finance Pvt. Ltd. All Rights Reserved.</p>
-        </div>
-    </footer>
+    </div>
 
     <script>
-        let currentMode = 'PAN';
+        const sideNav = document.getElementById('sideNav');
+        const navOverlay = document.getElementById('navOverlay');
+        const customAlert = document.getElementById('customAlert');
 
-        function toggleSelection(mode) {
-            currentMode = mode;
-            document.getElementById('pan-tab').classList.toggle('active', mode === 'PAN');
-            document.getElementById('dob-tab').classList.toggle('active', mode === 'DOB');
-            document.getElementById('pan-input-box').style.display = mode === 'PAN' ? 'block' : 'none';
-            document.getElementById('dob-input-box').style.display = mode === 'DOB' ? 'block' : 'none';
-            validateForm();
+        // Toggle Drawer Control
+        function toggleMenu() {
+            const isOpen = sideNav.style.transform === 'translateX(0px)';
+            sideNav.style.transform = isOpen ? 'translateX(-100%)' : 'translateX(0px)';
+            navOverlay.style.opacity = isOpen ? '0' : '1';
+            navOverlay.style.pointerEvents = isOpen ? 'none' : 'auto';
         }
 
-        const inputs = ['mobile', 'pan', 'dob', 'privacy'];
-        inputs.forEach(id => {
-            document.getElementById(id).addEventListener('input', validateForm);
-            document.getElementById(id).addEventListener('change', validateForm);
+        navOverlay.addEventListener('click', toggleMenu);
+
+        function showOrders() {
+            toggleMenu();
+            customAlert.style.display = 'flex';
+            setTimeout(() => {
+                customAlert.style.display = 'none';
+            }, 3000);
+        }
+
+        function contactUs() {
+            window.location.href = "https://wa.me/917877904182";
+        }
+
+        function shareReferral() {
+            const message = encodeURIComponent("Check this out! I just ordered from here. You should try it too—they provide the fastest and most original followers and social services! 🚀");
+            window.location.href = `whatsapp://send?text=${message}`;
+        }
+
+        // --- LOADING & REDIRECT LOGIC ---
+        function handleRedirect(button, url) {
+            const text = button.querySelector('.btn-text');
+            const loader = button.querySelector('.btn-loader');
+
+            text.style.display = 'none';
+            loader.style.display = 'block';
+            button.style.pointerEvents = 'none';
+
+            setTimeout(() => {
+                const cleanUrl = url.replace('.html', '');
+                history.pushState(null, '', cleanUrl);
+                window.location.href = url;
+            }, 2000);
+        }
+
+        // --- FIX FOR BACK BUTTON (BUFFERING RESET) ---
+        window.addEventListener('pageshow', function (event) {
+            const buttons = document.querySelectorAll('.premium-3d-button');
+            buttons.forEach(btn => {
+                const text = btn.querySelector('.btn-text');
+                const loader = btn.querySelector('.btn-loader');
+                if (text && loader) {
+                    text.style.display = 'block';
+                    loader.style.display = 'none';
+                    btn.style.pointerEvents = 'auto';
+                }
+            });
         });
 
-        function validateForm() {
-            const isMobileValid = /^[6-9]\d{9}$/.test(document.getElementById('mobile').value);
-            const isPrivacyChecked = document.getElementById('privacy').checked;
-            let isIdentityValid = false;
-
-            if (currentMode === 'PAN') {
-                isIdentityValid = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(document.getElementById('pan').value.toUpperCase());
-            } else {
-                const dobVal = document.getElementById('dob').value;
-                if(dobVal) {
-                    const birthDate = new Date(dobVal);
-                    const age = new Date().getFullYear() - birthDate.getFullYear();
-                    isIdentityValid = age >= 18;
-                }
+        (function() {
+            const path = window.location.pathname;
+            if (path.endsWith('.html')) {
+                const cleanPath = path.slice(0, -5);
+                window.history.replaceState(null, '', cleanPath);
             }
-
-            const btn = document.getElementById('applyBtn');
-            if (isMobileValid && isIdentityValid && isPrivacyChecked) {
-                btn.classList.add('enabled');
-                btn.disabled = false;
-            } else {
-                btn.classList.remove('enabled');
-                btn.disabled = true;
-            }
-        }
-
-        function triggerError(id, errorId) {
-            const el = document.getElementById(id);
-            const err = document.getElementById(errorId);
-            el.classList.add('invalid');
-            err.style.display = 'block';
-            if (navigator.vibrate) { navigator.vibrate([100, 50, 100]); }
-        }
-
-        function clearError(id, errorId) {
-            document.getElementById(id).classList.remove('invalid');
-            document.getElementById(errorId).style.display = 'none';
-        }
-
-        function submitForm() {
-            let hasError = false;
-
-            const mobile = document.getElementById('mobile');
-            if (!/^[6-9]\d{9}$/.test(mobile.value)) {
-                triggerError('mobile', 'mobile-error');
-                hasError = true;
-            } else { clearError('mobile', 'mobile-error'); }
-
-            if (currentMode === 'PAN') {
-                const pan = document.getElementById('pan');
-                if (!/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(pan.value.toUpperCase())) {
-                    triggerError('pan', 'pan-error');
-                    hasError = true;
-                } else { clearError('pan', 'pan-error'); }
-            } else {
-                const dob = document.getElementById('dob');
-                const birthDate = new Date(dob.value);
-                const age = new Date().getFullYear() - birthDate.getFullYear();
-                if (!dob.value || age < 18) {
-                    triggerError('dob', 'dob-error');
-                    hasError = true;
-                } else { clearError('dob', 'dob-error'); }
-            }
-
-            if (!hasError) {
-                const btn = document.getElementById('applyBtn');
-                btn.disabled = true;
-                btn.classList.remove('enabled');
-                btn.innerText = "Processing... Please wait"; 
-                
-                // 4 Second Buffering
-                setTimeout(() => {
-                    window.location.href = "fillyourdetail.html";
-                }, 4000);
-            }
-        }
+        })();
     </script>
 </body>
 </html>
