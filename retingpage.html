@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Feedback | VIP PkSmm SHOP</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-bg: #f8fafc;
+            --card-bg: #ffffff;
+            --accent-color: #ec4899; /* Changed to Premium Pink */
+            --star-color: #fbbf24;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --reply-bg: #f1f5f9;
+        }
+
+        body {
+            background-color: var(--primary-bg);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .rating-container {
+            width: 100%;
+            max-width: 650px;
+            background: var(--card-bg);
+            border-radius: 30px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            margin-bottom: 50px;
+            border: 1px solid #e2e8f0;
+            box-sizing: border-box;
+        }
+
+        h2 { text-align: center; margin-bottom: 25px; font-weight: 800; color: #0f172a; }
+
+        .video-guide-header {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .video-guide-section {
+            width: 100%;
+            margin-bottom: 35px;
+            background: #f1f5f9;
+            padding: 15px;
+            border-radius: 20px;
+            box-sizing: border-box;
+        }
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 15px;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%; border: 0;
+        }
+
+        .overall-rating-badge {
+            text-align: center;
+            margin-bottom: 25px;
+            background: #f1f5f9;
+            padding: 12px;
+            border-radius: 15px;
+            font-weight: 700;
+        }
+        .overall-rating-badge span { color: var(--star-color); font-size: 18px; }
+
+        .star-input {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            font-size: 35px;
+            cursor: pointer;
+            margin-bottom: 25px;
+        }
+        .star-input i { color: #e2e8f0; transition: 0.3s; }
+        .star-input i.active { color: var(--star-color); transform: scale(1.1); }
+
+        #feedback-box {
+            display: none;
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 20px;
+            border: 1px solid #e2e8f0;
+            margin-bottom: 30px;
+        }
+        input, textarea {
+            width: 100%;
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 12px;
+            color: var(--text-main);
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+
+        .btn-submit {
+            background: linear-gradient(180deg, #ec4899 0%, #db2777 100%); /* Changed to Pink Gradient */
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 15px;
+            border-radius: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 0px #9d174d; /* 3D Shadow Adjusted */
+        }
+        .btn-submit:active { transform: translateY(2px); box-shadow: 0 2px 0px #9d174d; }
+
+        .review-card {
+            background: white;
+            border: 1px solid #f1f5f9;
+            border-radius: 24px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+        .user-name { font-weight: 700; color: #1e293b; }
+        .time-ago { font-size: 12px; color: var(--text-muted); float: right; }
+        .review-text { margin: 12px 0; font-size: 15px; color: #475569; line-height: 1.5; }
+
+        .liked-by-admin {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 8px;
+            background: #fce7f3; /* Pink Tint Light Background */
+            width: fit-content;
+            padding: 3px 10px;
+            border-radius: 10px;
+        }
+
+        .official-reply {
+            background: var(--reply-bg);
+            border-radius: 16px;
+            padding: 15px;
+            margin-top: 15px;
+            border-left: 4px solid var(--accent-color);
+        }
+        .reply-header {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 800;
+            font-size: 13px;
+            color: var(--accent-color);
+            margin-bottom: 5px;
+        }
+        .blue-tick { color: #0095f6; font-size: 14px; }
+        .reply-text { font-size: 14px; color: #1e293b; margin: 0; font-weight: 500; }
+
+        .actions { display: flex; gap: 20px; margin-top: 10px; border-top: 1px solid #f8fafc; padding-top: 10px; }
+        .action-btn { cursor: pointer; color: #94a3b8; font-size: 14px; font-weight: 600; }
+        .action-btn.liked { color: #ec4899; } /* Liked state color custom pink */
+
+        .loader { display: none; text-align: center; padding: 20px; }
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--accent-color);
+            border-radius: 50%;
+            width: 30px; height: 30px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .see-more-container { text-align: center; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="rating-container">
+    <h2>Customer Feedback</h2>
+
+    <div class="video-guide-header">
+        <i class="fa-solid fa-circle-play"></i> Watch Tutorial
+    </div>
+
+    <div class="video-guide-section">
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/CgOeFyroHgU" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <div class="overall-rating-badge">
+        Overall Rating: 4.8 <span><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></span>
+    </div>
+    
+    <div class="star-input" id="star-selector">
+        <i class="fa-solid fa-star" data-val="1"></i>
+        <i class="fa-solid fa-star" data-val="2"></i>
+        <i class="fa-solid fa-star" data-val="3"></i>
+        <i class="fa-solid fa-star" data-val="4"></i>
+        <i class="fa-solid fa-star" data-val="5"></i>
+    </div>
+
+    <div id="feedback-box">
+        <input type="text" id="inp-name" placeholder="Enter Your Name">
+        <textarea id="inp-comment" rows="3" placeholder="Share your experience..."></textarea>
+        <button class="btn-submit" onclick="handleUserRating()">SUBMIT RATING</button>
+    </div>
+
+    <div id="main-loader" class="loader">
+        <div class="spinner"></div>
+        <p>Verifying your review...</p>
+    </div>
+
+    <div id="reviews-feed"></div>
+
+    <div class="see-more-container">
+        <button class="btn-submit" style="width: auto; padding: 12px 50px;" id="btn-load-more" onclick="loadMoreReviews()">SEE MORE</button>
+        <div id="more-loader" class="loader"><div class="spinner"></div></div>
+    </div>
+</div>
+
+<script>
+    const firstNames = ["Aman", "Rohan", "Suresh", "Priya", "Sneha", "Vikram", "Anjali", "Deepak", "Manish", "Sahil", "Neha", "Aaryan", "Suhani", "Mohit", "Ishaan", "Pooja", "Arjun", "Vivek", "Karan", "Kavita", "Abhishek", "Rahul", "Sumit", "Riya", "Komal"];
+    const lastNames = ["Sharma", "Verma", "Singh", "Yadav", "Gupta", "Rajput", "Meena", "Kumar", "Choudhary", "Das", "Patel", "Mishra", "Joshi", "Bhatt", "Tiwari"];
+    
+    // --- HIGH VARIETY POOL (NO REPETITION) ---
+    const positiveTemplates = [
+        "Instantly {service} mil gaye, bahut sahi site hai.",
+        "{service} ke liye best panel hai, turant kaam hota hai.",
+        "Sabse sasti {service} yahan hi milti hai, recommended!",
+        "Maza aa gaya! {service} 5 minute mein credit ho gaye.",
+        "Trustworthy site. {service} quality is non-drop.",
+        "Bhai mast service hai, {service} instantly mil gaye.",
+        "Link verify kiya aur {service} start ho gaye, amazing!",
+        "PkSmm is real, {service} working fine.",
+        "QR code se payment kiya aur {service} turant mil gaye.",
+        "Maine {service} order kiye the, 2 minute me aa gaye.",
+        "Best for {service}, support team is very helpful.",
+        "Paisa vasool! {service} price bahut kam hai.",
+        "Finally a genuine site for {service}.",
+        "Recharge process fast hai, {service} mil gaya turant.",
+        "Professional quality services, specially for {service}."
+    ];
+
+    const services = [
+        "Instagram Followers", "YouTube Watchtime", "Jio Recharge", "Airtel Recharge",
+        "Free Fire Diamonds", "Weekly Membership", "Amazon Prime Subscription", 
+        "Play Store Redeem Code", "Facebook Likes", "Instagram Reels Views",
+        "YouTube Subscribers", "Monthly Membership", "Discord Nitro"
+    ];
+
+    const complaintTemplates = [
+        "Mera {service} aane mein 2 ghante lag gaye, thoda fast karo please.",
+        "Bhai order kiya tha par 1 ghante baad {service} mile.",
+        "Service thodi slow hai, 3 ghante baad {service} start huye.",
+        "Wait karna pada kaafi, 1.5 ghante baad {service} mile."
+    ];
+
+    const highRatingReplies = [
+        "Shukriya! Hum hamesha best service dene ki koshish karte hain.",
+        "Thanks for your feedback! Keep using PkSmm.",
+        "Great choice! Agli baar aapko aur bhi fast delivery milegi.",
+        "Glad you liked it! Do share with your friends.",
+        "Aapka feedback hamare liye bahut keemti hai."
+    ];
+
+    const timesPool = ["1 hour ago", "3 hours ago", "8 hours ago", "1 day ago", "2 days ago", "4 days ago", "1 week ago", "2 weeks ago", "1 month ago"];
+
+    let usedNames = new Set();
+    let reviewCount = 0;
+
+    function getUniqueName() {
+        let name;
+        do {
+            name = firstNames[Math.floor(Math.random() * firstNames.length)] + " " + lastNames[Math.floor(Math.random() * lastNames.length)];
+        } while (usedNames.has(name));
+        usedNames.add(name);
+        return name;
+    }
+
+    function generateReview() {
+        reviewCount++;
+        const isComplaint = reviewCount % 15 === 0; // Har 15th review complaint hogi
+        
+        const name = getUniqueName();
+        const time = timesPool[Math.floor(Math.random() * timesPool.length)];
+        const service = services[Math.floor(Math.random() * services.length)];
+        
+        let text, stars, replyHTML;
+
+        if (isComplaint) {
+            text = complaintTemplates[Math.floor(Math.random() * complaintTemplates.length)].replace("{service}", service);
+            stars = Math.random() < 0.5 ? 1 : 2;
+            replyHTML = `
+                <div class="official-reply">
+                    <div class="reply-header">
+                        <i class="fa-solid fa-circle-check blue-tick"></i> PKSMM OFFICIAL REPLY
+                    </div>
+                    <p class="reply-text">We sincerely apologize for the delay. Your feedback is very important to us, and we are working hard to improve our delivery speed. Thank you for your patience.</p>
+                </div>`;
+        } else {
+            text = positiveTemplates[Math.floor(Math.random() * positiveTemplates.length)].replace("{service}", service);
+            stars = 5;
+            const shouldReply = Math.random() < 0.3;
+            replyHTML = shouldReply ? `
+                <div class="official-reply">
+                    <div class="reply-header">
+                        <i class="fa-solid fa-circle-check blue-tick"></i> PKSMM OFFICIAL REPLY
+                    </div>
+                    <p class="reply-text">${highRatingReplies[Math.floor(Math.random() * highRatingReplies.length)]}</p>
+                </div>` : '';
+        }
+
+        let starsHTML = '';
+        for (let i = 1; i <= 5; i++) {
+            starsHTML += i <= stars ? '<i class="fa-solid fa-star"></i>' : '<i class="fa-regular fa-star" style="color:#cbd5e1"></i>';
+        }
+
+        const likes = Math.floor(Math.random() * 1200) + 50;
+
+        return { name, time, text, starsHTML, replyHTML, likes };
+    }
+
+    function injectReviews(n) {
+        const f = document.getElementById('reviews-feed');
+        for(let i=0; i<n; i++) {
+            const r = generateReview();
+            const div = document.createElement('div');
+            div.className = 'review-card';
+            div.innerHTML = `
+                <div><span class="user-name">${r.name}</span><span class="time-ago">${r.time}</span></div>
+                <div style="color:var(--star-color); font-size:10px; margin:5px 0;">${r.starsHTML}</div>
+                <p class="review-text">${r.text}</p>
+                ${r.replyHTML}
+                <div class="actions">
+                    <span class="action-btn" onclick="this.classList.add('liked');">
+                        <i class="fa-solid fa-thumbs-up"></i> <span>${r.likes}</span>
+                    </span>
+                </div>
+            `;
+            f.appendChild(div);
+        }
+    }
+
+    // Star Selector UI
+    const starsUI = document.querySelectorAll('.star-input i');
+    starsUI.forEach(s => {
+        s.addEventListener('click', () => {
+            const v = s.getAttribute('data-val');
+            starsUI.forEach((st, i) => st.classList.toggle('active', i < v));
+            document.getElementById('feedback-box').style.display = 'block';
+        });
+    });
+
+    function handleUserRating() {
+        const n = document.getElementById('inp-name').value;
+        if(!n) return alert("Please enter your name!");
+        document.getElementById('feedback-box').style.display = 'none';
+        document.getElementById('main-loader').style.display = 'block';
+        setTimeout(() => {
+            document.getElementById('main-loader').innerHTML = `<h3>✅ Thank you for your feedback, ${n}!</h3>`;
+            setTimeout(() => location.reload(), 2000);
+        }, 2000);
+    }
+
+    function loadMoreReviews() {
+        document.getElementById('btn-load-more').style.display = 'none';
+        document.getElementById('more-loader').style.display = 'block';
+        setTimeout(() => {
+            document.getElementById('more-loader').style.display = 'none';
+            document.getElementById('btn-load-more').style.display = 'inline-block';
+            injectReviews(5);
+        }, 1000);
+    }
+
+    window.onload = () => injectReviews(10);
+</script>
+
+</body>
+</html>
