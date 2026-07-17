@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazon Prime Premium | PkSmm</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #0f172a; color: white; }
+        .prime-card { background: linear-gradient(145deg, #1e293b, #0f172a); border-radius: 35px; padding: 25px; box-shadow: 0 20px 40px rgba(0,0,0,0.4); border: 1px solid #334155; position: relative; overflow: hidden; }
+        .prime-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: linear-gradient(90deg, #00A8E1, #FF9900); }
+        .input-3d { background: #1e293b; border-radius: 20px; border: 2px solid #334155; color: white; transition: 0.3s; }
+        .input-3d:focus { border-color: #00A8E1; box-shadow: 0 0 15px rgba(0, 168, 225, 0.3); outline: none; }
+        .btn-amazon { background: linear-gradient(180deg, #FF9900 0%, #E68A00 100%); color: #1a1a1a; border-radius: 18px; font-weight: 800; box-shadow: 0 5px 0px #b36b00; transition: 0.1s; display: flex; align-items: center; justify-content: center; }
+        .btn-amazon:active { transform: translateY(3px); box-shadow: 0 2px 0px #b36b00; }
+        .error-shake { border-color: #ef4444 !important; animation: shake 0.2s ease-in-out 2; }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
+        .loader { border: 3px solid rgba(255,255,255,0.1); border-top: 3px solid #1a1a1a; border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; display: none; margin-right: 8px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body class="pb-10">
+
+    <nav class="flex items-center justify-between px-6 py-6 sticky top-0 bg-[#0f172a]/90 backdrop-blur-md z-50">
+        <div class="flex items-center space-x-3">
+            <a href="index.html" class="w-10 h-10 bg-slate-800 rounded-xl flex items-center justify-center border border-slate-700"><i class="fa-solid fa-chevron-left text-white"></i></a>
+            <span class="text-2xl font-black tracking-tight">Prime <span class="text-[#00A8E1]">Video</span></span>
+        </div>
+        <!-- PkSmm Brand Text in Pink Color -->
+        <div>
+            <span class="text-xl font-black tracking-wider text-[#ec4899]">PkSmm</span>
+        </div>
+    </nav>
+
+    <div class="px-5 mt-4">
+        <div class="prime-card">
+            <h3 class="text-lg font-bold mb-4">Activation Details</h3>
+            <p class="text-xs text-slate-400 mb-4">Enter Mobile Number or Email ID for Amazon Prime activation.</p>
+            <input type="text" id="primeId" placeholder="Email or Mobile Number" class="w-full p-4 input-3d mb-4 font-bold">
+            <button onclick="verifyPrime()" id="verifyBtn" class="w-full p-4 btn-amazon">
+                <div class="loader" id="loader"></div>
+                <span id="btnText">Verify & Check Offers</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="px-5 mt-10 hidden" id="offersSection">
+        <h2 class="text-xl font-extrabold text-white mb-6">Exclusive 60% Off Plans</h2>
+        <div class="space-y-6">
+            
+            <div class="prime-card border-l-4 border-[#FF9900]">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h4 class="text-xl font-black text-white">12 Months (Annual)</h4>
+                        <p class="text-xs text-slate-400 mt-1">4K UHD + 4 Screens + Prime Music</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-xs line-through text-slate-500">₹1499</p>
+                        <p class="text-2xl font-black text-[#FF9900]">₹599</p>
+                    </div>
+                </div>
+                <button onclick="payNow(this, 'Amazon Prime (1 Year)', 599, '4K Ultra HD Streaming, 4 Concurrent Screens, Ad-free Prime Music, Fast Free Delivery')" class="w-full mt-6 py-3 btn-amazon">
+                    <div class="loader"></div><span>Activate Now</span>
+                </button>
+            </div>
+
+            <div class="prime-card border-l-4 border-[#00A8E1]">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h4 class="text-xl font-black text-white">3 Months (Quarterly)</h4>
+                        <p class="text-xs text-slate-400 mt-1">HD + 2 Screens + Ad-Free</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-xs line-through text-slate-500">₹599</p>
+                        <p class="text-2xl font-black text-[#FF9900]">₹239</p>
+                    </div>
+                </div>
+                <button onclick="payNow(this, 'Amazon Prime (3 Months)', 239, 'High Definition (HD) Video, 2 Concurrent Screens, Ad-free Experience, Prime Shopping Access')" class="w-full mt-6 py-3 btn-amazon">
+                    <div class="loader"></div><span>Activate Now</span>
+                </button>
+            </div>
+
+            <div class="prime-card border-l-4 border-slate-500">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h4 class="text-xl font-black text-white">1 Month (Monthly)</h4>
+                        <p class="text-xs text-slate-400 mt-1">Standard HD + 1 Screen</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-xs line-through text-slate-500">₹299</p>
+                        <p class="text-2xl font-black text-[#FF9900]">₹119</p>
+                    </div>
+                </div>
+                <button onclick="payNow(this, 'Amazon Prime (1 Month)', 119, 'Standard HD Streaming, Single Screen Access, Prime Membership Benefits')" class="w-full mt-6 py-3 btn-amazon">
+                    <div class="loader"></div><span>Activate Now</span>
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        let isVerified = false;
+        function verifyPrime() {
+            const val = document.getElementById('primeId').value;
+            const loader = document.getElementById('loader');
+            const btnText = document.getElementById('btnText');
+            const input = document.getElementById('primeId');
+            if (val.length >= 10) {
+                input.classList.remove('error-shake');
+                loader.style.display = 'block';
+                btnText.innerText = "Verifying...";
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                    btnText.innerText = "Verified Account";
+                    isVerified = true;
+                    localStorage.setItem('primeUser', val);
+                    document.getElementById('offersSection').classList.remove('hidden');
+                    document.getElementById('offersSection').scrollIntoView({ behavior: 'smooth' });
+                }, 2000);
+            } else { input.classList.add('error-shake'); }
+        }
+
+        function payNow(btn, plan, price, benefits) {
+            if(!isVerified) {
+                document.getElementById('primeId').classList.add('error-shake');
+                return;
+            }
+            const loader = btn.querySelector('.loader');
+            const span = btn.querySelector('span');
+            loader.style.display = 'block';
+            span.innerText = "Processing...";
+            localStorage.setItem('selectedPlan', plan);
+            localStorage.setItem('selectedPrice', price);
+            localStorage.setItem('planBenefits', benefits);
+            localStorage.setItem('finalTarget', localStorage.getItem('primeUser'));
+            setTimeout(() => { window.location.href = "payment.html"; }, 2000);
+        }
+    </script>
+</body>
+</html>
