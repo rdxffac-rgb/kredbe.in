@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Fire Diamonds | PkSmm Premium</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f8fafc; color: #1a1a1a; }
+        
+        /* Premium 3D Card */
+        .premium-3d-card { position: relative; background: white; border-radius: 30px; padding: 20px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05); border-left: 6px solid #F97316; margin-bottom: 20px; transition: 0.3s; }
+        
+        /* Input Styling */
+        .input-3d { background: white; border-radius: 20px; border: 2px solid #f1f5f9; transition: all 0.3s ease; }
+        .input-3d:focus { border-color: #F97316; box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.1); outline: none; }
+        
+        /* Error Animation */
+        .error-shake { border-color: #ef4444 !important; animation: shake 0.2s ease-in-out 2; }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
+        
+        /* Premium 3D Button */
+        .btn-3d { background: linear-gradient(180deg, #F97316 0%, #EA580C 100%); color: white; border-radius: 16px; font-weight: 700; box-shadow: 0 4px 0px #9A3412; transition: all 0.1s ease; display: flex; align-items: center; justify-content: center; }
+        .btn-3d:active { transform: translateY(2px); box-shadow: 0 2px 0px #9A3412; }
+        
+        /* Loader Animation */
+        .loader { border: 3px solid rgba(255,255,255,0.3); border-top: 3px solid #fff; border-radius: 50%; width: 18px; height: 18px; animation: spin 1s linear infinite; display: none; margin-right: 8px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* Trending Blink Badge */
+        .trending-badge { position: absolute; top: -10px; right: 10px; background: #ef4444; color: white; font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 10px; animation: blink 0.8s infinite; box-shadow: 0 0 10px rgba(239, 68, 68, 0.5); }
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+    </style>
+</head>
+<body class="pb-10">
+
+    <nav class="flex items-center justify-between px-6 py-5 sticky top-0 bg-white/90 backdrop-blur-md z-50 shadow-sm">
+        <div class="flex items-center space-x-3">
+            <a href="index.html" class="w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center"><i class="fa-solid fa-arrow-left text-gray-600"></i></a>
+            <span class="text-2xl font-extrabold tracking-tighter">FF <span class="text-[#F97316]">Diamonds</span></span>
+        </div>
+        <!-- PkSmm Brand Text in Premium Pink Color -->
+        <div>
+            <span class="text-xl font-black tracking-wider text-[#ec4899]">PkSmm</span>
+        </div>
+    </nav>
+
+    <div class="px-5 mt-6">
+        <div class="premium-3d-card border-none" id="verifyBox">
+            <label class="block text-sm font-bold text-gray-700 mb-3">Enter Free Fire Player UID</label>
+            <input type="number" id="playerUid" placeholder="Ex: 123456789" class="w-full p-4 input-3d" oninput="this.classList.remove('error-shake')">
+            <button onclick="verifyUid()" id="verifyBtn" class="w-full mt-4 p-4 btn-3d">
+                <div class="loader" id="confirmLoader"></div><span id="btnText">Verify Player ID</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="px-5 mt-8 hidden" id="plansSection">
+        <h2 class="text-xl font-extrabold text-gray-800 mb-6">Select Diamond Pack</h2>
+        <div class="space-y-4">
+
+            <div class="premium-3d-card border-l-6 border-red-500 bg-red-50/30">
+                <div class="trending-badge">TRENDING</div>
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="font-extrabold text-xl text-red-600">5000 Diamonds</h3>
+                        <p class="text-xs text-gray-500">Delivery: 0.001 Second Instantly</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-2xl font-black text-red-600">₹999</span>
+                        <button onclick="buyNow(this, 'FF (5000 Diamonds)', 999, 'Limited Edition Trending Pack, Instant 5k Credit')" class="block mt-2 px-6 py-2 btn-3d text-sm" style="background: #ef4444; box-shadow: 0 4px 0px #991b1b;"><span>Buy Now</span></button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="premium-3d-card border-l-6 border-blue-500">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="font-extrabold text-lg text-blue-600">200 Diamonds <span class="text-[10px] bg-blue-100 px-2 py-0.5 rounded-full">POPULAR</span></h3>
+                        <p class="text-xs text-gray-500">Delivery: 0.001 Second Instantly</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-2xl font-black text-blue-600">₹79</span>
+                        <button onclick="buyNow(this, 'FF (200 Diamonds)', 79, 'Best For Event Completion, Instant delivery')" class="block mt-2 px-6 py-2 btn-3d text-sm" style="background: #3B82F6; box-shadow: 0 4px 0px #1E40AF;"><span>Buy</span></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="premium-3d-card">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="font-extrabold text-lg">300 Diamonds</h3>
+                        <p class="text-xs text-gray-500">Delivery: 0.001 Second Instantly</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-2xl font-black text-[#F97316]">₹119</span>
+                        <button onclick="buyNow(this, 'FF (300 Diamonds)', 119, 'Official Garena Topup, Instant Delivery')" class="block mt-2 px-6 py-2 btn-3d text-sm"><span>Buy</span></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="premium-3d-card border-l-6 border-indigo-600 bg-indigo-50/30">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="font-extrabold text-lg text-indigo-700">560 Diamonds <span class="text-[10px] bg-indigo-600 text-white px-2 py-0.5 rounded-full ml-2">PROMO</span></h3>
+                        <p class="text-xs text-gray-500">Delivery: 0.001 Second Instantly</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-2xl font-black text-indigo-600">₹199</span>
+                        <button onclick="buyNow(this, 'FF (560 Diamonds)', 199, 'Instant Delivery, Best for Elite Pass')" class="block mt-2 px-6 py-2 btn-3d text-sm" style="background: #4F46E5; box-shadow: 0 4px 0px #312E81;"><span>Buy</span></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="premium-3d-card">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="font-extrabold text-lg">1050 Diamonds</h3>
+                        <p class="text-xs text-gray-500">Delivery: 0.001 Second Instantly</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-2xl font-black text-[#F97316]">₹299</span>
+                        <button onclick="buyNow(this, 'FF (1050 Diamonds)', 299, 'High Value Pack, Instant Credit')" class="block mt-2 px-6 py-2 btn-3d text-sm"><span>Buy</span></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="premium-3d-card">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="font-extrabold text-lg">1800 Diamonds</h3>
+                        <p class="text-xs text-gray-500">Delivery: 0.001 Second Instantly</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-2xl font-black text-[#F97316]">₹499</span>
+                        <button onclick="buyNow(this, 'FF (1800 Diamonds)', 499, 'Mega Pack, Instant Delivery, Verified')" class="block mt-2 px-6 py-2 btn-3d text-sm"><span>Buy</span></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="premium-3d-card border-l-6 border-purple-600" style="background: #FAF5FF;">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="font-extrabold text-lg text-purple-700">Monthly Membership <span class="text-[10px] bg-purple-600 text-white px-2 py-0.5 rounded-full ml-2">VIP</span></h3>
+                        <p class="text-xs text-gray-500">Delivery: 0.001 Second Instantly</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-2xl font-black text-purple-600">₹299</span>
+                        <button onclick="buyNow(this, 'FF Monthly Membership', 299, '30 Days Rewards, Instant VIP Badge, Fast Credit')" class="block mt-2 px-6 py-2 btn-3d text-sm" style="background: #9333EA; box-shadow: 0 4px 0px #581C87;"><span>Buy</span></button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        let isConfirmed = false;
+
+        function verifyUid() {
+            const uidInput = document.getElementById('playerUid');
+            const uid = uidInput.value;
+            const loader = document.getElementById('confirmLoader');
+            const btnText = document.getElementById('btnText');
+            
+            if (uid.length >= 8 && uid.length <= 12) {
+                loader.style.display = 'block';
+                btnText.innerText = "Verifying UID...";
+                
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                    btnText.innerText = "Verified: " + uid;
+                    document.getElementById('verifyBtn').style.background = "#059669"; 
+                    document.getElementById('verifyBtn').style.boxShadow = "0 4px 0px #064E3B";
+                    isConfirmed = true;
+                    localStorage.setItem('ffUid', uid);
+                    
+                    document.getElementById('plansSection').classList.remove('hidden');
+                    document.getElementById('plansSection').scrollIntoView({ behavior: 'smooth' });
+                }, 1500);
+            } else {
+                uidInput.classList.add('error-shake');
+                alert("Please enter a valid Player UID (8-12 digits).");
+            }
+        }
+
+        function buyNow(btn, plan, price, benefits) {
+            if(!isConfirmed) {
+                document.getElementById('verifyBox').scrollIntoView({behavior: 'smooth'});
+                document.getElementById('playerUid').classList.add('error-shake');
+                return;
+            }
+
+            btn.innerHTML = `<div class="border-2 border-white border-t-transparent rounded-full w-4 h-4 animate-spin mr-2"></div> Processing...`;
+            btn.style.pointerEvents = 'none';
+
+            localStorage.setItem('selectedPlan', plan);
+            localStorage.setItem('selectedPrice', price);
+            localStorage.setItem('planBenefits', benefits);
+            localStorage.setItem('finalTarget', "UID: " + localStorage.getItem('ffUid'));
+            localStorage.setItem('deliveryTime', "0.001 Second Instantly");
+
+            setTimeout(() => {
+                window.location.href = "payment.html";
+            }, 1500);
+        }
+
+        window.addEventListener('pageshow', function () {
+            const buttons = document.querySelectorAll('.btn-3d');
+            buttons.forEach(b => {
+                if(b.innerText.includes('Processing')) {
+                    if(b.innerText.includes('999')) {
+                         b.innerHTML = '<span>Buy Now</span>';
+                    } else {
+                         b.innerHTML = '<span>Buy</span>';
+                    }
+                }
+                b.style.pointerEvents = 'auto';
+            });
+        });
+    </script>
+</body>
+</html>
