@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Services | PkSmm Premium</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f8fafc; color: #1a1a1a; }
+        .premium-3d-card { background: white; border-radius: 30px; padding: 20px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05); border-left: 6px solid #E1306C; margin-bottom: 20px; transition: 0.3s; }
+        .input-3d { background: white; border-radius: 20px; border: 2px solid #f1f5f9; transition: all 0.3s ease; }
+        .input-3d:focus { border-color: #E1306C; box-shadow: 0 0 0 4px rgba(225, 48, 108, 0.1); outline: none; }
+        .error-shake { border-color: #ef4444 !important; animation: shake 0.2s ease-in-out 2; }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
+        .btn-3d { background: linear-gradient(180deg, #E1306C 0%, #C13584 100%); color: white; border-radius: 16px; font-weight: 700; box-shadow: 0 4px 0px #833AB4; transition: all 0.1s ease; display: flex; align-items: center; justify-content: center; }
+        .btn-3d:active { transform: translateY(2px); box-shadow: 0 2px 0px #833AB4; }
+        .loader { border: 3px solid rgba(255,255,255,0.3); border-top: 3px solid #fff; border-radius: 50%; width: 18px; height: 18px; animation: spin 1s linear infinite; display: none; margin-right: 8px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body class="pb-10">
+
+    <nav class="flex items-center justify-between px-6 py-5 sticky top-0 bg-white/90 backdrop-blur-md z-50 shadow-sm">
+        <div class="flex items-center space-x-3">
+            <a href="index.html" class="w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center"><i class="fa-solid fa-arrow-left text-gray-600"></i></a>
+            <span class="text-2xl font-extrabold tracking-tighter">Insta <span class="text-[#E1306C]">Boost</span></span>
+        </div>
+        <!-- PkSmm Brand Text in Premium Pink Color -->
+        <div>
+            <span class="text-xl font-black tracking-wider text-[#ec4899]">PkSmm</span>
+        </div>
+    </nav>
+
+    <div class="px-5 mt-6">
+        <div class="premium-3d-card border-none" id="verifyBox">
+            <label class="block text-sm font-bold text-gray-700 mb-3">Paste Instagram Profile/Post Link</label>
+            <input type="text" id="instaLink" placeholder="https://www.instagram.com/username" class="w-full p-4 input-3d">
+            <button onclick="verifyLink()" id="verifyBtn" class="w-full mt-4 p-4 btn-3d">
+                <div class="loader" id="confirmLoader"></div><span id="btnText">Verify Account</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="px-5 mt-8 hidden" id="plansSection">
+        <h2 class="text-xl font-extrabold text-gray-800 mb-6">Select a Premium Plan</h2>
+        <div class="space-y-4">
+            
+            <div class="premium-3d-card border-l-6 border-blue-500">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="font-extrabold text-lg">2000 Real Followers <span class="text-[10px] bg-blue-100 text-blue-600 px-2 py-0.5 rounded-full ml-2">POPULAR</span></h3>
+                        <p class="text-xs text-gray-500">Real Indian • Non-Drop • Fast</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-2xl font-black text-[#E1306C]">₹79</span>
+                        <button onclick="buyNow(this, 'Instagram (2000 Followers)', 79, 'High Quality Indian Profiles, Lifetime Non-drop, Fast Growth')" class="block mt-2 px-6 py-2 btn-3d text-sm"><div class="loader"></div><span>Buy</span></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="premium-3d-card border-l-6 border-green-600">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="font-extrabold text-lg">5000 Real Followers <span class="text-[10px] bg-green-100 text-green-600 px-2 py-0.5 rounded-full ml-2">BEST VALUE</span></h3>
+                        <p class="text-xs text-gray-500">Real & Active • Lifetime Support</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-2xl font-black text-[#E1306C]">₹119</span>
+                        <button onclick="buyNow(this, 'Instagram (5000 Followers)', 119, 'Premium Indian Profiles, Organic Speed, Full Support')" class="block mt-2 px-6 py-2 btn-3d text-sm"><div class="loader"></div><span>Buy</span></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="premium-3d-card border-l-6 border-purple-600">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="font-extrabold text-lg">10000 Real Followers <span class="text-[10px] bg-purple-100 text-purple-600 px-2 py-0.5 rounded-full ml-2">RECOMMENDED</span></h3>
+                        <p class="text-xs text-gray-500">Influencer Grade • Non-Drop</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-2xl font-black text-[#E1306C]">₹149</span>
+                        <button onclick="buyNow(this, 'Instagram (10000 Followers)', 149, 'Top Tier Profiles, Instant Start, Maximum Reach')" class="block mt-2 px-6 py-2 btn-3d text-sm"><div class="loader"></div><span>Buy</span></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="premium-3d-card border-l-6 border-pink-600">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="font-extrabold text-lg">50000 Real Followers <span class="text-[10px] bg-pink-100 text-pink-600 px-2 py-0.5 rounded-full ml-2">MEGA OFFER</span></h3>
+                        <p class="text-xs text-gray-500">Bulk Growth • Verified Style</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-2xl font-black text-[#E1306C]">₹199</span>
+                        <button onclick="buyNow(this, 'Instagram (50000 Followers)', 199, 'High-End Quality, Rapid Growth, 100% Secure')" class="block mt-2 px-6 py-2 btn-3d text-sm"><div class="loader"></div><span>Buy</span></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="premium-3d-card border-l-6 border-red-600">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="font-extrabold text-lg">100K Followers <span class="text-[10px] bg-red-100 text-red-600 px-2 py-0.5 rounded-full ml-2">VIP</span></h3>
+                        <p class="text-xs text-gray-500">Massive Reach • Full Boost</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-2xl font-black text-[#E1306C]">₹299</span>
+                        <button onclick="buyNow(this, 'Instagram (100K Followers)', 299, 'Corporate Level Growth, Guaranteed Non-Drop, Priority Support')" class="block mt-2 px-6 py-2 btn-3d text-sm"><div class="loader"></div><span>Buy</span></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="premium-3d-card border-l-6 border-yellow-500" style="background: #fffdf5;">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="font-extrabold text-lg text-yellow-700">500K Followers <span class="text-[10px] bg-yellow-400 text-white px-2 py-0.5 rounded-full ml-2">ULTIMATE</span></h3>
+                        <p class="text-xs text-gray-600">Become a Star • Instant Popularity</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-2xl font-black text-yellow-600">₹399</span>
+                        <button onclick="buyNow(this, 'Instagram (500K Followers)', 399, 'Global Influence Package, 100% Permanent, 24/7 VIP Help')" class="block mt-2 px-6 py-2 btn-3d text-sm" style="background: linear-gradient(180deg, #EAB308 0%, #CA8A04 100%); box-shadow: 0 4px 0px #854D0E;"><div class="loader"></div><span>Buy</span></button>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="my-6 border-gray-200">
+            <h3 class="text-sm font-bold text-gray-400 uppercase tracking-widest px-2">Original Services</h3>
+
+            <div class="premium-3d-card">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="font-extrabold text-lg">1M Followers <span class="text-[10px] bg-red-100 text-red-600 px-2 py-0.5 rounded-full ml-2">HOT</span></h3>
+                        <p class="text-xs text-gray-500">Indian Real Non-drop Followers</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-2xl font-black text-[#E1306C]">₹499</span>
+                        <button onclick="buyNow(this, 'Instagram (1M Followers)', 499, 'High Quality Indian Profiles, Lifetime Non-drop, Full Support')" class="block mt-2 px-6 py-2 btn-3d text-sm"><div class="loader"></div><span>Buy</span></button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        let isConfirmed = false;
+        function verifyLink() {
+            let link = document.getElementById('instaLink').value.trim();
+            const loader = document.getElementById('confirmLoader');
+            const btnText = document.getElementById('btnText');
+            
+            if (link.includes('instagram.com')) {
+                loader.style.display = 'block';
+                btnText.innerText = "Verifying...";
+                
+                // Advance URL logic jo kisi bhi type ki insta link se correct username nikalega
+                let cleanLink = link.replace(/^(https?:\/\/)?(www\.)?instagram\.com\//, '');
+                let parts = cleanLink.split('/');
+                let username = parts[0] || "User";
+                
+                // Agar username ke sath query parameters (?igsh=...) hon toh unhe hatane ke liye
+                if (username.includes('?')) {
+                    username = username.split('?')[0];
+                }
+
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                    btnText.innerText = "Verified: @" + username;
+                    document.getElementById('verifyBtn').style.background = "#059669"; 
+                    isConfirmed = true;
+                    localStorage.setItem('instaUser', username);
+                    document.getElementById('plansSection').classList.remove('hidden');
+                    document.getElementById('plansSection').scrollIntoView({ behavior: 'smooth' });
+                }, 2000);
+            } else { 
+                document.getElementById('instaLink').classList.add('error-shake');
+                setTimeout(() => { document.getElementById('instaLink').classList.remove('error-shake'); }, 500);
+            }
+        }
+
+        function buyNow(btn, plan, price, benefits) {
+            if(!isConfirmed) { document.getElementById('verifyBox').scrollIntoView({behavior: 'smooth'}); return; }
+            const loader = btn.querySelector('.loader');
+            const span = btn.querySelector('span');
+            loader.style.display = 'block';
+            span.innerText = "Processing...";
+
+            localStorage.setItem('selectedPlan', plan);
+            localStorage.setItem('selectedPrice', price);
+            localStorage.setItem('planBenefits', benefits);
+            localStorage.setItem('finalTarget', "@" + localStorage.getItem('instaUser'));
+
+            setTimeout(() => { window.location.href = "payment.html"; }, 2000);
+        }
+
+        window.addEventListener('pageshow', function () {
+            document.querySelectorAll('.loader').forEach(l => l.style.display = 'none');
+            document.querySelectorAll('.btn-3d span').forEach(s => { if(s.innerText === 'Processing...') s.innerText = 'Buy'; });
+        });
+    </script>
+</body>
+</html>
