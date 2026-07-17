@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | PkSmm Secure Payment</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+        
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #fdfdfd; color: #1a1a1a; }
+
+        .payment-card {
+            background: white; border-radius: 45px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.06), inset 0 1px 0 #fff;
+            border: 1px solid #f1f5f9;
+        }
+
+        .qr-wrapper {
+            background: #ffffff; padding: 15px; border-radius: 25px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.03); display: inline-block; border: 1px solid #f1f5f9;
+        }
+
+        .btn-pay-now {
+            background: linear-gradient(180deg, #6366F1 0%, #4F46E5 100%);
+            color: white; border-radius: 24px; font-weight: 800;
+            box-shadow: 0 6px 0px #3730A3, 0 12px 24px rgba(79, 70, 229, 0.3);
+            transition: all 0.2s ease;
+        }
+
+        .btn-pay-now:active { transform: translateY(4px); box-shadow: 0 2px 0px #3730A3; }
+
+        /* Fix for Long Links */
+        .billing-item { 
+            display: flex; 
+            flex-direction: column; /* Stacked labels and values */
+            padding: 14px 0; 
+            border-bottom: 1px dashed #e2e8f0; 
+        }
+        
+        .item-label { color: #64748b; font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+        .item-value { 
+            color: #1e293b; font-weight: 800; font-size: 15px; 
+            word-break: break-all; /* Breaks long links into new lines */
+            line-height: 1.4;
+        }
+
+        .upi-banner { width: 100%; max-width: 280px; height: auto; margin: 15px auto 0; display: block; }
+    </style>
+</head>
+<body class="bg-gray-50 pb-20">
+
+    <div class="p-8 text-center">
+        <div class="flex items-center justify-center space-x-3 mb-2">
+            <div class="w-10 h-10 bg-indigo-600 rounded-2xl flex items-center justify-center shadow-lg">
+                <span class="text-white font-black text-xl">P</span>
+            </div>
+            <span class="text-2xl font-black tracking-tighter"><span class="text-[#ec4899]">PkSmm</span> <span class="text-indigo-600">Pay</span></span>
+        </div>
+        <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest text-center">Secure 256-bit Encrypted Checkout</p>
+    </div>
+
+    <div class="px-5 max-w-md mx-auto">
+        <div class="payment-card p-8">
+            
+            <div class="mb-8">
+                <h3 class="text-gray-400 text-[10px] font-extrabold uppercase tracking-widest mb-4">Billing Summary</h3>
+                
+                <div class="billing-item">
+                    <span class="item-label">Order Item</span>
+                    <span id="finalPlan" class="item-value">...</span>
+                </div>
+                
+                <div class="billing-item">
+                    <span class="item-label">Target / Account Details</span>
+                    <span id="finalTarget" class="item-value text-indigo-600">...</span>
+                </div>
+
+                <div id="benefitBox" class="mt-4 p-4 bg-indigo-50 rounded-2xl border border-indigo-100 hidden">
+                    <h4 class="text-[10px] font-bold text-indigo-400 uppercase mb-2">Plan Includes:</h4>
+                    <p id="displayBenefits" class="text-xs font-bold text-indigo-900 leading-relaxed"></p>
+                </div>
+
+                <div class="flex justify-between items-center py-6">
+                    <span class="text-gray-800 font-black text-lg">Amount Due</span>
+                    <span id="finalPrice" class="text-3xl font-black text-gray-900 tracking-tight">₹0</span>
+                </div>
+            </div>
+
+            <div class="text-center bg-gray-50 rounded-[35px] py-8 border border-gray-100 mb-8">
+                <div class="qr-wrapper mb-4">
+                    <div id="qrcode" class="mx-auto"></div>
+                </div>
+                
+                <div class="text-green-600 font-bold text-[11px] px-4 leading-relaxed text-center my-3">
+                    <p class="mb-1"> ध्यान दें: Google Pay से पेमेंट न करें (ग्लोबल अटैचमेंट में 24 घंटे लगते हैं)। कृपया PhonePe, Paytm या FamPe का उपयोग करें, आपका ऑफर पेमेंट का इंतज़ार कर रहा है।</p>
+                    <p class="text-[10px] font-semibold opacity-90">Note: Google Pay is disabled due to a 24h activation delay. Please pay via PhonePe, Paytm or FamPe to claim your offer instantly.</p>
+                </div>
+                
+                <p class="text-[10px] font-black text-indigo-400 mt-3 italic uppercase text-center">Safe & Instant Payment</p>
+            </div>
+
+            <button onclick="openUpiApp()" class="w-full py-5 btn-pay-now text-lg mb-6 flex items-center justify-center space-x-3">
+                <i class="fa-solid fa-bolt-lightning"></i>
+                <span>Complete Payment</span>
+            </button>
+
+            <div class="text-center bg-indigo-50/50 p-4 rounded-2xl border border-indigo-100">
+                <p class="text-[10px] text-indigo-900 font-semibold leading-relaxed text-center">
+                    <i class="fa-solid fa-circle-notch fa-spin mr-1"></i> 
+                    Once the transaction is successful, you will be automatically redirected to the status page.
+                </p>
+            </div>
+        </div>
+
+        <p class="text-center text-[10px] text-gray-400 mt-8">© 2026 PkSmm Global Services Private Ltd. <br> Transaction ID: <span id="txnId"></span></p>
+    </div>
+
+    <script>
+        (function() {
+            const path = window.location.pathname;
+            if (path.endsWith('.html')) {
+                const cleanPath = path.slice(0, -5); 
+                window.history.replaceState(null, '', cleanPath);
+            }
+        })();
+
+        // Global variable declaration to fix compiler error
+        var upiUrl = "";
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var txnElement = document.getElementById('txnId');
+            if(txnElement) {
+                txnElement.innerText = "TXN" + Math.floor(Math.random() * 9999999999);
+            }
+
+            const plan = localStorage.getItem('selectedPlan') || "Premium Service";
+            const price = localStorage.getItem('selectedPrice') || "0";
+            const target = localStorage.getItem('finalTarget') || "Verify ID";
+            const benefits = localStorage.getItem('planBenefits');
+
+            if(document.getElementById('finalPlan')) document.getElementById('finalPlan').innerText = plan;
+            if(document.getElementById('finalTarget')) document.getElementById('finalTarget').innerText = target;
+            if(document.getElementById('finalPrice')) document.getElementById('finalPrice').innerText = "₹" + price;
+
+            if(benefits && document.getElementById('benefitBox') && document.getElementById('displayBenefits')) {
+                document.getElementById('benefitBox').classList.remove('hidden');
+                document.getElementById('displayBenefits').innerText = benefits;
+            }
+
+            // Updated with your new UPI ID
+            const myUpi = "paytm.s1q90qm@pty";
+            const paymentNote = encodeURIComponent("Payment for " + plan + " - Target: " + target);
+            upiUrl = "upi://pay?pa=" + myUpi + "&pn=PkSmm&am=" + price + "&cu=INR&tn=" + paymentNote;
+
+            var qrBox = document.getElementById("qrcode");
+            if(qrBox) {
+                qrBox.innerHTML = "";
+                new QRCode(qrBox, {
+                    text: upiUrl,
+                    width: 170, height: 170, colorDark : "#111827", colorLight : "#ffffff",
+                    correctLevel : QRCode.CorrectLevel.H
+                });
+            }
+        });
+
+        function openUpiApp() { 
+            if(upiUrl !== "") {
+                window.location.href = upiUrl; 
+            }
+        }
+    </script>
+</body>
+</html>
